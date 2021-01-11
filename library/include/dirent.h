@@ -84,6 +84,11 @@ extern struct dirent * readdir(DIR * directory_pointer);
 extern void rewinddir(DIR * directory_pointer);
 extern int closedir(DIR * directory_pointer);
 
+#ifdef CLIB2_STUBS
+extern DIR * fdopendir(int fd);
+extern int dirfd(DIR *dirp);
+#endif
+
 /****************************************************************************/
 
 #ifdef __cplusplus

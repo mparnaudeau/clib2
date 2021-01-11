@@ -74,9 +74,13 @@ struct option
 extern int getopt_long(int argc, const char **argv, const char *optstring,
 		const struct option *longopts, int *longindex);
 
-/*extern int getopt_long_only(int argc, const char **argv, const char *optstring,
-		const struct option *longopts, int *longindex);
-*/
+#ifdef CLIB2_STUBS
+extern int getopt(int argc, char * const argv[], const char *optstring);
+extern int getopt_long_only(int argc, const char **argv,
+                            const char *optstring,
+		                    const struct option *longopts, int *longindex);
+#endif /* CLIB2_STUBS */
+
 extern int optreset;
 
 /****************************************************************************/

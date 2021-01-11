@@ -115,6 +115,13 @@ struct lconv
 extern char *setlocale(int category, const char *locale);
 extern struct lconv *localeconv(void);
 
+#ifdef CLIB2_STUBS
+extern locale_t duplocale(locale_t locobj);
+extern locale_t newlocale(int category_mask, const char *locale, locale_t base);
+extern void freelocale(locale_t locobj);
+extern locale_t uselocale(locale_t newloc);
+#endif /* CLIB2_STUBS */
+
 /****************************************************************************/
 
 #ifdef __cplusplus

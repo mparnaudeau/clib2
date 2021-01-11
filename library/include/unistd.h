@@ -212,6 +212,47 @@ extern long fpathconf(int file_descriptor,int name);
 
 /****************************************************************************/
 
+#ifdef CLIB2_STUBS
+extern int pipe(int pipefd[2]);
+extern int pipe2(int pipefd[2], int flags);
+extern int close(int fd);
+extern int dup3(int oldfd, int newfd, int flags);
+extern off_t lseek(int fd, off_t offset, int whence);
+extern ssize_t read(int fd, void *buf, size_t count);
+extern ssize_t write(int fd, const void *buf, size_t count);
+extern ssize_t pread(int fd, void *buf, size_t count, off_t offset);
+extern ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset);
+extern int fchownat(int dirfd, const char *pathname, uid_t owner, gid_t group,
+                    int flags);
+extern int linkat(int olddirfd, const char *oldpath, int newdirfd,
+                  const char *newpath, int flags);
+extern int symlinkat(const char *oldpath, int newdirfd, const char *newpath);
+extern int rmdir(const char *path);
+extern int unlinkat(int dirfd, const char *pathname, int flags);
+extern int faccessat(int dirfd, const char *pathname, int mode, int flags);
+extern int fchdir(int fd);
+extern unsigned alarm(unsigned seconds);
+extern int pause(void);
+extern pid_t getppid(void);
+extern pid_t getpgrp(void);
+extern pid_t getpgid(pid_t pid);
+extern int setpgid(pid_t pid, pid_t pgid);
+extern pid_t getsid(pid_t pid);
+extern pid_t tcgetpgrp(int fd);
+extern int tcsetpgrp(int fd, pid_t pgrp);
+extern char *getlogin(void);
+extern int getlogin_r(char *buf, size_t bufsize);
+extern char *ctermid(char *s);
+extern long sysconf(int name);
+extern size_t confstr(int name, char *buf, size_t len);
+extern int nice(int inc);
+extern void sync(void);
+extern pid_t setpgrp(void);
+extern void encrypt(char block[64], int edflag);
+extern void swab(const void *from, void *to, ssize_t n);
+extern useconds_t ualarm(useconds_t usecs, useconds_t interval);
+#endif /* CLIB2_STUBS */
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

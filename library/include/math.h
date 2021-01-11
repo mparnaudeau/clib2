@@ -337,4 +337,64 @@ typedef double	double_t;
 
 /****************************************************************************/
 
+#ifdef CLIB2_STUBS
+long double acosl(long double x);
+long double acoshl(long double x);
+long double asinl(long double x);
+long double asinhl(long double x);
+long double atanl(long double x);
+long double atan2l(long double y, long double x);
+long double atanhl(long double x);
+long double cbrtl(long double x);
+long double ceill(long double x);
+long double copysignl(long double x, long double y);
+long double cosl(long double x);
+long double coshl(long double x);
+long double erfl(long double x);
+long double erfcl(long double x);
+long double expl(long double x);
+long double exp2l(long double x);
+long double expm1l(long double x);
+long double fabsl(long double x);
+long double fdiml(long double x, long double y);
+long double floorl(long double x);
+long double fmal(long double x, long double y, long double z);
+long double fmaxl(long double x, long double y);
+long double fminl(long double x, long double y);
+long double fmodl(long double x, long double y);
+long double frexpl(long double x, int *nptr);
+long double hypotl(long double x, long double y);
+int ilogbl(long double x);
+long double ldexpl(long double x, int n);
+long double lgammal(long double x);
+long long llrintl(long double x);
+long long lroundl(long double x);
+long double logl(long double x);
+long double log10l(long double x);
+long double log1pl(long double x);
+long double log2l(long double x);
+long double logbl(long double x);
+long lrintl(long double x);
+long lroundl(long double x);
+long double modfl(long double x, long double *iptr);
+long double nanl(const char *tagp);
+long double nearbyintl(long double x);
+long double nextafterl(long double x, long double y);
+long double nexttowardl(long double x, long double y);
+long double powl(long double x, long double y);
+long double remainderl(long double x, long double p);
+long double remquol(long double x, long double y, int *quo);
+long double rintl(long double x);
+long double roundl(long double x);
+long double scalblnl(long double x, long int n);
+long double scalbnl(long double x, int n);
+long double sinl(long double x);
+long double sinhl(long double x);
+long double sqrtl(long double x);
+long double tanl(long double x);
+long double tanhl(long double x);
+long double tgammal(long double x);
+long double truncl(long double x);
+#endif /* CLIB_STUBS */
+
 #endif /* _MATH_H */

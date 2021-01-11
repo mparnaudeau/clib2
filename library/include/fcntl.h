@@ -120,6 +120,12 @@ extern ssize_t read(int file_descriptor, void * buffer, size_t num_bytes);
 extern ssize_t write(int file_descriptor, const void * buffer, size_t num_bytes);
 extern int fcntl(int file_descriptor, int cmd, ... /* int arg */ );
 
+#ifdef CLIB2_STUB
+extern int posix_fadvise(int fd, off_t offset, off_t len, int advice);
+extern int posix_fallocate(int fd, off_t offset, off_t len);
+extern int openat(int fd, const char *path, int oflag, ...);
+#endif
+
 /****************************************************************************/
 
 #ifdef __cplusplus

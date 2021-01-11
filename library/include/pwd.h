@@ -95,6 +95,12 @@ extern struct passwd *getpwnam(const char *name);
 extern struct passwd *getpwuid(uid_t uid);
 extern void setpwent(void);
 
+#ifdef CLIB2_STUBS
+extern int getpwnam_r(const char *name, struct passwd *pwd, char *buf,
+                      size_t buflen, struct passwd **result);
+extern int getpwuid_r(uid_t uid, struct passwd *pwd, char *buf, size_t buflen,
+                      struct passwd **result);
+#endif /* CLIB2_STUBS */
 #endif /* __NO_NET_API */
 
 /****************************************************************************/

@@ -125,6 +125,28 @@ extern struct tm * gmtime_r(const time_t *t,struct tm * tm_ptr);
 extern struct tm * localtime_r(const time_t *t,struct tm * tm_ptr);
 extern void tzset(void);
 
+#ifdef CLIB2_STUBS
+extern int clock_getcpuclockid(pid_t pid, clockid_t *clockid);
+extern int clock_getres(clockid_t clockid, struct timespec *res);
+extern int clock_gettime(clockid_t clockid, struct timespec *tp);
+extern int clock_nanosleep(clockid_t clockid, int flags,
+                           const struct timespec *request,
+                           struct timespec *remain);
+extern int clock_settime(clockid_t clockid, const struct timespec *tp);
+extern int nanosleep(const struct timespec *req, struct timespec *rem);
+extern size_t strftime_l(char *restrict s, size_t maxsize,
+                         const char *restrict format,
+                         const struct tm *restrict timeptr, locale_t locale);
+extern int timer_create(clockid_t clockid, struct sigevent *sevp,
+                        timer_t *timerid);
+extern int timer_delete(timer_t timerid);
+extern int timer_getoverrun(timer_t timerid);
+extern int timer_gettime(timer_t timerid, struct itimerspec *curr_value);
+extern int timer_settime(timer_t timerid, int flags,
+                         const struct itimerspec *new_value,
+                         struct itimerspec *old_value);
+#endif /* CLIB2_STUBS */
+
 /****************************************************************************/
 
 #ifdef __cplusplus

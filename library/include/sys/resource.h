@@ -88,6 +88,12 @@ struct rlimit
 extern int getrlimit(int resource,struct rlimit *rlp);
 extern int setrlimit(int resource,const struct rlimit *rlp);
 
+#ifdef CLIB2_STUBS
+extern int getrusage(int who, struct rusage *usage);
+extern int getpriority(int which, id_t who);
+extern int setpriority(int which, id_t who, int prio);
+#endif /* CLIB2_STUBS */
+
 /****************************************************************************/
 
 #ifdef __cplusplus

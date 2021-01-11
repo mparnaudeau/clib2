@@ -138,6 +138,27 @@ extern char * strtok_r(char *str, const char *separator_set,char ** state_ptr);
 
 /****************************************************************************/
 
+#ifdef CLIB2_STUBS
+extern void explicit_bzero(void *s, size_t n);
+extern void *memrchr(const void *s, int c, size_t n);
+extern void *memccpy(void *dest, const void *src, int c, size_t n);
+extern void *memmem(const void *haystack, size_t haystacklen,
+                    const void *needle, size_t needlelen);
+extern void *mempcpy(void *dest, const void *src, size_t n);
+extern char *stpcpy(char *dest, const char *src);
+extern char *stpncpy(char *dest, const char *src, size_t n);
+extern char *strcasestr(const char *haystack, const char *needle);
+extern char *strchrnul(const char *s, int c);
+extern int strcoll_l(const char *s1, const char *s2, locale_t locale);
+extern char *strerror_l(int errnum, locale_t locale);
+extern char *strndup(const char *s, size_t size);
+extern char *strsep(char **stringp, const char *delim);
+extern char *strsignal(int sig);
+extern int strverscmp(const char *s1, const char *s2);
+extern size_t strxfrm_l(char *restrict s1, const char *restrict s2, size_t n,
+                        locale_t locale);
+#endif /* CLIB2_STUBS */
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

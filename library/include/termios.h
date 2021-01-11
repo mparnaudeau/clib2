@@ -204,6 +204,12 @@ extern speed_t cfgetospeed(struct termios *tios_p);
 extern int cfsetispeed(struct termios *tios_p,speed_t input_speed);
 extern int cfsetospeed(struct termios *tios_p,speed_t output_speed);
 
+#ifdef CLIB2_STUBS
+extern pid_t tcgetsid(int fd);
+extern int tcgetwinsize(int fd, struct winsize *gws);
+extern int tcsetwinsize(int fd, const struct winsize *sws);
+#endif /* CLIB2_STUBS */
+
 /****************************************************************************/
 
 #ifdef __cplusplus

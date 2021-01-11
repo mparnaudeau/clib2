@@ -110,6 +110,28 @@ extern int sigemptyset(sigset_t * set);
 extern int sigaddset(sigset_t * set,int sig);
 extern int kill(pid_t pid, int signal_number);
 
+#ifdef CLIB2_STUBS
+extern int sigemptyset(sigset_t *set);
+extern int sigfillset(sigset_t *set);
+extern int sigdelset(sigset_t *set, int signo);
+extern int sigismember(const sigset_t *set, int signo);
+extern int sigsuspend(const sigset_t *sigmask);
+extern int sigaction(int sig, const struct sigaction *restrict act,
+                     struct sigaction *restrict oact);
+extern int sigpending(sigset_t *set);
+extern int sigwait(const sigset_t *set, int *sig);
+extern int sigwaitinfo(const sigset_t *set, siginfo_t *info);
+extern int sigtimedwait(const sigset_t *set, siginfo_t *info,
+                        const struct timespec *timeout);
+extern int sigqueue(pid_t pid, int sig, const union sigval value);
+extern int sigaltstack(const stack_t *ss, stack_t *old_ss);
+extern int sighold(int sig);
+extern int sigignore(int sig);
+extern int siginterrupt(int sig, int flag);
+extern int sigpause(int sig);
+extern int sigrelse(int sig);
+#endif /* CLIB2_STUBS */
+
 /****************************************************************************/
 
 #ifdef __cplusplus

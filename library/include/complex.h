@@ -105,8 +105,7 @@ extern long double cargl(long double complex z);
 
 /****************************************************************************/
 
-#if 0
-
+#ifdef CLIB2_STUBS
 extern double complex cacos(double complex z);
 extern float complex cacosf(float complex z);
 extern long double complex cacosl(long double complex z);
@@ -178,8 +177,7 @@ extern long double complex csqrtl(long double complex z);
 extern double complex cproj(double complex z);
 extern float complex cprojf(float complex z);
 extern long double complex cprojl(long double complex z);
-
-#endif
+#endif /* CLIB2_STUBS */
 
 /****************************************************************************/
 

@@ -140,6 +140,22 @@ struct timezone
 
 int gettimeofday(struct timeval *tp, struct timezone *tzp);
 
+#ifdef CLIB2_STUBS
+extern int futimes(int fd, const struct timeval tv[2]);
+extern int futimesat(int dirfd, const char *pathname,
+                     const struct timeval times[2]);
+extern int futimens(int fd, const struct timespec times[2]);
+extern int getitimer(int which, struct itimerval *curr_value);
+extern int gettimeofday(struct timeval *tv, struct timezone *tz);
+extern int lutimes(const char *filename, const struct timeval tv[2]);
+extern int setitimer(int which, const struct itimerval *new_value,
+                     struct itimerval *old_value);
+extern int settimeofday(const struct timeval *tv, const struct timezone *tz);
+extern int utimes(const char *path, const struct timeval times[2]);
+extern int utimensat(int fd, const char *path,
+                     const struct timespec times[2], int flag);
+#endif /* CLIB2_STUBS */
+
 /****************************************************************************/
 
 #ifdef __cplusplus

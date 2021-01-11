@@ -92,6 +92,13 @@ extern struct group *getgrgid(gid_t gid);
 extern struct group *getgrnam(const char *name);
 extern void setgrent(void);
 
+#ifdef CLIB2_STUBS
+extern int getgrnam_r(const char *name, struct group *grp, char *buf,
+                      size_t buflen, struct group **result);
+extern int getgrgid_r(gid_t gid, struct group *grp, char *buf, size_t buflen,
+                      struct group **result);
+#endif /* CLIB2_STUBS */
+
 #endif /* __NO_NET_API */
 
 /****************************************************************************/

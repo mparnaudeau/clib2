@@ -80,6 +80,23 @@ extern int iswblank(wint_t c);
 extern wint_t towlower(wint_t c);
 extern wint_t towupper(wint_t c);
 
+#ifdef CLIB2_STUBS
+extern int iswalnum_l(wint_t c, locale_t locale);
+extern int iswalpha_l(wint_t c, locale_t locale);
+extern int iswcntrl_l(wint_t c, locale_t locale);
+extern int iswdigit_l(wint_t c, locale_t locale);
+extern int iswxdigit_l(wint_t c, locale_t locale);
+extern int iswgraph_l(wint_t c, locale_t locale);
+extern int iswpunct_l(wint_t c, locale_t locale);
+extern int iswprint_l(wint_t c, locale_t locale);
+extern int iswlower_l(wint_t c, locale_t locale);
+extern int iswupper_l(wint_t c, locale_t locale);
+extern int iswspace_l(wint_t c, locale_t locale);
+extern int iswblank_l(wint_t c, locale_t locale);
+extern wint_t towlower_l(wint_t c, locale_t locale);
+extern wint_t towupper_l(wint_t c, locale_t locale);
+#endif /* CLIB2_STUBS */
+
 /****************************************************************************/
 
 extern wctype_t wctype(const char *property);

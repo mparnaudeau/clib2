@@ -143,6 +143,20 @@ extern int fchmod(int file_descriptor, mode_t mode);
 extern int mkdir(const char * path_name, mode_t mode);
 extern int rmdir(const char * path_name);
 
+#ifdef CLIB2_STUBS
+extern int fchmodat(int fd, const char *path, mode_t mode, int flag);
+extern int fstatat(int fd, const char *restrict path,
+                   struct stat *restrict buf, int flag);
+extern int mkdirat(int fd, const char *path, mode_t mode);
+extern int mkfifo(const char *pathname, mode_t mode);
+extern int mkfifoat(int dirfd, const char *pathname, mode_t mode);
+extern int mknod(const char *pathname, mode_t mode, dev_t dev);
+extern int mknodat(int dirfd, const char *pathname, mode_t mode, dev_t dev);
+extern int futimens(int fd, const struct timespec times[2]);
+extern int utimensat(int fd, const char *path,
+                     const struct timespec times[2], int flag);
+#endif /* CLIB2_STUBS */
+
 /*
  * The following prototypes may clash with the bsdsocket.library or
  * usergroup.library API definitions.

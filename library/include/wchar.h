@@ -203,6 +203,42 @@ extern unsigned long long wcstoull(const wchar_t *str, wchar_t **ptr, int base);
 
 #endif /* __STDC_VERSION__ && __STDC_VERSION__ >= 199901L */
 
+#ifdef CLIB2_STUBS
+extern wchar_t *wcswcs(const wchar_t *ws1, const wchar_t *ws2);
+extern float wcstof(const wchar_t *restrict nptr,
+                    wchar_t **restrict endptr);
+extern long double wcstold(const wchar_t *restrict nptr,
+                           wchar_t **restrict endptr);
+extern int vwscanf(const wchar_t *restrict format, va_list arg);
+extern int vfwscanf(FILE *restrict stream, const wchar_t *restrict format,
+                    va_list arg);
+extern int vswscanf(const wchar_t *restrict ws, const wchar_t *restrict format,
+                    va_list arg);
+extern wint_t fgetwc_unlocked(FILE *stream);
+extern wint_t getwc_unlocked(FILE *stream);
+extern wint_t getwchar_unlocked(void);
+extern wint_t fputwc_unlocked(wchar_t wc, FILE *stream);
+extern wint_t putwc_unlocked(wchar_t wc, FILE *stream);
+extern wint_t putwchar_unlocked(wchar_t wc);
+extern wchar_t *fgetws_unlocked(wchar_t *ws, int n, FILE *stream);
+extern int fputws_unlocked(const wchar_t *ws, FILE *stream);
+extern size_t wcsftime_l(wchar_t *restrict wcs, size_t maxsize,
+                         const wchar_t *restrict format,
+                         const struct tm *restrict timeptr, locale_t locale);
+extern FILE *open_wmemstream(wchar_t **ptr, size_t *sizeloc);
+extern wchar_t *wcsdup(const wchar_t *s);
+extern wchar_t *wcpcpy(wchar_t *dest, const wchar_t *src);
+extern wchar_t *wcpncpy(wchar_t *dest, const wchar_t *src, size_t n);
+extern int wcscasecmp(const wchar_t *s1, const wchar_t *s2);
+extern int wcscasecmp_l(const wchar_t *ws1, const wchar_t *ws2,
+                        locale_t locale);
+extern int wcsncasecmp(const wchar_t *s1, const wchar_t *s2, size_t n);
+extern int wcsncasecmp_l(const wchar_t *ws1, const wchar_t *ws2, size_t n,
+                         locale_t locale);
+extern int wcwidth(wchar_t c);
+extern int wcswidth(const wchar_t *s, size_t n);
+#endif /* CLIB2_STUBS */
+
 /****************************************************************************/
 
 #ifdef __cplusplus

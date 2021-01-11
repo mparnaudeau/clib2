@@ -468,6 +468,52 @@ extern void _Exit(int status);
 
 /****************************************************************************/
 
+#ifdef CLIB2_STUBS
+extern long int a64l(const char *str64);
+extern void *aligned_alloc(size_t alignment, size_t size);
+extern int at_quick_exit(void (*func)(void));
+extern int clearenv(void);
+extern double drand48(void);
+extern char *ecvt(double number, int ndigits, int *decpt, int *sign);
+extern double erand48(unsigned short xsubi[3]);
+extern char *fcvt(double number, int ndigits, int *decpt, int *sign);
+extern char *gcvt(double number, int ndigit, char *buf);
+extern int getloadavg(double loadavg[], int nelem);
+extern int getsubopt(char **optionp, char * const *tokens, char **valuep);
+extern int grantpt(int fd);
+extern char *initstate(unsigned seed, char *state, size_t n);
+extern long int jrand48(unsigned short xsubi[3]);
+extern char *l64a(long value);
+extern void lcong48(unsigned short param[7]);
+extern long int lrand48 (void);
+extern size_t malloc_usable_size(void *ptr);
+extern void *memalign(size_t alignment, size_t size);
+extern int mkostemp(char *template, int flags);
+extern long int mrand48(void);
+extern int mkostemps(char *template, int suffixlen, int flags);
+extern int mkstemps(char *template, int suffixlen);
+extern long int nrand48(unsigned short xsubi[3]);
+extern int posix_memalign(void **memptr, size_t alignment, size_t size);
+extern int posix_openpt(int flags);
+extern char *ptsname(int fd);
+extern int ptsname_r(int fd, char *buf, size_t buflen);
+extern long int random(void);
+extern void *reallocarray(void *ptr, size_t nmemb, size_t size);
+extern char *realpath(const char *path, char *resolved_path);
+extern char *secure_getenv(const char *name);
+extern unsigned short *seed48(unsigned short seed16v[3]);
+extern void setkey(const char *key);
+extern char *setstate(char *state);
+extern void srand48(long int seedval);
+extern void srandom(unsigned int seed);
+extern float strtof_l(const char *nptr, char **endptr, locale_t loc);
+extern double strtod_l(const char *nptr, char **endptr, locale_t loc);
+extern long double strtold(const char *nptr, char **endptr);
+extern long double strtold_l(const char *nptr, char **endptr, locale_t loc);
+extern int unlockpt(int fd);
+extern void *valloc(size_t size);
+#endif /* CLIB2_STUBS */
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
