@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_IFADDRS_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _IFADDRS_H
 #define _IFADDRS_H
@@ -24,4 +24,4 @@ extern void freeifaddrs(struct ifaddrs *ifa);
 
 #endif /* _IFADDRS_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_IFADDRS_STUB) || defined(CLIB2_MULTUM_STUB) */

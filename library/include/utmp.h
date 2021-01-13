@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_UTMP_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _UTMP_H
 #define _UTMP_H
@@ -25,4 +25,4 @@ extern int utmpname(const char *file);
 
 #endif /* _UTMP_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_UTMP_STUB) || defined(CLIB2_MULTUM_STUB) */

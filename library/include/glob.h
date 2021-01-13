@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_GLOB_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _GLOB_H
 #define _GLOB_H
@@ -21,4 +21,4 @@ extern void globfree(glob_t *pglob);
 
 #endif /* _GLOB_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_GLOB_STUB) || defined(CLIB2_MULTUM_STUB) */

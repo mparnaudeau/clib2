@@ -468,7 +468,8 @@ extern void _Exit(int status);
 
 /****************************************************************************/
 
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_STDLIB_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern long int a64l(const char *str64);
 extern void *aligned_alloc(size_t alignment, size_t size);
 extern int at_quick_exit(void (*func)(void));
@@ -512,7 +513,10 @@ extern long double strtold(const char *nptr, char **endptr);
 extern long double strtold_l(const char *nptr, char **endptr, locale_t loc);
 extern int unlockpt(int fd);
 extern void *valloc(size_t size);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_STDLIB_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
 
 #ifdef __cplusplus
 }

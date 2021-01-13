@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_POLL_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _POLL_H
 #define _POLL_H
@@ -27,4 +27,4 @@ extern int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 
 #endif /* _POLL_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_POLL_STUB) || defined(CLIB2_MULTUM_STUB) */

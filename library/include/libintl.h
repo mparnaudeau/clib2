@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_LIBINTL_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _LIBINTL_H
 #define _LIBINTL_H
@@ -33,5 +33,4 @@ extern char *textdomain(const char * domainname);
 
 #endif /* _LIBINTL_H */
 
-#endif /* CLIB2_STUBS */
-
+#endif /* defined(CLIB2_LIBINTL_STUB) || defined(CLIB2_MULTUM_STUB) */

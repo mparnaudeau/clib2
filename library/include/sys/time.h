@@ -140,7 +140,10 @@ struct timezone
 
 int gettimeofday(struct timeval *tp, struct timezone *tzp);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_SYS_TIME_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int futimes(int fd, const struct timeval tv[2]);
 extern int futimesat(int dirfd, const char *pathname,
                      const struct timeval times[2]);
@@ -154,7 +157,10 @@ extern int settimeofday(const struct timeval *tv, const struct timezone *tz);
 extern int utimes(const char *path, const struct timeval times[2]);
 extern int utimensat(int fd, const char *path,
                      const struct timespec times[2], int flag);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_SYS_TIME_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
 
 /****************************************************************************/
 

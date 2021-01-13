@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_SHM_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _SHM_H
 #define _SHM_H
@@ -26,4 +26,4 @@ extern int shmget(key_t key, size_t size, int shmflg);
 
 #endif /* _SHM_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_SHM_STUB) || defined(CLIB2_MULTUM_STUB) */

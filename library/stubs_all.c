@@ -5,6 +5,7 @@
 #include "debug.h"
 
 /****************************************************************************/
+#if defined(CLIB2_AIO_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <aio.h>
 /****************************************************************************/
 int aio_cancel(int fd, struct aiocb *aiocbp)
@@ -55,8 +56,10 @@ int lio_listio(int mode, struct aiocb *const aiocb_list[], int nitems,
 {
     ENTER();
 }
+#endif /* CLIB2_AIO_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_ARPA_NAMESER_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <arpa/nameser.h>
 /****************************************************************************/
 unsigned int  ns_get16(const u_char *src)
@@ -81,8 +84,10 @@ void ns_put32(unsigned long src, unsigned char *dst)
 {
     ENTER();
 }
+#endif /* (CLIB2_ARPA_NAMESER_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_COMPLEX_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <complex.h>
 /****************************************************************************/
 double complex cacos(double complex z)
@@ -407,8 +412,10 @@ long double complex cprojl(long double complex z)
 {
     ENTER();
 }
+#endif /* CLIB2_COMPLEX_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_CTYPE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <ctype.h>
 /****************************************************************************/
 int isalnum_l(int c, locale_t locale)
@@ -493,8 +500,10 @@ int toupper_l(int c, locale_t locale)
 {
     ENTER();
 }
+#endif /* CLIB2_CTYPE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_DIRENT_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <dirent.h>
 /****************************************************************************/
 DIR *fdopendir(int fd)
@@ -507,8 +516,10 @@ int dirfd(DIR *dirp)
 {
     ENTER();
 }
+#endif /* CLIB2_DIRENT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_FCNTL_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <fcntl.h>
 /****************************************************************************/
 int posix_fadvise(int fd, off_t offset, off_t len, int advice)
@@ -527,16 +538,20 @@ int openat(int fd, const char *path, int oflag, ...)
 {
     ENTER();
 }
+#endif /* CLIB2_FCNTL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_FENV_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <fenv.h>
 /****************************************************************************/
 int fesetround(int rounding_mode)
 {
     ENTER();
 }
+#endif /* CLIB2_FENV_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_FMTMSG_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <fmtmsg.h>
 /****************************************************************************/
 int fmtmsg(long classification, const char *label, int severity,
@@ -544,16 +559,20 @@ int fmtmsg(long classification, const char *label, int severity,
 {
     ENTER();
 }
+#endif /* CLIB2_FMTMSG_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_FNMATCH_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <fnmatch.h>
 /****************************************************************************/
 int fnmatch(const char *pattern, const char *string, int flags)
 {
     ENTER();
 }
+#endif /* CLIB2_FNMATCH_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_FTW_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <ftw.h>
 /****************************************************************************/
 int ftw64(const char *dirpath, int (*fn) (const char *fpath,
@@ -569,8 +588,10 @@ int nftw64(const char *dirpath, int (*fn) (const char *fpath,
 {
     ENTER();
 }
+#endif /* CLIB2_FTW_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_GETOPT_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <getopt.h>
 /****************************************************************************/
 int getopt(int argc, char * const argv[], const char *optstring)
@@ -584,8 +605,10 @@ int getopt_long_only(int argc, const char **argv, const char *optstring,
 {
     ENTER();
 }
+#endif /* CLIB2_GETOPT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_GLOB_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <glob.h>
 /****************************************************************************/
 int glob(const char *pattern, int flags,
@@ -599,8 +622,10 @@ void globfree(glob_t *pglob)
 {
     ENTER();
 }
+#endif /* CLIB2_GLOB_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_GRP_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <grp.h>
 /****************************************************************************/
 int getgrnam_r(const char *name, struct group *grp, char *buf, size_t buflen,
@@ -615,8 +640,10 @@ int getgrgid_r(gid_t gid, struct group *grp, char *buf, size_t buflen,
 {
     ENTER();
 }
+#endif /* CLIB2_GRP_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_ICONV_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <iconv.h>
 /****************************************************************************/
 size_t iconv(iconv_t cd, char **inbuf, size_t *inbytesleft, char **outbuf,
@@ -636,8 +663,10 @@ int iconv_close(iconv_t cd)
 {
     ENTER();
 }
+#endif /* CLIB2_ICONV_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_IFADDRS_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <ifaddrs.h>
 /****************************************************************************/
 int getifaddrs(struct ifaddrs **ifap)
@@ -650,8 +679,10 @@ void freeifaddrs(struct ifaddrs *ifa)
 {
     ENTER();
 }
+#endif /* CLIB2_IFADDRS_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_LANGINFO_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <langinfo.h>
 /****************************************************************************/
 char *nl_langinfo(nl_item item)
@@ -664,8 +695,10 @@ char *nl_langinfo_l(nl_item item, locale_t locale)
 {
     ENTER();
 }
+#endif /* CLIB2_LANGINFO_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_LIBINTL_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <libintl.h>
 /****************************************************************************/
 char *bindtextdomain(const char * domainname, const char * dirname)
@@ -723,8 +756,10 @@ char *textdomain(const char * domainname)
 {
     ENTER();
 }
+#endif /* CLIB2_LIBINTL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_LOCALE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <locale.h>
 /****************************************************************************/
 locale_t duplocale(locale_t locobj)
@@ -749,8 +784,10 @@ locale_t uselocale(locale_t newloc)
 {
     ENTER();
 }
+#endif /* CLIB2_LOCALE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_MATH_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <math.h>
 /****************************************************************************/
 long double acosl(long double x)
@@ -1093,8 +1130,10 @@ long double truncl(long double x)
 {
     ENTER();
 }
+#endif /* CLIB2_MATH_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_MONETARY_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <monetary.h>
 /****************************************************************************/
 ssize_t strfmon(char *s, size_t max, const char *format, ...)
@@ -1108,8 +1147,10 @@ ssize_t strfmon_l(char *s, size_t max, locale_t locale,
 {
     ENTER();
 }
+#endif /* CLIB2_MONETARY_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_MQUEUE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <mqueue.h>
 /****************************************************************************/
 int mq_close(mqd_t mqdes)
@@ -1177,8 +1218,10 @@ int mq_unlink(const char *name)
 {
     ENTER();
 }
+#endif /* CLIB2_MQUEUE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_NETDB_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <netdb.h>
 /****************************************************************************/
 struct netent *getnetent(void)
@@ -1239,8 +1282,10 @@ struct hostent *gethostent(void)
 {
     ENTER();
 }
+#endif /* CLIB2_NETDB_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_NET_IF_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <net/if.h>
 /****************************************************************************/
 unsigned int if_nametoindex(const char *ifname)
@@ -1265,8 +1310,10 @@ void if_freenameindex(struct if_nameindex *ptr)
 {
     ENTER();
 }
+#endif /* CLIB2_NET_IF_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_NETINET_ETHER_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <netinet/ether.h>
 /****************************************************************************/
 char *ether_ntoa(const struct ether_addr *addr)
@@ -1309,8 +1356,10 @@ struct ether_addr *ether_aton_r(const char *asc, struct ether_addr *addr)
 {
     ENTER();
 }
+#endif /* CLIB2_NETINET_ETHER_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_NL_TYPES_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <nl_types.h>
 /****************************************************************************/
 int catclose(nl_catd catalog)
@@ -1330,16 +1379,20 @@ nl_catd catopen(const char *name, int flag)
 {
     ENTER();
 }
+#endif /* CLIB2_NL_TYPES_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_POLL_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <poll.h>
 /****************************************************************************/
 int poll(struct pollfd *fds, nfds_t nfds, int timeout)
 {
     ENTER();
 }
+#endif /* CLIB2_POLL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_PTHREAD_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <pthread.h>
 /****************************************************************************/
 int pthread_attr_init(pthread_attr_t *attr)
@@ -1528,8 +1581,10 @@ int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset)
 {
     ENTER();
 }
+#endif /* CLIB2_PTHREAD_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_PTY_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <pty.h>
 /****************************************************************************/
 int openpty(int *amaster, int *aslave, char *name,
@@ -1544,8 +1599,10 @@ pid_t forkpty(int *amaster, char *name, const struct termios *termp,
 {
     ENTER();
 }
+#endif /* CLIB2_PTY_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_PWD_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <pwd.h>
 /****************************************************************************/
 int getpwnam_r(const char *name, struct passwd *pwd, char *buf, size_t buflen,
@@ -1560,8 +1617,10 @@ int getpwuid_r(uid_t uid, struct passwd *pwd, char *buf, size_t buflen,
 {
     ENTER();
 }
+#endif /* CLIB2_PWD_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_REGEX_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <regex.h>
 /****************************************************************************/
 int regcomp(regex_t *preg, const char *regex, int cflags)
@@ -1588,8 +1647,10 @@ void regfree(regex_t *preg)
 {
     ENTER();
 }
+#endif /* CLIB2_REGEX_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_RESOLV_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <resolv.h>
 /****************************************************************************/
 int dn_comp(const char *exp_dn, unsigned char *comp_dn, int length,
@@ -1652,8 +1713,10 @@ int res_nsend(res_state statep, const unsigned char *msg, int msglen,
 {
     ENTER();
 }
+#endif /* CLIB2_RESOLV_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SCHED_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sched.h>
 /****************************************************************************/
 int sched_getcpu(void)
@@ -1720,8 +1783,10 @@ int sched_yield(void)
 {
     ENTER();
 }
+#endif /* CLIB2_SCHED_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SEMAPHORE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <semaphore.h>
 /****************************************************************************/
 int sem_close(sem_t *sem)
@@ -1782,8 +1847,10 @@ int sem_wait(sem_t *sem)
 {
     ENTER();
 }
+#endif /* CLIB2_SEMAPHORE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <signal.h>
 /****************************************************************************/
 int sigemptyset(sigset_t *set)
@@ -1888,8 +1955,10 @@ int sigrelse(int sig)
 {
     ENTER();
 }
+#endif /* CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SPAWN_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <spawn.h>
 /****************************************************************************/
 int posix_spawn(pid_t *pid, const char *path,
@@ -2037,8 +2106,10 @@ int posix_spawnp(pid_t *pid, const char *file,
 {
     ENTER();
 }
+#endif /* CLIB2_SPAWN_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_STDIO_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <stdio.h>
 /****************************************************************************/
 FILE *fmemopen(void *buf, size_t size, const char *mode)
@@ -2089,8 +2160,10 @@ int renameat(int oldfd, const char *old, int newfd, const char *new)
 {
     ENTER();
 }
+#endif /* CLIB2_STDIO_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_STDLIB_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <stdlib.h>
 /****************************************************************************/
 long int a64l(const char *str64)
@@ -2349,8 +2422,10 @@ void *valloc(size_t size)
 {
     ENTER();
 }
+#endif /* CLIB2_STDLIB_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_STRING_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <string.h>
 /****************************************************************************/
 void explicit_bzero(void *s, size_t n)
@@ -2449,8 +2524,10 @@ size_t strxfrm_l(char *restrict s1, const char *restrict s2, size_t n,
 {
     ENTER();
 }
+#endif /* CLIB2_STRING_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_STROPTS_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <stropts.h>
 /****************************************************************************/
 int isastream(int fildes)
@@ -2463,32 +2540,40 @@ int ioctl(int fd, unsigned long request, ...)
 {
     ENTER();
 }
+#endif /* CLIB2_STROPTS_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_ACCT_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/acct.h>
 /****************************************************************************/
 int acct(const char *filename)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_ACCT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_FILE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/file.h>
 /****************************************************************************/
 int flock(int fd, int operation)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_FILE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_IPC_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/ipc.h>
 /****************************************************************************/
 key_t ftok(char *pathname, char proj_id)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_IPC_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_MMAN_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/mman.h>
 /****************************************************************************/
 int madvise(void *addr, size_t length, int advice)
@@ -2582,8 +2667,10 @@ int shm_unlink(const char *name)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_MMAN_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_MSG_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/msg.h>
 /****************************************************************************/
 int msgctl(int msqid, int cmd, struct msqid_ds *buf)
@@ -2609,8 +2696,10 @@ int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_MSG_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_PTRACE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/ptrace.h>
 /****************************************************************************/
 long int ptrace(enum __ptrace_request request, pid_t pid, void *addr,
@@ -2618,8 +2707,10 @@ long int ptrace(enum __ptrace_request request, pid_t pid, void *addr,
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_PTRACE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_RESOURCE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/resource.h>
 /****************************************************************************/
 int getrusage(int who, struct rusage *usage)
@@ -2638,8 +2729,10 @@ int setpriority(int which, id_t who, int prio)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_RESOURCE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_SELECT_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/select.h>
 /****************************************************************************/
 int pselect(int nfds, fd_set *restrict readfds, fd_set *restrict writefds,
@@ -2649,8 +2742,10 @@ int pselect(int nfds, fd_set *restrict readfds, fd_set *restrict writefds,
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_SELECT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_SEM_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/sem.h>
 /****************************************************************************/
 int semctl(int semid, int semnum, int cmd, ...)
@@ -2676,8 +2771,10 @@ int semtimedop(int semid, struct sembuf *sops, size_t nsops,
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_SEM_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_SHM_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/shm.h>
 /****************************************************************************/
 void *shmat(int shmid, const void *shmaddr, int shmflg)
@@ -2702,8 +2799,10 @@ int shmget(key_t key, size_t size, int shmflg)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_SHM_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_SOCKET_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/socket.h>
 /****************************************************************************/
 int socketpair(int domain, int type, int protocol, int sv[2])
@@ -2716,8 +2815,10 @@ int sockatmark(int sockfd)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_SOCKET_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_STAT_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/stat.h>
 /****************************************************************************/
 int fchmodat(int fd, const char *path, mode_t mode, int flag)
@@ -2774,8 +2875,10 @@ int utimensat(int fd, const char *path, const struct timespec times[2],
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_STAT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_STATVFS_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/statvfs.h>
 /****************************************************************************/
 int fstatvfs(int fd, struct statvfs *buf)
@@ -2788,8 +2891,10 @@ int statvfs(const char *restrict path, struct statvfs *restric buf)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_STATVFS_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_TIME_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/time.h>
 /****************************************************************************/
 int futimes(int fd, const struct timeval tv[2])
@@ -2852,8 +2957,10 @@ int utimensat(int fd, const char *path, const struct timespec times[2],
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_TIME_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_UIO_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/uio.h>
 /****************************************************************************/
 ssize_t preadv(int fd, const struct iovec *iov, int iovcnt, off_t offset)
@@ -2866,8 +2973,10 @@ ssize_t pwritev(int fd, const struct iovec *iov, int iovcnt, off_t offset)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_UIO_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYS_WAIT_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/wait.h>
 /****************************************************************************/
 pid_t wait(int *stat_loc)
@@ -2886,8 +2995,10 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options)
 {
     ENTER();
 }
+#endif /* CLIB2_SYS_WAIT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_SYSLOG_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <syslog.h>
 /****************************************************************************/
 int setlogmask(int mask)
@@ -2912,8 +3023,10 @@ void closelog(void)
 {
     ENTER();
 }
+#endif /* CLIB2_SYSLOG_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_TERMIOS_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <termios.h>
 /****************************************************************************/
 pid_t tcgetsid(int fd)
@@ -2932,8 +3045,10 @@ int tcsetwinsize(int fd, const struct winsize *sws)
 {
     ENTER();
 }
+#endif /* CLIB2_TERMIOS_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_TIME_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <time.h>
 /****************************************************************************/
 int clock_getcpuclockid(pid_t pid, clockid_t *clockid)
@@ -3011,8 +3126,10 @@ int timer_settime(timer_t timerid, int flags,
 {
     ENTER();
 }
+#endif /* CLIB2_TIME_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_UCHAR_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <uchar.h>
 /****************************************************************************/
 size_t c16rtomb(char *s, char16_t c16, mbstate_t *ps)
@@ -3037,8 +3154,10 @@ size_t mbrtoc16(char16_t *pc16, const char *s, size_t n, mbstate_t *ps)
 {
     ENTER();
 }
+#endif /* CLIB2_UCHAR_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_UCONTEXT_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <ucontext.h>
 /****************************************************************************/
 int getcontext(ucontext_t *ucp)
@@ -3063,8 +3182,10 @@ int swapcontext(ucontext_t *oucp, const ucontext_t *ucp)
 {
     ENTER();
 }
+#endif /* CLIB2_UCONTEXT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_UNISTD_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <unistd.h>
 /****************************************************************************/
 int pipe(int pipefd[2])
@@ -3283,8 +3404,10 @@ useconds_t ualarm(useconds_t usecs, useconds_t interval)
 {
     ENTER();
 }
+#endif /* CLIB2_UNISTD_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_UTMP_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <utmp.h>
 /****************************************************************************/
 void endutent(void)
@@ -3327,8 +3450,10 @@ int utmpname(const char *file)
 {
     ENTER();
 }
+#endif /* CLIB2_UTMP_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_UTMPX_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <utmpx.h>
 /****************************************************************************/
 void endutxent(void)
@@ -3365,8 +3490,10 @@ void setutxent(void)
 {
     ENTER();
 }
+#endif /* CLIB2_UTMPX_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_WCHAR_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <wchar.h>
 /****************************************************************************/
 wchar_t *wcswcs(const wchar_t *ws1, const wchar_t *ws2)
@@ -3523,8 +3650,10 @@ int wcswidth(const wchar_t *s, size_t n)
 {
     ENTER();
 }
+#endif /* CLIB2_WCHAR_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_WCTYPE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <wctype.h>
 /****************************************************************************/
 int iswalnum_l(wint_t c, locale_t locale)
@@ -3609,8 +3738,10 @@ wint_t towupper_l(wint_t c, locale_t locale)
 {
     ENTER();
 }
+#endif /* CLIB2_WCTYPE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
+#if defined(CLIB2_WORDEXP_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <wordexp.h>
 /****************************************************************************/
 int wordexp(const char *s, wordexp_t *p, int flags)
@@ -3623,3 +3754,4 @@ void wordfree(wordexp_t *p)
 {
     ENTER();
 }
+#endif /* CLIB2_WORDEXP_STUB) || defined(CLIB2_MULTUM_STUB) */

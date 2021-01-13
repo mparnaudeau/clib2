@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_PTY_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _PTY_H
 #define _PTY_H
@@ -30,4 +30,4 @@ extern pid_t forkpty(int *amaster, char *name, const struct termios *termp,
 
 #endif /* _PTY_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_PTY_STUB) || defined(CLIB2_MULTUM_STUB) */

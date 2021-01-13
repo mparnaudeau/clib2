@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_FMTMSG_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _FMTMSG_H
 #define _FMTMSG_H
@@ -20,4 +20,4 @@ extern int fmtmsg(long classification, const char *label, int severity,
 
 #endif /* _FMTMSG_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_FMTMSG_STUB) || defined(CLIB2_MULTUM_STUB) */

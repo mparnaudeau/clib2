@@ -106,9 +106,13 @@ extern int feclearexcept(int excepts);
 extern int fegetround(void);
 extern int fetestround(int rounds);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_FENV_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int fesetround(int rounding_mode);
-#endif
+
+#endif /* defined(CLIB2_FENV_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 

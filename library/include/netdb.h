@@ -158,7 +158,10 @@ extern struct servent *getservbyname(const char *name, const char *proto);
 extern struct servent *getservbyport(int port, const char *proto);
 extern const char *hstrerror(int err);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_NETDB_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern struct netent *getnetent(void);
 extern struct netent *getnetbyaddr(uint32_t net, int type);
 extern void setnetent(int stayopen);
@@ -169,7 +172,10 @@ extern struct servent *getservent(void);
 extern struct servent *getservbyname(const char *name, const char *proto);
 extern struct servent *getservbyport(int port, const char *proto);
 extern struct hostent *gethostent(void);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_NETDB_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
 
 #endif /* __NO_NET_API */
 

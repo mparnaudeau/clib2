@@ -88,11 +88,15 @@ struct rlimit
 extern int getrlimit(int resource,struct rlimit *rlp);
 extern int setrlimit(int resource,const struct rlimit *rlp);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_SYS_RESOURCE_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int getrusage(int who, struct rusage *usage);
 extern int getpriority(int which, id_t who);
 extern int setpriority(int which, id_t who, int prio);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 
@@ -101,5 +105,3 @@ extern int setpriority(int which, id_t who, int prio);
 #endif /* __cplusplus */
 
 /****************************************************************************/
-
-#endif /* _SYS_RESOURCE_H */

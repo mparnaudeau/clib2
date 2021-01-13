@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_WAIT_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _WAIT_H
 #define _WAIT_H
@@ -28,4 +28,4 @@ extern int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 
 #endif /* _WAIT_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_WAIT_STUB) || defined(CLIB2_MULTUM_STUB) */

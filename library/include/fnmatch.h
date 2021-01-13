@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_FNMATCH_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _FNMATCH_H
 #define _FNMATCH_H
@@ -19,4 +19,4 @@ extern int fnmatch(const char *pattern, const char *string, int flags);
 
 #endif /* _FNMATCH_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_FNMATCH_STUB) || defined(CLIB2_MULTUM_STUB) */

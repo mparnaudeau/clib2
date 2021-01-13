@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_MQUEUE_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _MQUEUE_H
 #define _MQUEUE_H
@@ -42,4 +42,4 @@ extern int mq_unlink(const char *name);
 
 #endif /* _MQUEUE_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_MQUEUE_STUB) || defined(CLIB2_MULTUM_STUB) */

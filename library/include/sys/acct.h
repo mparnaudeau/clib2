@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_ACCT_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _ACCT_H
 #define _ACCT_H
@@ -19,4 +19,4 @@ extern int acct(const char *filename);
 
 #endif /* _ACCT_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_ACCT_STUB) || defined(CLIB2_MULTUM_STUB) */

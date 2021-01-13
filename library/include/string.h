@@ -138,7 +138,8 @@ extern char * strtok_r(char *str, const char *separator_set,char ** state_ptr);
 
 /****************************************************************************/
 
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_STRING_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern void explicit_bzero(void *s, size_t n);
 extern void *memrchr(const void *s, int c, size_t n);
 extern void *memccpy(void *dest, const void *src, int c, size_t n);
@@ -157,7 +158,10 @@ extern char *strsignal(int sig);
 extern int strverscmp(const char *s1, const char *s2);
 extern size_t strxfrm_l(char *restrict s1, const char *restrict s2, size_t n,
                         locale_t locale);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_STRING_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
 
 #ifdef __cplusplus
 }

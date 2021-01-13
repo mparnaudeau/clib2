@@ -334,10 +334,16 @@ extern int setsockopt(int socket, int level, int option_name, const void *option
 extern int shutdown(int socket, int how);
 extern int socket(int domain, int type, int protocol);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_SYS_SOCKET_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int socketpair(int domain, int type, int protocol, int sv[2]);
 extern int sockatmark(int sockfd);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_SYS_SOCKET_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
 
 #endif /* __NO_NET_API */
 

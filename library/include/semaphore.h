@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SEMAPHORE_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _SEMAPHORE_H
 #define _SEMAPHORE_H
@@ -32,4 +32,4 @@ extern int sem_wait(sem_t *sem);
 
 #endif /* _SEMAPHORE_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SEMAPHORE_STUB) || defined(CLIB2_MULTUM_STUB) */

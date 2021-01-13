@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_IPC_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _IPC_H
 #define _IPC_H
@@ -19,4 +19,4 @@ extern key_t ftok(char *pathname, char proj_id);
 
 #endif /* _IPC_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_IPC_STUB) || defined(CLIB2_MULTUM_STUB) */

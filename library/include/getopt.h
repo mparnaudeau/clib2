@@ -61,7 +61,7 @@ extern "C" {
 #define required_argument	1
 #define optional_argument	2
 
-struct option 
+struct option
 {
 	const char *	name;
 	int 			has_arg;
@@ -74,12 +74,17 @@ struct option
 extern int getopt_long(int argc, const char **argv, const char *optstring,
 		const struct option *longopts, int *longindex);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_GETOPT_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int getopt(int argc, char * const argv[], const char *optstring);
 extern int getopt_long_only(int argc, const char **argv,
                             const char *optstring,
 		                    const struct option *longopts, int *longindex);
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_GETOPT_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
 
 extern int optreset;
 

@@ -108,12 +108,18 @@ typedef	struct fd_set
 
 extern int select(int nfds, fd_set *readfds,fd_set *writefds, fd_set *errorfds,struct timeval *timeout);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_SYS_SELECT_STUB) || defined(CLIB2_MULTUM_STUB)
+
 int pselect(int nfds, fd_set *restrict readfds, fd_set *restrict writefds,
             fd_set *restrict errorfds,
             const struct timespec *restrict timeout,
             const sigset_t *restrict sigmask);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_SYS_SELECT_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
 
 /* This is a special select() function which takes an extra Amiga signal
    bit mask pointer parameter. This function works like select(), but it will

@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_LANGINFO_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _LANGINFO_H
 #define _LANGINFO_H
@@ -20,4 +20,4 @@ extern char *nl_langinfo_l(nl_item item, locale_t locale);
 
 #endif /* _LANGINFO_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_LANGINFO_STUB) || defined(CLIB2_MULTUM_STUB) */

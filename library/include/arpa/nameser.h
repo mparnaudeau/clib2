@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_ARPA_NAMESER_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _ARPA_NAMESER_H
 #define _ARPA_NAMESER_H
@@ -45,4 +45,4 @@ void ns_put32(unsigned long src, unsigned char *dst);
 
 #endif /* _ARPA_NAMESER_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_ARPA_NAMESER_STUB) || defined(CLIB2_MULTUM_STUB) */

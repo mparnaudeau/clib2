@@ -98,13 +98,17 @@ struct FTW
 extern int ftw(const char *path,int (*func)(const char *,const struct stat *,int),int depth);
 extern int nftw(const char *path,int (*func)(const char *,const struct stat *,int,struct FTW *),int depth,int flags);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_FTW_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int ftw64(const char *dirpath, int (*fn) (const char *fpath,
                  const struct stat *sb, int typeflag), int nopenfd);
 extern int nftw64(const char *dirpath, int (*fn) (const char *fpath,
                   const struct stat *sb, int typeflag, struct FTW *ftwbuf),
                   int nopenfd, int flags);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_FTW_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 

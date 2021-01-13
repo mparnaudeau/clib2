@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_MSG_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _MSG_H
 #define _MSG_H
@@ -26,4 +26,4 @@ extern int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg);
 
 #endif /* _MSG_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_MSG_STUB) || defined(CLIB2_MULTUM_STUB) */

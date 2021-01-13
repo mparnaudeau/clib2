@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_NET_IF_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _IF_H
 #define _IF_H
@@ -27,4 +27,4 @@ extern void if_freenameindex(struct if_nameindex *ptr);
 
 #endif /* _IF_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_NET_IF_STUB) || defined(CLIB2_MULTUM_STUB) */

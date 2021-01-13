@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_PTHREAD_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _PTHREAD_H
 #define _PTHREAD_H
@@ -67,4 +67,4 @@ extern int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset);
 
 #endif /* _PTHREAD_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_PTHREAD_STUB) || defined(CLIB2_MULTUM_STUB) */

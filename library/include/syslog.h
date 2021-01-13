@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYSLOG_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _SYSLOG_H
 #define _SYSLOG_H
@@ -22,4 +22,4 @@ extern void closelog(void);
 
 #endif /* _SYSLOG_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYSLOG_STUB) || defined(CLIB2_MULTUM_STUB) */

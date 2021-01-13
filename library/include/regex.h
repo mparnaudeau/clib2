@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_REGEX_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _REGEX_H
 #define _REGEX_H
@@ -32,4 +32,4 @@ extern void regfree(regex_t *preg);
 
 #endif /* _REGEX_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_REGEX_STUB) || defined(CLIB2_MULTUM_STUB) */

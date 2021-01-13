@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_MMAN_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _MMAN_H
 #define _MMAN_H
@@ -38,4 +38,4 @@ extern int shm_unlink(const char *name);
 
 #endif /* _MMAN_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_MMAN_STUB) || defined(CLIB2_MULTUM_STUB) */

@@ -69,8 +69,10 @@ extern int isblank(int c);
 extern int tolower(int c);
 extern int toupper(int c);
 
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_CTYPE_STUB) || defined(CLIB2_MULTUM_STUB)
+
 #include <locale.h>
+
 extern int isalnum_l(int c, locale_t locale);
 extern int isalpha_l(int c, locale_t locale);
 extern int isblank_l(int c, locale_t locale);
@@ -85,7 +87,8 @@ extern int isupper_l(int c, locale_t locale);
 extern int isxdigit_l(int c, locale_t locale);
 extern int tolower_l(int c, locale_t locale);
 extern int toupper_l(int c, locale_t locale);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_CTYPE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 

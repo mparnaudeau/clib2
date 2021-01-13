@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_MONETARY_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _MONETARY_H
 #define _MONETARY_H
@@ -21,4 +21,4 @@ extern ssize_t strfmon_l(char *s, size_t max, locale_t locale,
 
 #endif
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_MONETARY_STUB) || defined(CLIB2_MULTUM_STUB) */

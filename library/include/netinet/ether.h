@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_NETINET_ETHER_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _ETHER_H
 #define _ETHER_H
@@ -31,4 +31,4 @@ extern struct ether_addr *ether_aton_r(const char *asc,
 
 #endif /* _ETHER_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_NETINET_ETHER_STUB) || defined(CLIB2_MULTUM_STUB) */

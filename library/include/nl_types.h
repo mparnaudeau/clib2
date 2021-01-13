@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_NL_TYPES_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _NL_TYPES_H
 #define _NL_TYPES_H
@@ -25,4 +25,4 @@ extern nl_catd catopen(const char *name, int flag);
 
 #endif /* _NL_TYPES_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_NL_TYPES_STUB) || defined(CLIB2_MULTUM_STUB) */

@@ -322,22 +322,8 @@ extern float log2f(float x);
 
 /****************************************************************************/
 
-#define FLT_EVAL_METHOD 0
+#if defined(CLIB2_MATH_STUB) || defined(CLIB2_MULTUM_STUB)
 
-/****************************************************************************/
-
-typedef float	float_t;
-typedef double	double_t;
-
-/****************************************************************************/
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
-/****************************************************************************/
-
-#ifdef CLIB2_STUBS
 long double acosl(long double x);
 long double acoshl(long double x);
 long double asinl(long double x);
@@ -395,6 +381,24 @@ long double tanl(long double x);
 long double tanhl(long double x);
 long double tgammal(long double x);
 long double truncl(long double x);
-#endif /* CLIB_STUBS */
+
+#endif /* defined(CLIB2_MATH_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
+
+#define FLT_EVAL_METHOD 0
+
+/****************************************************************************/
+
+typedef float	float_t;
+typedef double	double_t;
+
+/****************************************************************************/
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+/****************************************************************************/
 
 #endif /* _MATH_H */

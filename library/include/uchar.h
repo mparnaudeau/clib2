@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_UCHAR_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _UCHAR_H
 #define _UCHAR_H
@@ -22,4 +22,4 @@ extern size_t mbrtoc16(char16_t *pc16, const char *s, size_t n, mbstate_t *ps);
 
 #endif /* _UCHAR_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_UCHAR_STUB) || defined(CLIB2_MULTUM_STUB) */

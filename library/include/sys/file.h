@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_FILE_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _FILE_H
 #define _FILE_H
@@ -19,4 +19,4 @@ extern int flock(int fd, int operation);
 
 #endif /* _FILE_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_FILE_STUB) || defined(CLIB2_MULTUM_STUB) */

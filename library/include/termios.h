@@ -204,11 +204,15 @@ extern speed_t cfgetospeed(struct termios *tios_p);
 extern int cfsetispeed(struct termios *tios_p,speed_t input_speed);
 extern int cfsetospeed(struct termios *tios_p,speed_t output_speed);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_TERMIOS_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern pid_t tcgetsid(int fd);
 extern int tcgetwinsize(int fd, struct winsize *gws);
 extern int tcsetwinsize(int fd, const struct winsize *sws);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_TERMIOS_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 

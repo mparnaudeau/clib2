@@ -203,7 +203,10 @@ extern unsigned long long wcstoull(const wchar_t *str, wchar_t **ptr, int base);
 
 #endif /* __STDC_VERSION__ && __STDC_VERSION__ >= 199901L */
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_WCHAR_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern wchar_t *wcswcs(const wchar_t *ws1, const wchar_t *ws2);
 extern float wcstof(const wchar_t *restrict nptr,
                     wchar_t **restrict endptr);
@@ -237,7 +240,8 @@ extern int wcsncasecmp_l(const wchar_t *ws1, const wchar_t *ws2, size_t n,
                          locale_t locale);
 extern int wcwidth(wchar_t c);
 extern int wcswidth(const wchar_t *s, size_t n);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_WCHAR_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 

@@ -110,7 +110,38 @@ extern int sigemptyset(sigset_t * set);
 extern int sigaddset(sigset_t * set,int sig);
 extern int kill(pid_t pid, int signal_number);
 
-#ifdef CLIB2_STUBS
+
+/****************************************************************************/
+
+#if defined(CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB)
+
+#include <time.h>
+
+union sigval {
+	int sival_int;
+	void *sival_ptr;
+};
+
+typedef struct {
+	int si_signo;
+	int si_code;
+	union sigval si_value;
+	int si_errno;
+	pid_t si_pid;
+	uid_t si_uid;
+	void *si_addr;
+	int si_status;
+	int si_band;
+} siginfo_t;
+
+struct sigaction {
+    void (*sa_handler)(int sig);
+    void (*sa_sigaction)(int sig, siginfo_t *info, void *ucontext);
+    sigset_t sa_mask;
+    int sa_flags;
+    void (*sa_restorer)(void);
+};
+
 extern int sigemptyset(sigset_t *set);
 extern int sigfillset(sigset_t *set);
 extern int sigdelset(sigset_t *set, int signo);
@@ -130,7 +161,8 @@ extern int sigignore(int sig);
 extern int siginterrupt(int sig, int flag);
 extern int sigpause(int sig);
 extern int sigrelse(int sig);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 

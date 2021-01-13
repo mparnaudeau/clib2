@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_ARPA_FTP_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _ARPA_FTP_H
 #define _ARPA_FTP_H
@@ -7,4 +7,4 @@
 
 #endif /* _ARPA_FTP_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_ARPA_FTP_STUB) || defined(CLIB2_MULTUM_STUB) */

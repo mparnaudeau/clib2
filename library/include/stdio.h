@@ -454,7 +454,8 @@ extern int snprintf(char *s,size_t size,const char *format,...);
 
 /****************************************************************************/
 
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_STDIO_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern FILE *fmemopen(void *buf, size_t size, const char *mode);
 extern FILE *open_memstream(char **ptr, size_t *sizeloc);
 extern FILE *open_wmemstream(wchar_t **ptr, size_t *sizeloc);
@@ -465,7 +466,8 @@ extern ssize_t getdelim(char **restrict lineptr, size_t *restrict n,
 extern ssize_t getline(char **restrict lineptr, size_t *restrict n,
                        FILE *restrict stream);
 extern int renameat(int oldfd, const char *old, int newfd, const char *new);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_STDIO_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 

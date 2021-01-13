@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_RESOLV_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _RESOLV_H
 #define _RESOLV_H
@@ -37,4 +37,4 @@ extern int res_nsend(res_state statep, const unsigned char *msg, int msglen,
 
 #endif /* _RESOLV_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_RESOLV_STUB) || defined(CLIB2_MULTUM_STUB) */

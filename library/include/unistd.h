@@ -212,7 +212,8 @@ extern long fpathconf(int file_descriptor,int name);
 
 /****************************************************************************/
 
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_UNISTD_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int pipe(int pipefd[2]);
 extern int pipe2(int pipefd[2], int flags);
 extern int close(int fd);
@@ -251,7 +252,8 @@ extern pid_t setpgrp(void);
 extern void encrypt(char block[64], int edflag);
 extern void swab(const void *from, void *to, ssize_t n);
 extern useconds_t ualarm(useconds_t usecs, useconds_t interval);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_UNISTD_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 #ifdef __cplusplus
 }

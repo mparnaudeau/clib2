@@ -143,7 +143,10 @@ extern int fchmod(int file_descriptor, mode_t mode);
 extern int mkdir(const char * path_name, mode_t mode);
 extern int rmdir(const char * path_name);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_SYS_STAT_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int fchmodat(int fd, const char *path, mode_t mode, int flag);
 extern int fstatat(int fd, const char *restrict path,
                    struct stat *restrict buf, int flag);
@@ -155,7 +158,10 @@ extern int mknodat(int dirfd, const char *pathname, mode_t mode, dev_t dev);
 extern int futimens(int fd, const struct timespec times[2]);
 extern int utimensat(int fd, const char *path,
                      const struct timespec times[2], int flag);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_SYS_STAT_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
 
 /*
  * The following prototypes may clash with the bsdsocket.library or

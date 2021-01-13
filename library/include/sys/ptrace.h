@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_PTRACE_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _PTRACE_H
 #define _PTRACE_H
@@ -20,4 +20,4 @@ extern long int ptrace(enum __ptrace_request request, pid_t pid, void *addr,
 
 #endif /* _PTRACE_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_PTRACE_STUB) || defined(CLIB2_MULTUM_STUB) */

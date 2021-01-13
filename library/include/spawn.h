@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SPAWN_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _SPAWN_H
 #define _SPAWN_H
@@ -67,4 +67,4 @@ extern int posix_spawnp(pid_t *pid, const char *file,
 
 #endif /* _SPAWN_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SPAWN_STUB) || defined(CLIB2_MULTUM_STUB) */

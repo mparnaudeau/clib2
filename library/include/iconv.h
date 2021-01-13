@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_ICONV_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _ICONV_H
 #define _ICONV_H
@@ -22,4 +22,4 @@ extern int iconv_close(iconv_t cd);
 
 #endif /* _ICONV_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_ICONV_STUB) || defined(CLIB2_MULTUM_STUB) */

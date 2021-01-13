@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_SEM_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _SEM_H
 #define _SEM_H
@@ -31,4 +31,4 @@ extern int semtimedop(int semid, struct sembuf *sops, size_t nsops,
 
 #endif /* _SEM_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_SEM_STUB) || defined(CLIB2_MULTUM_STUB) */

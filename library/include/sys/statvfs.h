@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_SYS_STATVFS_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _STATVFS_H
 #define _STATVFS_H
@@ -35,4 +35,4 @@ extern int statvfs(const char *restrict path, struct statvfs *restric buf);
 
 #endif /* _STATVFS_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_SYS_STATVFS_STUB) || defined(CLIB2_MULTUM_STUB) */

@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_UCONTEXT_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _UCONTEXT_H
 #define _UCONTEXT_H
@@ -22,4 +22,4 @@ extern int swapcontext(ucontext_t *oucp, const ucontext_t *ucp);
 
 #endif /* _UCONTEXT_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_UCONTEXT_STUB) || defined(CLIB2_MULTUM_STUB) */

@@ -1,4 +1,4 @@
-#ifdef CLIB2_STUBS
+#if defined(CLIB2_AIO_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #ifndef _AIO_H
 #define _AIO_H
@@ -44,4 +44,4 @@ extern int lio_listio(int mode, struct aiocb *const aiocb_list[], int nitems,
 
 #endif /* _AIO_H */
 
-#endif /* CLIB2_STUBS */
+#endif /* defined(CLIB2_AIO_STUB) || defined(CLIB2_MULTUM_STUB) */

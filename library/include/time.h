@@ -125,7 +125,10 @@ extern struct tm * gmtime_r(const time_t *t,struct tm * tm_ptr);
 extern struct tm * localtime_r(const time_t *t,struct tm * tm_ptr);
 extern void tzset(void);
 
-#ifdef CLIB2_STUBS
+/****************************************************************************/
+
+#if defined(CLIB2_TIME_STUB) || defined(CLIB2_MULTUM_STUB)
+
 extern int clock_getcpuclockid(pid_t pid, clockid_t *clockid);
 extern int clock_getres(clockid_t clockid, struct timespec *res);
 extern int clock_gettime(clockid_t clockid, struct timespec *tp);
@@ -145,7 +148,8 @@ extern int timer_gettime(timer_t timerid, struct itimerspec *curr_value);
 extern int timer_settime(timer_t timerid, int flags,
                          const struct itimerspec *new_value,
                          struct itimerspec *old_value);
-#endif /* CLIB2_STUBS */
+
+#endif /* defined(CLIB2_TIME_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
 
