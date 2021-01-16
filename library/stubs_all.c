@@ -1175,25 +1175,38 @@ char *textdomain(const char * domainname)
 /****************************************************************************/
 locale_t duplocale(locale_t locobj)
 {
+    (void) locobj;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 locale_t newlocale(int category_mask, const char *locale, locale_t base)
 {
+    (void) category_mask;
+    (void) locale;
+    (void) base;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 void freelocale(locale_t locobj)
 {
+    (void) locobj;
+
     ENTER();
 }
 
 /****************************************************************************/
 locale_t uselocale(locale_t newloc)
 {
+    (void) newloc;
+
     ENTER();
+    return NULL;
 }
 #endif /* CLIB2_LOCALE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
