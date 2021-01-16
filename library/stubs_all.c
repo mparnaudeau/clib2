@@ -1753,14 +1753,25 @@ long double truncl(long double x)
 /****************************************************************************/
 ssize_t strfmon(char *s, size_t max, const char *format, ...)
 {
+    (void) s;
+    (void) max;
+    (void) format;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 ssize_t strfmon_l(char *s, size_t max, locale_t locale,
                   const char *format, ...)
 {
+    (void) s;
+    (void) max;
+    (void) locale;
+    (void) format;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_MONETARY_STUB) || defined(CLIB2_MULTUM_STUB) */
 
