@@ -861,7 +861,12 @@ int fmtmsg(long classification, const char *label, int severity,
 /****************************************************************************/
 int fnmatch(const char *pattern, const char *string, int flags)
 {
+    (void) pattern;
+    (void) string;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_FNMATCH_STUB) || defined(CLIB2_MULTUM_STUB) */
 
