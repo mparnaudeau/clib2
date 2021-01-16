@@ -122,6 +122,8 @@ extern int fcntl(int file_descriptor, int cmd, ... /* int arg */ );
 
 #if defined(CLIB2_FCNTL_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: fcntl.h"
+
 extern int posix_fadvise(int fd, off_t offset, off_t len, int advice);
 extern int posix_fallocate(int fd, off_t offset, off_t len);
 extern int openat(int fd, const char *path, int oflag, ...);

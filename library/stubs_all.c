@@ -791,19 +791,35 @@ int dirfd(DIR *dirp)
 /****************************************************************************/
 int posix_fadvise(int fd, off_t offset, off_t len, int advice)
 {
+    (void) fd;
+    (void) offset;
+    (void) len;
+    (void) advice;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_fallocate(int fd, off_t offset, off_t len)
 {
+    (void) fd;
+    (void) offset;
+    (void) len;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int openat(int fd, const char *path, int oflag, ...)
 {
+    (void) fd;
+    (void) path;
+    (void) oflag;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_FCNTL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
