@@ -7,7 +7,7 @@
 
 #warning "STUB: netinet/ether.h"
 
-#include <netinet/if_ether.h>
+struct ether_addr;
 
 #ifdef __cplusplus
 extern "C" {

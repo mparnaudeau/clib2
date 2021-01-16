@@ -2012,43 +2012,70 @@ void if_freenameindex(struct if_nameindex *ptr)
 /****************************************************************************/
 char *ether_ntoa(const struct ether_addr *addr)
 {
+    (void) addr;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct ether_addr *ether_aton(const char *asc)
 {
+    (void) asc;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int ether_ntohost(char *hostname, const struct ether_addr *addr)
 {
+    (void) hostname;
+    (void) addr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int ether_hostton(const char *hostname, struct ether_addr *addr)
 {
+    (void) hostname;
+    (void) addr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int ether_line(const char *line, struct ether_addr *addr, char *hostname)
 {
+    (void) line;
+    (void) addr;
+    (void) hostname;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *ether_ntoa_r(const struct ether_addr *addr, char *buf)
 {
+    (void) addr;
+    (void) buf;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct ether_addr *ether_aton_r(const char *asc, struct ether_addr *addr)
 {
+    (void) asc;
+    (void) addr;
+
     ENTER();
+    return NULL;
 }
 #endif /* CLIB2_NETINET_ETHER_STUB) || defined(CLIB2_MULTUM_STUB) */
 
