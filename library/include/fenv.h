@@ -110,6 +110,8 @@ extern int fetestround(int rounds);
 
 #if defined(CLIB2_FENV_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: fenv.h"
+
 extern int fesetround(int rounding_mode);
 
 #endif /* defined(CLIB2_FENV_STUB) || defined(CLIB2_MULTUM_STUB) */

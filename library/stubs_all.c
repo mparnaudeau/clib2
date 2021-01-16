@@ -829,7 +829,10 @@ int openat(int fd, const char *path, int oflag, ...)
 /****************************************************************************/
 int fesetround(int rounding_mode)
 {
+    (void) rounding_mode;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_FENV_STUB) || defined(CLIB2_MULTUM_STUB) */
 
