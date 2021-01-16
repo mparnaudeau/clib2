@@ -1073,58 +1073,99 @@ char *nl_langinfo_l(nl_item item, locale_t locale)
 /****************************************************************************/
 char *bindtextdomain(const char * domainname, const char * dirname)
 {
+    (void) domainname;
+    (void) dirname;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *bind_textdomain_codeset(const char * domainname, const char * codeset)
 {
+    (void) domainname;
+    (void) codeset;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *dgettext(const char * domainname, const char * msgid)
 {
+    (void) domainname;
+    (void) msgid;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *dcgettext(const char * domainname, const char * msgid, int category)
 {
+    (void) domainname;
+    (void) msgid;
+    (void) category;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *ngettext(const char * msgid, const char * msgid_plural,
                unsigned long int n)
 {
+    (void) msgid;
+    (void) msgid_plural;
+    (void) n;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *dngettext(const char * domainname, const char * msgid,
                 const char * msgid_plural, unsigned long int n)
 {
+    (void) domainname;
+    (void) msgid;
+    (void) msgid_plural;
+    (void) n;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *dcngettext(const char * domainname, const char * msgid,
                  const char * msgid_plural, unsigned long int n, int category)
 {
+    (void) domainname;
+    (void) msgid;
+    (void) msgid_plural;
+    (void) n;
+    (void) category;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *gettext(const char * msgid)
 {
+    (void) msgid;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *textdomain(const char * domainname)
 {
+    (void) domainname;
+
     ENTER();
+    return NULL;
 }
 #endif /* CLIB2_LIBINTL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
