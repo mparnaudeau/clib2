@@ -1216,343 +1216,534 @@ locale_t uselocale(locale_t newloc)
 /****************************************************************************/
 long double acosl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double acoshl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double asinl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double asinhl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double atanl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double atan2l(long double y, long double x)
 {
+    (void) y;
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double atanhl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double cbrtl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double ceill(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double copysignl(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double cosl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double coshl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double erfl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double erfcl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double expl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double exp2l(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double expm1l(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double fabsl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double fdiml(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double floorl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double fmal(long double x, long double y, long double z)
 {
+    (void) x;
+    (void) y;
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double fmaxl(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double fminl(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double fmodl(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double frexpl(long double x, int *nptr)
 {
+    (void) x;
+    (void) nptr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double hypotl(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int ilogbl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double ldexpl(long double x, int n)
 {
+    (void) x;
+    (void) n;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double lgammal(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-long long llrintl(long double x)
+long long int llrintl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-long long lroundl(long double x)
+long long int llroundl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double logl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double log10l(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double log1pl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double log2l(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double logbl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-long lrintl(long double x)
+long int lrintl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-long lroundl(long double x)
+long int lroundl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double modfl(long double x, long double *iptr)
 {
+    (void) x;
+    (void) iptr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double nanl(const char *tagp)
 {
+    (void) tagp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double nearbyintl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double nextafterl(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double nexttowardl(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double powl(long double x, long double y)
 {
+    (void) x;
+    (void) y;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double remainderl(long double x, long double p)
 {
+    (void) x;
+    (void) p;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double remquol(long double x, long double y, int *quo)
 {
+    (void) x;
+    (void) y;
+    (void) quo;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double rintl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double roundl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double scalblnl(long double x, long int n)
 {
+    (void) x;
+    (void) n;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double scalbnl(long double x, int n)
 {
+    (void) x;
+    (void) n;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double sinl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double sinhl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double sqrtl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double tanl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double tanhl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double tgammal(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double truncl(long double x)
 {
+    (void) x;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_MATH_STUB) || defined(CLIB2_MULTUM_STUB) */
 

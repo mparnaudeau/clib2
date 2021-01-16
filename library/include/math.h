@@ -324,6 +324,8 @@ extern float log2f(float x);
 
 #if defined(CLIB2_MATH_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: math.h"
+
 long double acosl(long double x);
 long double acoshl(long double x);
 long double asinl(long double x);
@@ -353,15 +355,15 @@ long double hypotl(long double x, long double y);
 int ilogbl(long double x);
 long double ldexpl(long double x, int n);
 long double lgammal(long double x);
-long long llrintl(long double x);
-long long lroundl(long double x);
+long long int llrintl(long double x);
+long long int llroundl(long double x);
 long double logl(long double x);
 long double log10l(long double x);
 long double log1pl(long double x);
 long double log2l(long double x);
 long double logbl(long double x);
-long lrintl(long double x);
-long lroundl(long double x);
+long int lrintl(long double x);
+long int lroundl(long double x);
 long double modfl(long double x, long double *iptr);
 long double nanl(const char *tagp);
 long double nearbyintl(long double x);
