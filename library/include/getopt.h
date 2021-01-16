@@ -78,6 +78,8 @@ extern int getopt_long(int argc, const char **argv, const char *optstring,
 
 #if defined(CLIB2_GETOPT_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: getopt.h"
+
 extern int getopt(int argc, char * const argv[], const char *optstring);
 extern int getopt_long_only(int argc, const char **argv,
                             const char *optstring,

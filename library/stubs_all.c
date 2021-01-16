@@ -906,14 +906,26 @@ int nftw64(const char *dirpath, int (*fn) (const char *fpath,
 /****************************************************************************/
 int getopt(int argc, char * const argv[], const char *optstring)
 {
+    (void) argc;
+    (void) argv;
+    (void) optstring;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int getopt_long_only(int argc, const char **argv, const char *optstring,
 		             const struct option *longopts, int *longindex)
 {
+    (void) argc;
+    (void) argv;
+    (void) optstring;
+    (void) longopts;
+    (void) longindex;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_GETOPT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
