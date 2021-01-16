@@ -1050,13 +1050,20 @@ void freeifaddrs(struct ifaddrs *ifa)
 /****************************************************************************/
 char *nl_langinfo(nl_item item)
 {
+    (void) item;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *nl_langinfo_l(nl_item item, locale_t locale)
 {
+    (void) item;
+    (void) locale;
+
     ENTER();
+    return NULL;
 }
 #endif /* CLIB2_LANGINFO_STUB) || defined(CLIB2_MULTUM_STUB) */
 

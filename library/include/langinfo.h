@@ -7,6 +7,8 @@
 
 #warning "STUB: langinfo.h"
 
+typedef int nl_item;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
