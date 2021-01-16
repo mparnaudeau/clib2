@@ -93,26 +93,38 @@ int lio_listio(int mode, struct aiocb *const aiocb_list[], int nitems,
 #if defined(CLIB2_ARPA_NAMESER_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <arpa/nameser.h>
 /****************************************************************************/
-unsigned int  ns_get16(const u_char *src)
+unsigned int ns_get16(const unsigned char *src)
 {
+    (void) src;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-unsigned long ns_get32(const unsigned char *)
+unsigned long int ns_get32(const unsigned char *src)
 {
+    (void) src;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void ns_put16(unsigned int src, unsigned char *dst)
 {
+    (void) src;
+    (void) dst;
+
     ENTER();
 }
 
 /****************************************************************************/
-void ns_put32(unsigned long src, unsigned char *dst)
+void ns_put32(unsigned long int src, unsigned char *dst)
 {
+    (void) src;
+    (void) dst;
+
     ENTER();
 }
 #endif /* (CLIB2_ARPA_NAMESER_STUB) || defined(CLIB2_MULTUM_STUB) */
