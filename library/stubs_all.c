@@ -135,325 +135,487 @@ void ns_put32(unsigned long int src, unsigned char *dst)
 /****************************************************************************/
 double complex cacos(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex cacosf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex cacosl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex casin(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex casinf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex casinl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex catan(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex catanf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex catanl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex ccos(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex ccosf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex ccosl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex csin(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex csinf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex csinl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex ctan(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex ctanf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex ctanl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex cacosh(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex cacoshf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex cacoshl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex casinh(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex casinhf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex casinhl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex catanh(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex catanhf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex catanhl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex ccosh(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex ccoshf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex ccoshl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex csinh(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex csinhf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex csinhl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex ctanh(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex ctanhf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex ctanhl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex cexp(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex cexpf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex cexpl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex clog(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex clogf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex clogl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double cabs(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float cabsf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double cabsl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex cpow(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex cpowf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex cpowl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex csqrt(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex csqrtf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex csqrtl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double complex cproj(double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 float complex cprojf(float complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double complex cprojl(long double complex z)
 {
+    (void) z;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_COMPLEX_STUB) || defined(CLIB2_MULTUM_STUB) */
 

@@ -103,6 +103,8 @@ extern long double cargl(long double complex z);
 
 #if defined(CLIB2_COMPLEX_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: complex.h"
+
 extern double complex cacos(double complex z);
 extern float complex cacosf(float complex z);
 extern long double complex cacosl(long double complex z);
