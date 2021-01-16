@@ -877,7 +877,12 @@ int fnmatch(const char *pattern, const char *string, int flags)
 int ftw64(const char *dirpath, int (*fn) (const char *fpath,
           const struct stat *sb, int typeflag), int nopenfd)
 {
+    (void) dirpath;
+    (void) fn;
+    (void) nopenfd;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -885,7 +890,13 @@ int nftw64(const char *dirpath, int (*fn) (const char *fpath,
            const struct stat *sb, int typeflag, struct FTW *ftwbuf),
            int nopenfd, int flags)
 {
+    (void) dirpath;
+    (void) fn;
+    (void) nopenfd;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_FTW_STUB) || defined(CLIB2_MULTUM_STUB) */
 

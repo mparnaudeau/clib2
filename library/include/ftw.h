@@ -102,6 +102,8 @@ extern int nftw(const char *path,int (*func)(const char *,const struct stat *,in
 
 #if defined(CLIB2_FTW_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: ftw.h"
+
 extern int ftw64(const char *dirpath, int (*fn) (const char *fpath,
                  const struct stat *sb, int typeflag), int nopenfd);
 extern int nftw64(const char *dirpath, int (*fn) (const char *fpath,
