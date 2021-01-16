@@ -961,14 +961,28 @@ void globfree(glob_t *pglob)
 int getgrnam_r(const char *name, struct group *grp, char *buf, size_t buflen,
                struct group **result)
 {
+    (void) name;
+    (void) grp;
+    (void) buf;
+    (void) buflen;
+    (void) result;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int getgrgid_r(gid_t gid, struct group *grp, char *buf, size_t buflen,
                struct group **result)
 {
+    (void) gid;
+    (void) grp;
+    (void) buf;
+    (void) buflen;
+    (void) result;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_GRP_STUB) || defined(CLIB2_MULTUM_STUB) */
 

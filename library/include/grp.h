@@ -96,6 +96,8 @@ extern void setgrent(void);
 
 #if defined(CLIB2_GRP_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: grp.h"
+
 extern int getgrnam_r(const char *name, struct group *grp, char *buf,
                       size_t buflen, struct group **result);
 extern int getgrgid_r(gid_t gid, struct group *grp, char *buf, size_t buflen,
