@@ -1902,17 +1902,14 @@ int mq_unlink(const char *name)
 struct netent *getnetent(void)
 {
     ENTER();
-}
-
-/****************************************************************************/
-struct netent *getnetbyaddr(uint32_t net, int type)
-{
-    ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 void setnetent(int stayopen)
 {
+    (void) stayopen;
+
     ENTER();
 }
 
@@ -1925,6 +1922,8 @@ void endnetent(void)
 /****************************************************************************/
 void setservent(int stayopen)
 {
+    (void) stayopen;
+
     ENTER();
 }
 
@@ -1938,24 +1937,34 @@ void endservent(void)
 struct servent *getservent(void)
 {
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct servent *getservbyname(const char *name, const char *proto)
 {
+    (void) name;
+    (void) proto;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct servent *getservbyport(int port, const char *proto)
 {
+    (void) port;
+    (void) proto;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct hostent *gethostent(void)
 {
     ENTER();
+    return NULL;
 }
 #endif /* CLIB2_NETDB_STUB) || defined(CLIB2_MULTUM_STUB) */
 

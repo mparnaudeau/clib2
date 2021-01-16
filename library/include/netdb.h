@@ -162,8 +162,9 @@ extern const char *hstrerror(int err);
 
 #if defined(CLIB2_NETDB_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: netdb.h"
+
 extern struct netent *getnetent(void);
-extern struct netent *getnetbyaddr(uint32_t net, int type);
 extern void setnetent(int stayopen);
 extern void endnetent(void);
 extern void setservent(int stayopen);
