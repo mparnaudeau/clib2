@@ -1781,46 +1781,78 @@ ssize_t strfmon_l(char *s, size_t max, locale_t locale,
 /****************************************************************************/
 int mq_close(mqd_t mqdes)
 {
+    (void) mqdes;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mq_getattr(mqd_t mqdes, struct mq_attr *attr)
 {
+    (void) mqdes;
+    (void) attr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mq_notify(mqd_t mqdes, const struct sigevent *sevp)
 {
+    (void) mqdes;
+    (void) sevp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-mqd_t mq_open( const char *name, int oflag, ...)
+mqd_t mq_open(const char *name, int oflag, ...)
 {
+    (void) name;
+    (void) oflag;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 ssize_t mq_receive(mqd_t mqdes, char *msg_ptr, size_t msg_len,
                    unsigned int *msg_prio)
 {
+    (void) mqdes;
+    (void) msg_ptr;
+    (void) msg_len;
+    (void) msg_prio;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mq_send(mqd_t mqdes, const char *msg_ptr, size_t msg_len,
             unsigned int msg_prio)
 {
+    (void) mqdes;
+    (void) msg_ptr;
+    (void) msg_len;
+    (void) msg_prio;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mq_setattr(mqd_t mqdes, const struct mq_attr *newattr,
                struct mq_attr *oldattr)
 {
+    (void) mqdes;
+    (void) newattr;
+    (void) oldattr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -1828,7 +1860,14 @@ ssize_t mq_timedreceive(mqd_t mqdes, char *msg_ptr, size_t msg_len,
                         unsigned int *msg_prio,
                         const struct timespec *abs_timeout)
 {
+    (void) mqdes;
+    (void) msg_ptr;
+    (void) msg_len;
+    (void) msg_prio;
+    (void) abs_timeout;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -1836,13 +1875,23 @@ int mq_timedsend(mqd_t mqdes, const char *msg_ptr, size_t msg_len,
                  unsigned int msg_prio,
                  const struct timespec *abs_timeout)
 {
+    (void) mqdes;
+    (void) msg_ptr;
+    (void) msg_len;
+    (void) msg_prio;
+    (void) abs_timeout;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mq_unlink(const char *name)
 {
+    (void) name;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_MQUEUE_STUB) || defined(CLIB2_MULTUM_STUB) */
 

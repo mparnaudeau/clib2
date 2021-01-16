@@ -5,14 +5,11 @@
 
 /* POSIX.1-2001, POSIX.1-2008. */
 
-#warning "STUB: mqueque.h"
+#warning "STUB: mqueue.h"
 
-struct sigevent;
 typedef int mqd_t;
-
-struct mq_attr {
-	int dummy;
-};
+struct sigevent;
+struct mq_attr;
 
 #ifdef __cplusplus
 extern "C" {
