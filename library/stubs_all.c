@@ -625,85 +625,141 @@ long double complex cprojl(long double complex z)
 /****************************************************************************/
 int isalnum_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int isalpha_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int isblank_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iscntrl_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int isdigit_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int isgraph_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int islower_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int isprint_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int ispunct_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int isspace_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int isupper_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int isxdigit_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int tolower_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int toupper_l(int c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_CTYPE_STUB) || defined(CLIB2_MULTUM_STUB) */
 

@@ -71,6 +71,8 @@ extern int toupper(int c);
 
 #if defined(CLIB2_CTYPE_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: ctype.h"
+
 #include <locale.h>
 
 extern int isalnum_l(int c, locale_t locale);
