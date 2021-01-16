@@ -10,51 +10,82 @@
 /****************************************************************************/
 int aio_cancel(int fd, struct aiocb *aiocbp)
 {
+    (void) fd;
+    (void) aiocbp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int aio_error(const struct aiocb *aiocbp)
 {
+    (void) aiocbp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int aio_fsync(int op, struct aiocb *aiocbp)
 {
+    (void) op;
+    (void) aiocbp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int aio_read(struct aiocb *aiocbp)
 {
+    (void) aiocbp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 size_t aio_return(struct aiocb *aiocbp)
 {
+    (void) aiocbp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int aio_suspend(const struct aiocb * const aiocb_list[], int nitems,
                 const struct timespec *timeout)
 {
+    (void) aiocb_list;
+    (void) nitems;
+    (void) timeout;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int aio_write(struct aiocb *aiocbp)
 {
+    (void) aiocbp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int lio_listio(int mode, struct aiocb *const aiocb_list[], int nitems,
                struct sigevent *sevp)
 {
+    (void) mode;
+    (void) aiocb_list;
+    (void) nitems;
+    (void) sevp;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_AIO_STUB) || defined(CLIB2_MULTUM_STUB) */
 
