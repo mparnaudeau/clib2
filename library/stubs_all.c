@@ -993,19 +993,33 @@ int getgrgid_r(gid_t gid, struct group *grp, char *buf, size_t buflen,
 size_t iconv(iconv_t cd, char **inbuf, size_t *inbytesleft, char **outbuf,
              size_t *outbytesleft)
 {
+    (void) cd;
+    (void) inbuf;
+    (void) inbytesleft;
+    (void) outbuf;
+    (void) outbytesleft;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 iconv_t iconv_open(const char *tocode, const char *fromcode)
 {
+    (void) tocode;
+    (void) fromcode;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int iconv_close(iconv_t cd)
 {
+    (void) cd;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_ICONV_STUB) || defined(CLIB2_MULTUM_STUB) */
 

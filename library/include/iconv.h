@@ -7,6 +7,8 @@
 
 #warning "STUB: iconv.h"
 
+typedef void * iconv_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
