@@ -936,12 +936,20 @@ int getopt_long_only(int argc, const char **argv, const char *optstring,
 int glob(const char *pattern, int flags,
          int (*errfunc) (const char *epath, int eerrno), glob_t *pglob)
 {
+    (void) pattern;
+    (void) flags;
+    (void) errfunc;
+    (void) pglob;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void globfree(glob_t *pglob)
 {
+    (void) pglob;
+
     ENTER();
 }
 #endif /* CLIB2_GLOB_STUB) || defined(CLIB2_MULTUM_STUB) */

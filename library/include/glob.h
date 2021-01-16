@@ -7,6 +7,8 @@
 
 #warning "STUB: glob.h"
 
+typedef void * glob_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
