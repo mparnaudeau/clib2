@@ -86,6 +86,8 @@ extern int closedir(DIR * directory_pointer);
 
 #if defined(CLIB2_DIRENT_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: dirent.h"
+
 extern DIR * fdopendir(int fd);
 extern int dirfd(DIR *dirp);
 

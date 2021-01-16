@@ -769,13 +769,19 @@ int toupper_l(int c, locale_t locale)
 /****************************************************************************/
 DIR *fdopendir(int fd)
 {
+    (void) fd;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int dirfd(DIR *dirp)
 {
+    (void) dirp;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_DIRENT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
