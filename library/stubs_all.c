@@ -1029,12 +1029,17 @@ int iconv_close(iconv_t cd)
 /****************************************************************************/
 int getifaddrs(struct ifaddrs **ifap)
 {
+    (void) ifap;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void freeifaddrs(struct ifaddrs *ifa)
 {
+    (void) ifa;
+
     ENTER();
 }
 #endif /* CLIB2_IFADDRS_STUB) || defined(CLIB2_MULTUM_STUB) */
