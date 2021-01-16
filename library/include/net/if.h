@@ -7,10 +7,7 @@
 
 #warning "STUB: net/if.h"
 
-struct if_nameindex {
-    unsigned int if_index;
-    char *if_name;
-};
+struct if_nameindex;
 
 #ifdef __cplusplus
 extern "C" {

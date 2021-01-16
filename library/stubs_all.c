@@ -1974,24 +1974,34 @@ struct hostent *gethostent(void)
 /****************************************************************************/
 unsigned int if_nametoindex(const char *ifname)
 {
+    (void) ifname;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *if_indextoname(unsigned int ifindex, char *ifname)
 {
+    (void) ifindex;
+    (void) ifname;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct if_nameindex *if_nameindex(void)
 {
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 void if_freenameindex(struct if_nameindex *ptr)
 {
+    (void) ptr;
+
     ENTER();
 }
 #endif /* CLIB2_NET_IF_STUB) || defined(CLIB2_MULTUM_STUB) */
