@@ -7,13 +7,7 @@
 
 #warning "STUB: pty.h"
 
-struct termios {
-    int dummy;
-};
-
-struct winsize {
-    int dummy;
-};
+#include <termios.h>
 
 #ifdef __cplusplus
 extern "C" {

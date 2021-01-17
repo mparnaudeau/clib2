@@ -4780,19 +4780,30 @@ void closelog(void)
 /****************************************************************************/
 pid_t tcgetsid(int fd)
 {
+    (void) fd;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int tcgetwinsize(int fd, struct winsize *gws)
 {
+    (void) fd;
+    (void) gws;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int tcsetwinsize(int fd, const struct winsize *sws)
 {
+    (void) fd;
+    (void) sws;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_TERMIOS_STUB) || defined(CLIB2_MULTUM_STUB) */
 

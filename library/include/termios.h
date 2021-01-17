@@ -208,6 +208,10 @@ extern int cfsetospeed(struct termios *tios_p,speed_t output_speed);
 
 #if defined(CLIB2_TERMIOS_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: termios.h"
+
+struct winsize;
+
 extern pid_t tcgetsid(int fd);
 extern int tcgetwinsize(int fd, struct winsize *gws);
 extern int tcsetwinsize(int fd, const struct winsize *sws);
