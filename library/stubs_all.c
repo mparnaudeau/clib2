@@ -2687,66 +2687,104 @@ int res_nsend(res_state statep, const unsigned char *msg, int msglen,
 int sched_getcpu(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_get_priority_max(int policy)
 {
+    (void) policy;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_get_priority_min(int policy)
 {
+    (void) policy;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_getaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask)
 {
+    (void) pid;
+    (void) cpusetsize;
+    (void) mask;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_getparam(pid_t pid, struct sched_param *param)
 {
+    (void) pid;
+    (void) param;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_getscheduler(pid_t pid)
 {
+    (void) pid;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_rr_get_interval(pid_t pid, struct timespec *tp)
 {
+    (void) pid;
+    (void) tp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_setaffinity(pid_t pid, size_t cpusetsize, const cpu_set_t *mask)
 {
+    (void) pid;
+    (void) cpusetsize;
+    (void) mask;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_setparam(pid_t pid, const struct sched_param *param)
 {
+    (void) pid;
+    (void) param;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_setscheduler(pid_t pid, int policy, const struct sched_param *param)
 {
+    (void) pid;
+    (void) policy;
+    (void) param;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sched_yield(void)
 {
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SCHED_STUB) || defined(CLIB2_MULTUM_STUB) */
 

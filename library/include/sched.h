@@ -7,9 +7,8 @@
 
 #warning "STUB: sched.h"
 
-struct sched_param {
-	int dummy;
-};
+typedef int cpu_set_t;
+struct sched_param;
 
 #ifdef __cplusplus
 extern "C" {
