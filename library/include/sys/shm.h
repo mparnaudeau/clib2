@@ -7,9 +7,7 @@
 
 #warning "STUB: sys/shm.h"
 
-struct shmid_ds {
-    int dummy;
-}
+struct shmid_ds;
 
 #ifdef __cplusplus
 extern "C" {

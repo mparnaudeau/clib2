@@ -4389,25 +4389,43 @@ int semtimedop(int semid, struct sembuf *sops, size_t nsops,
 /****************************************************************************/
 void *shmat(int shmid, const void *shmaddr, int shmflg)
 {
+    (void) shmid;
+    (void) shmaddr;
+    (void) shmflg;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int shmctl(int shmid, int cmd, struct shmid_ds *buf)
 {
+    (void) shmid;
+    (void) cmd;
+    (void) buf;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int shmdt(const void *shmaddr)
 {
+    (void) shmaddr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int shmget(key_t key, size_t size, int shmflg)
 {
+    (void) key;
+    (void) size;
+    (void) shmflg;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_SHM_STUB) || defined(CLIB2_MULTUM_STUB) */
 
