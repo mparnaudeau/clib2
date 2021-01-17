@@ -4034,7 +4034,11 @@ int flock(int fd, int operation)
 /****************************************************************************/
 key_t ftok(char *pathname, char proj_id)
 {
+    (void) pathname;
+    (void) proj_id;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_IPC_STUB) || defined(CLIB2_MULTUM_STUB) */
 

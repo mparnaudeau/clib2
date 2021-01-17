@@ -7,6 +7,8 @@
 
 #warning "STUB: sys/ipc.h"
 
+typedef int key_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
