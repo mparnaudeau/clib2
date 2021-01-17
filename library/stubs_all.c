@@ -4706,19 +4706,33 @@ ssize_t pwritev(int fd, const struct iovec *iov, int iovcnt, off_t offset)
 /****************************************************************************/
 pid_t wait(int *stat_loc)
 {
+    (void) stat_loc;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 pid_t waitpid(pid_t pid, int *stat_loc, int options)
 {
+    (void) pid;
+    (void) stat_loc;
+    (void) options;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options)
 {
+    (void) idtype;
+    (void) id;
+    (void) infop;
+    (void) options;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_WAIT_STUB) || defined(CLIB2_MULTUM_STUB) */
 

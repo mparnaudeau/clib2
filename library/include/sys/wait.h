@@ -8,10 +8,7 @@
 #warning "STUB: sys/wait.h"
 
 typedef enum {
-    P_ALL = 0,
-    P_PID = 1,
-    P_PGID = 2,
-    P_PIDFD = 3
+    DUMMY
 } idtype_t;
 
 #ifdef __cplusplus
