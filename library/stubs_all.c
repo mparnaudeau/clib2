@@ -4460,57 +4460,104 @@ int sockatmark(int sockfd)
 /****************************************************************************/
 int fchmodat(int fd, const char *path, mode_t mode, int flag)
 {
+    (void) fd;
+    (void) path;
+    (void) mode;
+    (void) flag;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int fstatat(int fd, const char *restrict path, struct stat *restrict buf,
             int flag)
 {
+    (void) fd;
+    (void) path;
+    (void) buf;
+    (void) flag;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mkdirat(int fd, const char *path, mode_t mode)
 {
+    (void) fd;
+    (void) path;
+    (void) mode;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mkfifo(const char *pathname, mode_t mode)
 {
+    (void) pathname;
+    (void) mode;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mkfifoat(int dirfd, const char *pathname, mode_t mode)
 {
+    (void) dirfd;
+    (void) pathname;
+    (void) mode;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mknod(const char *pathname, mode_t mode, dev_t dev)
 {
+    (void) pathname;
+    (void) mode;
+    (void) dev;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mknodat(int dirfd, const char *pathname, mode_t mode, dev_t dev)
 {
+    (void) dirfd;
+    (void) pathname;
+    (void) mode;
+    (void) dev;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int futimens(int fd, const struct timespec times[2])
 {
+    (void) fd;
+    (void) times;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int utimensat(int fd, const char *path, const struct timespec times[2],
               int flag)
 {
+    (void) fd;
+    (void) path;
+    (void) times;
+    (void) flag;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_STAT_STUB) || defined(CLIB2_MULTUM_STUB) */
 

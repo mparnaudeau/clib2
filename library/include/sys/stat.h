@@ -147,6 +147,8 @@ extern int rmdir(const char * path_name);
 
 #if defined(CLIB2_SYS_STAT_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: sys/stat.h"
+
 extern int fchmodat(int fd, const char *path, mode_t mode, int flag);
 extern int fstatat(int fd, const char *restrict path,
                    struct stat *restrict buf, int flag);
