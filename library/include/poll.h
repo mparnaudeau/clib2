@@ -8,12 +8,7 @@
 #warning "STUB: poll.h"
 
 typedef unsigned long nfds_t;
-
-struct pollfd {
-	int fd;
-	short events;
-	short revents;
-};
+struct pollfd;
 
 #ifdef __cplusplus
 extern "C" {

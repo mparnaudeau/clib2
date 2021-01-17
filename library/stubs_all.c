@@ -2121,7 +2121,12 @@ nl_catd catopen(const char *name, int flag)
 /****************************************************************************/
 int poll(struct pollfd *fds, nfds_t nfds, int timeout)
 {
+    (void) fds;
+    (void) nfds;
+    (void) timeout;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_POLL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
