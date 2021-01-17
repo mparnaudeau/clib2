@@ -2445,14 +2445,27 @@ int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset)
 int openpty(int *amaster, int *aslave, char *name,
             const struct termios *termp, const struct winsize *winp)
 {
+    (void) amaster;
+    (void) aslave;
+    (void) name;
+    (void) termp;
+    (void) winp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 pid_t forkpty(int *amaster, char *name, const struct termios *termp,
               const struct winsize *winp)
 {
+    (void) amaster;
+    (void) name;
+    (void) termp;
+    (void) winp;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_PTY_STUB) || defined(CLIB2_MULTUM_STUB) */
 
