@@ -111,4 +111,4 @@ extern int setpriority(int which, id_t who, int prio);
 
 /****************************************************************************/
 
-#endif /* _RESOURCE_H */
+#endif /* _SYS_RESOURCE_H */

@@ -4321,7 +4321,15 @@ int pselect(int nfds, fd_set *restrict readfds, fd_set *restrict writefds,
             const struct timespec *restrict timeout,
             const sigset_t *restrict sigmask)
 {
+    (void) nfds;
+    (void) readfds;
+    (void) writefds;
+    (void) errorfds;
+    (void) timeout;
+    (void) sigmask;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_SELECT_STUB) || defined(CLIB2_MULTUM_STUB) */
 

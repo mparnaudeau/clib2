@@ -112,6 +112,8 @@ extern int select(int nfds, fd_set *readfds,fd_set *writefds, fd_set *errorfds,s
 
 #if defined(CLIB2_SYS_SELECT_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: sys/select.h"
+
 int pselect(int nfds, fd_set *restrict readfds, fd_set *restrict writefds,
             fd_set *restrict errorfds,
             const struct timespec *restrict timeout,
