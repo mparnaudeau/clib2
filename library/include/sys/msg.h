@@ -10,6 +10,8 @@
 #include <stddef.h>
 #include <sys/ipc.h>
 
+struct msqid_ds;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */

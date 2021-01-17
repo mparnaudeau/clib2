@@ -4215,26 +4215,48 @@ int shm_unlink(const char *name)
 /****************************************************************************/
 int msgctl(int msqid, int cmd, struct msqid_ds *buf)
 {
+    (void) msqid;
+    (void) cmd;
+    (void) buf;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int msgget(key_t key, int msgflg)
 {
+    (void) key;
+    (void) msgflg;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp,
                int msgflg)
 {
+    (void) msqid;
+    (void) msgp;
+    (void) msgsz;
+    (void) msgtyp;
+    (void) msgflg;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg)
 {
+    (void) msqid;
+    (void) msgp;
+    (void) msgsz;
+    (void) msgflg;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_MSG_STUB) || defined(CLIB2_MULTUM_STUB) */
 
