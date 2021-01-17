@@ -2085,20 +2085,33 @@ struct ether_addr *ether_aton_r(const char *asc, struct ether_addr *addr)
 /****************************************************************************/
 int catclose(nl_catd catalog)
 {
+    (void) catalog;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *catgets(nl_catd catalog, int set_number, int message_number,
               const char *message)
 {
+    (void) catalog;
+    (void) set_number;
+    (void) message_number;
+    (void) message;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 nl_catd catopen(const char *name, int flag)
 {
+    (void) name;
+    (void) flag;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_NL_TYPES_STUB) || defined(CLIB2_MULTUM_STUB) */
 
