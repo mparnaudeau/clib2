@@ -8,7 +8,6 @@
 #warning "STUB: sys/msg.h"
 
 #include <stddef.h>
-#include <sys/ipc.h>
 
 struct msqid_ds;
 
