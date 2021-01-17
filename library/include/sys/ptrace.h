@@ -8,7 +8,7 @@
 #warning "STUB: sys/ptrace.h"
 
 enum __ptrace_request_dummy {
-    int dummy;
+    PTRACE_DUMMY
 };
 
 #ifdef __cplusplus

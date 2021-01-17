@@ -4264,10 +4264,16 @@ int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg)
 #if defined(CLIB2_SYS_PTRACE_STUB) || defined(CLIB2_MULTUM_STUB)
 #include <sys/ptrace.h>
 /****************************************************************************/
-long int ptrace(enum __ptrace_request request, pid_t pid, void *addr,
-                void *data)
+long int ptrace(enum __ptrace_request_dummy request, pid_t pid,
+                void *addr, void *data)
 {
+    (void) request;
+    (void) pid;
+    (void) addr;
+    (void) data;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_PTRACE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
