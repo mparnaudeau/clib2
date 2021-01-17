@@ -4339,26 +4339,47 @@ int pselect(int nfds, fd_set *restrict readfds, fd_set *restrict writefds,
 /****************************************************************************/
 int semctl(int semid, int semnum, int cmd, ...)
 {
+    (void) semid;
+    (void) semnum;
+    (void) cmd;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int semget(key_t key, int nsems, int semflg)
 {
+    (void) key;
+    (void) nsems;
+    (void) semflg;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int semop(int semid, struct sembuf *sops, size_t nsops)
 {
+    (void) semid;
+    (void) sops;
+    (void) nsops;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int semtimedop(int semid, struct sembuf *sops, size_t nsops,
                const struct timespec *timeout)
 {
+    (void) semid;
+    (void) sops;
+    (void) nsops;
+    (void) timeout;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_SEM_STUB) || defined(CLIB2_MULTUM_STUB) */
 
