@@ -7,13 +7,11 @@
 
 #warning "STUB: pthread.h"
 
-struct pthread_t {
+typedef void * pthread_t;
+struct sched_param;
+typedef struct __pthread_attr_t_dummy {
     int dummy;
-};
-
-struct pthread_attr_t {
-    int dummy;
-};
+} pthread_attr_t;
 
 #ifdef __cplusplus
 extern "C" {

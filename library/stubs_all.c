@@ -2136,189 +2136,305 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout)
 /****************************************************************************/
 int pthread_attr_init(pthread_attr_t *attr)
 {
+    (void) attr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_destroy(pthread_attr_t *attr)
 {
+    (void) attr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate)
 {
+    (void) attr;
+    (void) detachstate;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getdetachstate(const pthread_attr_t *attr,
                                 int *detachstate)
 {
+    (void) attr;
+    (void) detachstate;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setguardsize(pthread_attr_t *attr, size_t guardsize)
 {
+    (void) attr;
+    (void) guardsize;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getguardsize(const pthread_attr_t *attr, size_t *guardsize)
 {
+    (void) attr;
+    (void) guardsize;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setinheritsched(pthread_attr_t *attr, int inheritsched)
 {
+    (void) attr;
+    (void) inheritsched;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getinheritsched(const pthread_attr_t *attr,
                                  int *inheritsched)
 {
+    (void) attr;
+    (void) inheritsched;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setschedparam(pthread_attr_t *attr,
                                const struct sched_param *param)
 {
+    (void) attr;
+    (void) param;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getschedparam(const pthread_attr_t *attr,
                                struct sched_param *param)
 {
+    (void) attr;
+    (void) param;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setschedpolicy(pthread_attr_t *attr, int policy)
 {
+    (void) attr;
+    (void) policy;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getschedpolicy(const pthread_attr_t *attr, int *policy)
 {
+    (void) attr;
+    (void) policy;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setscope(pthread_attr_t *attr, int scope)
 {
+    (void) attr;
+    (void) scope;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getscope(const pthread_attr_t *attr, int *scope)
 {
+    (void) attr;
+    (void) scope;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setstack(pthread_attr_t *attr, void *stackaddr,
                           size_t stacksize)
 {
+    (void) attr;
+    (void) stackaddr;
+    (void) stacksize;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getstack(const pthread_attr_t *attr,
                           void **stackaddr, size_t *stacksize)
 {
+    (void) attr;
+    (void) stackaddr;
+    (void) stacksize;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setstackaddr(pthread_attr_t *attr, void *stackaddr)
 {
+    (void) attr;
+    (void) stackaddr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getstackaddr(const pthread_attr_t *attr, void **stackaddr)
 {
+    (void) attr;
+    (void) stackaddr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_setstacksize(pthread_attr_t *attr, size_t stacksize)
 {
+    (void) attr;
+    (void) stacksize;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_attr_getstacksize(const pthread_attr_t *attr, size_t *stacksize)
 {
+    (void) attr;
+    (void) stacksize;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_cancel(pthread_t thread)
 {
+    (void) thread;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_detach(pthread_t thread)
 {
+    (void) thread;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_equal(pthread_t t1, pthread_t t2)
 {
+    (void) t1;
+    (void) t2;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void pthread_exit(void *retval)
 {
+    (void) retval;
+
     ENTER();
 }
 
 /****************************************************************************/
 int pthread_join(pthread_t thread, void **retval)
 {
+    (void) thread;
+    (void) retval;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 pthread_t pthread_self(void)
 {
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int pthread_setschedparam(pthread_t thread, int policy,
                           const struct sched_param *param)
 {
+    (void) thread;
+    (void) policy;
+    (void) param;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_getschedparam(pthread_t thread, int *policy,
                           struct sched_param *param)
 {
+    (void) thread;
+    (void) policy;
+    (void) param;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_setschedprio(pthread_t thread, int prio)
 {
+    (void) thread;
+    (void) prio;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset)
 {
+    (void) how;
+    (void) set;
+    (void) oldset;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_PTHREAD_STUB) || defined(CLIB2_MULTUM_STUB) */
 
