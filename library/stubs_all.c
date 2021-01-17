@@ -4048,94 +4048,164 @@ key_t ftok(char *pathname, char proj_id)
 /****************************************************************************/
 int madvise(void *addr, size_t length, int advice)
 {
+    (void) addr;
+    (void) length;
+    (void) advice;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mincore(void *addr, size_t length, unsigned char *vec)
 {
+    (void) addr;
+    (void) length;
+    (void) vec;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mlock(const void *addr, size_t len)
 {
+    (void) addr;
+    (void) len;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mlockall(int flags)
 {
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void *mmap(void *addr, size_t length, int prot, int flags, int fd,
            off_t offset)
 {
+    (void) addr;
+    (void) length;
+    (void) prot;
+    (void) flags;
+    (void) fd;
+    (void) offset;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int munmap(void *addr, size_t length)
 {
+    (void) addr;
+    (void) length;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mprotect(void *addr, size_t len, int prot)
 {
+    (void) addr;
+    (void) len;
+    (void) prot;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void *mremap(void *old_address, size_t old_size, size_t new_size,
              int flags, ...)
 {
+    (void) old_address;
+    (void) old_size;
+    (void) new_size;
+    (void) flags;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int msync(void *addr, size_t length, int flags)
 {
+    (void) addr;
+    (void) length;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int munlock(const void *addr, size_t len)
 {
+    (void) addr;
+    (void) len;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int munlockall(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_madvise(void *addr, size_t len, int advice)
 {
+    (void) addr;
+    (void) len;
+    (void) advice;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int remap_file_pages(void *addr, size_t size, int prot, size_t pgoff,
                      int flags)
 {
+    (void) addr;
+    (void) size;
+    (void) prot;
+    (void) pgoff;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int shm_open(const char *name, int oflag, mode_t mode)
 {
+    (void) name;
+    (void) oflag;
+    (void) mode;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int shm_unlink(const char *name)
 {
+    (void) name;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_MMAN_STUB) || defined(CLIB2_MULTUM_STUB) */
 
