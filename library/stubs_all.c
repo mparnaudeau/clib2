@@ -3810,99 +3810,171 @@ void *valloc(size_t size)
 /****************************************************************************/
 void explicit_bzero(void *s, size_t n)
 {
+    (void) s;
+    (void) n;
+
     ENTER();
 }
 
 /****************************************************************************/
 void *memrchr(const void *s, int c, size_t n)
 {
+    (void) s;
+    (void) c;
+    (void) n;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 void *memccpy(void *dest, const void *src, int c, size_t n)
 {
+    (void) dest;
+    (void) src;
+    (void) c;
+    (void) n;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 void *memmem(const void *haystack, size_t haystacklen, const void *needle,
              size_t needlelen)
 {
+    (void) haystack;
+    (void) haystacklen;
+    (void) needle;
+    (void) needlelen;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 void *mempcpy(void *dest, const void *src, size_t n)
 {
+    (void) dest;
+    (void) src;
+    (void) n;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *stpcpy(char *dest, const char *src)
 {
+    (void) dest;
+    (void) src;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *stpncpy(char *dest, const char *src, size_t n)
 {
+    (void) dest;
+    (void) src;
+    (void) n;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *strcasestr(const char *haystack, const char *needle)
 {
+    (void) haystack;
+    (void) needle;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *strchrnul(const char *s, int c)
 {
+    (void) s;
+    (void) c;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int strcoll_l(const char *s1, const char *s2, locale_t locale)
 {
+    (void) s1;
+    (void) s2;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *strerror_l(int errnum, locale_t locale)
 {
+    (void) errnum;
+    (void) locale;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *strndup(const char *s, size_t size)
 {
+    (void) s;
+    (void) size;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *strsep(char **stringp, const char *delim)
 {
+    (void) stringp;
+    (void) delim;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *strsignal(int sig)
 {
+    (void) sig;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int strverscmp(const char *s1, const char *s2)
 {
+    (void) s1;
+    (void) s2;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 size_t strxfrm_l(char *restrict s1, const char *restrict s2, size_t n,
                  locale_t locale)
 {
+    (void) s1;
+    (void) s2;
+    (void) n;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_STRING_STUB) || defined(CLIB2_MULTUM_STUB) */
 
@@ -3912,13 +3984,20 @@ size_t strxfrm_l(char *restrict s1, const char *restrict s2, size_t n,
 /****************************************************************************/
 int isastream(int fildes)
 {
+    (void) fildes;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int ioctl(int fd, unsigned long request, ...)
 {
+    (void) fd;
+    (void) request;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_STROPTS_STUB) || defined(CLIB2_MULTUM_STUB) */
 

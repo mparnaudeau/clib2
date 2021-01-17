@@ -140,6 +140,8 @@ extern char * strtok_r(char *str, const char *separator_set,char ** state_ptr);
 
 #if defined(CLIB2_STRING_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: string.h"
+
 extern void explicit_bzero(void *s, size_t n);
 extern void *memrchr(const void *s, int c, size_t n);
 extern void *memccpy(void *dest, const void *src, int c, size_t n);
