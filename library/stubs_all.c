@@ -4435,13 +4435,22 @@ int shmget(key_t key, size_t size, int shmflg)
 /****************************************************************************/
 int socketpair(int domain, int type, int protocol, int sv[2])
 {
+    (void) domain;
+    (void) type;
+    (void) protocol;
+    (void) sv;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sockatmark(int sockfd)
 {
+    (void) sockfd;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_SOCKET_STUB) || defined(CLIB2_MULTUM_STUB) */
 

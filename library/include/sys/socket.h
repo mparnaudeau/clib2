@@ -338,6 +338,8 @@ extern int socket(int domain, int type, int protocol);
 
 #if defined(CLIB2_SYS_SOCKET_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: sys/socket.h"
+
 extern int socketpair(int domain, int type, int protocol, int sv[2]);
 extern int sockatmark(int sockfd);
 
