@@ -2558,26 +2558,45 @@ void regfree(regex_t *preg)
 int dn_comp(const char *exp_dn, unsigned char *comp_dn, int length,
             unsigned char **dnptrs, unsigned char **lastdnptr)
 {
+    (void) exp_dn;
+    (void) comp_dn;
+    (void) length;
+    (void) dnptrs;
+    (void) lastdnptr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int dn_expand(const unsigned char *msg, const unsigned char *eomorig,
               const unsigned char *comp_dn, char *exp_dn, int length)
 {
+    (void) msg;
+    (void) eomorig;
+    (void) comp_dn;
+    (void) exp_dn;
+    (void) length;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void res_nclose(res_state statep)
 {
+    (void) statep;
+
     ENTER();
 }
 
 /****************************************************************************/
 int res_ninit(res_state statep)
 {
+    (void) statep;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -2585,35 +2604,79 @@ int res_nmkquery(res_state statep, int op, const char *dname, int class,
                  int type, const unsigned char *data, int datalen,
                  const unsigned char *newrr, unsigned char *buf, int buflen)
 {
+    (void) statep;
+    (void) op;
+    (void) dname;
+    (void) class;
+    (void) type;
+    (void) data;
+    (void) datalen;
+    (void) newrr;
+    (void) buf;
+    (void) buflen;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int res_nquery(res_state statep, const char *dname, int class, int type,
                unsigned char *answer, int anslen)
 {
+    (void) statep;
+    (void) dname;
+    (void) class;
+    (void) type;
+    (void) answer;
+    (void) anslen;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int res_nquerydomain(res_state statep, const char *name, const char *domain,
                      int class, int type, unsigned char *answer, int anslen)
 {
+    (void) statep;
+    (void) name;
+    (void) domain;
+    (void) class;
+    (void) type;
+    (void) answer;
+    (void) anslen;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int res_nsearch(res_state statep, const char *dname, int class, int type,
                 unsigned char *answer, int anslen)
 {
+    (void) statep;
+    (void) dname;
+    (void) class;
+    (void) type;
+    (void) answer;
+    (void) anslen;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int res_nsend(res_state statep, const unsigned char *msg, int msglen,
               unsigned char *answer, int anslen)
 {
+    (void) statep;
+    (void) msg;
+    (void) msglen;
+    (void) answer;
+    (void) anslen;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_RESOLV_STUB) || defined(CLIB2_MULTUM_STUB) */
 

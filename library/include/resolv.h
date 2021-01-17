@@ -7,6 +7,8 @@
 
 #warning "STUB: resolv.h"
 
+typedef int res_state;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
