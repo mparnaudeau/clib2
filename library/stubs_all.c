@@ -4007,7 +4007,10 @@ int ioctl(int fd, unsigned long request, ...)
 /****************************************************************************/
 int acct(const char *filename)
 {
+    (void) filename;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_ACCT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
