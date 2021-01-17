@@ -7,6 +7,9 @@
 
 #warning "STUB: spawn.h"
 
+typedef int posix_spawnattr_t;
+typedef int posix_spawn_file_actions_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */

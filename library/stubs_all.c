@@ -3067,21 +3067,38 @@ int posix_spawn(pid_t *pid, const char *path,
                 const posix_spawnattr_t *attrp, char *const argv[],
                 char *const envp[])
 {
+    (void) pid;
+    (void) path;
+    (void) file_actions;
+    (void) attrp;
+    (void) argv;
+    (void) envp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawn_file_actions_addclose(
                 posix_spawn_file_actions_t *file_actions, int fildes)
 {
+    (void) file_actions;
+    (void) fildes;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawn_file_actions_adddup2(posix_spawn_file_actions_t *file_actions,
                                      int fildes, int newfildes)
 {
+    (void) file_actions;
+    (void) fildes;
+    (void) newfildes;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -3089,114 +3106,181 @@ int posix_spawn_file_actions_addopen(
                 posix_spawn_file_actions_t *restrict file_actions,
                 int fildes, const char *restrict path, int oflag, mode_t mode)
 {
+    (void) file_actions;
+    (void) fildes;
+    (void) path;
+    (void) oflag;
+    (void) mode;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawn_file_actions_destroy(
                 posix_spawn_file_actions_t *file_actions)
 {
+    (void) file_actions;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawn_file_actions_init(posix_spawn_file_actions_t *file_actions)
 {
+    (void) file_actions;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_destroy(posix_spawnattr_t *attr)
 {
+    (void) attr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_getflags(const posix_spawnattr_t *restrict attr,
                              short *restrict flags)
 {
+    (void) attr;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_getpgroup(const posix_spawnattr_t *restrict attr,
                               pid_t *restrict pgroup)
 {
+    (void) attr;
+    (void) pgroup;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_getschedparam(const posix_spawnattr_t *restrict attr,
                                   struct sched_param *restrict schedparam)
 {
+    (void) attr;
+    (void) schedparam;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_getschedpolicy(const posix_spawnattr_t *restrict attr,
                                    int *restrict schedpolicy)
 {
+    (void) attr;
+    (void) schedpolicy;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_getsigdefault(const posix_spawnattr_t *restrict attr,
                                   sigset_t *restrict sigdefault)
 {
+    (void) attr;
+    (void) sigdefault;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_getsigmask(const posix_spawnattr_t *restrict attr,
                                sigset_t *restrict sigmask)
 {
+    (void) attr;
+    (void) sigmask;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_init(posix_spawnattr_t *attr)
 {
+    (void) attr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_setflags(posix_spawnattr_t *attr, short flags)
 {
+    (void) attr;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_setpgroup(posix_spawnattr_t *attr, pid_t pgroup)
 {
+    (void) attr;
+    (void) pgroup;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_setschedparam(posix_spawnattr_t *restrict attr,
                             const struct sched_param *restrict schedparam)
 {
+    (void) attr;
+    (void) schedparam;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_setschedpolicy(posix_spawnattr_t *attr,
                                           int schedpolicy)
 {
+    (void) attr;
+    (void) schedpolicy;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_setsigdefault(posix_spawnattr_t *restrict attr,
                                   const sigset_t *restrict sigdefault)
 {
+    (void) attr;
+    (void) sigdefault;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_spawnattr_setsigmask(posix_spawnattr_t *restrict attr,
                                const sigset_t *restrict sigmask)
 {
+    (void) attr;
+    (void) sigmask;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -3205,7 +3289,15 @@ int posix_spawnp(pid_t *pid, const char *file,
                  const posix_spawnattr_t *attrp, char *const argv[],
                  char *const envp[])
 {
+    (void) pid;
+    (void) file;
+    (void) file_actions;
+    (void) attrp;
+    (void) argv;
+    (void) envp;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SPAWN_STUB) || defined(CLIB2_MULTUM_STUB) */
 
