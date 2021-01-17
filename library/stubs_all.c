@@ -2507,26 +2507,46 @@ int getpwuid_r(uid_t uid, struct passwd *pwd, char *buf, size_t buflen,
 /****************************************************************************/
 int regcomp(regex_t *preg, const char *regex, int cflags)
 {
+    (void) preg;
+    (void) regex;
+    (void) cflags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int regexec(const regex_t *preg, const char *string, size_t nmatch,
             regmatch_t pmatch[], int eflags)
 {
+    (void) preg;
+    (void) string;
+    (void) nmatch;
+    (void) pmatch;
+    (void) eflags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 size_t regerror(int errcode, const regex_t *preg, char *errbuf,
                 size_t errbuf_size)
 {
+    (void) errcode;
+    (void) preg;
+    (void) errbuf;
+    (void) errbuf_size;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void regfree(regex_t *preg)
 {
+    (void) preg;
+
     ENTER();
 }
 #endif /* CLIB2_REGEX_STUB) || defined(CLIB2_MULTUM_STUB) */
