@@ -144,6 +144,10 @@ int gettimeofday(struct timeval *tp, struct timezone *tzp);
 
 #if defined(CLIB2_SYS_TIME_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: sys/time.h"
+
+struct itimerval;
+
 extern int futimes(int fd, const struct timeval tv[2]);
 extern int futimesat(int dirfd, const char *pathname,
                      const struct timeval times[2]);

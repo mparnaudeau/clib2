@@ -84,6 +84,8 @@ extern ssize_t writev(int file_descriptor,const struct iovec *iov,int vec_count)
 
 #if defined(CLIB2_SYS_UIO_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: sys/uio.h"
+
 extern ssize_t preadv(int fd, const struct iovec *iov, int iovcnt,
                       off_t offset);
 extern ssize_t pwritev(int fd, const struct iovec *iov, int iovcnt,

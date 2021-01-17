@@ -4536,29 +4536,6 @@ int mknodat(int dirfd, const char *pathname, mode_t mode, dev_t dev)
     ENTER();
     return 0;
 }
-
-/****************************************************************************/
-int futimens(int fd, const struct timespec times[2])
-{
-    (void) fd;
-    (void) times;
-
-    ENTER();
-    return 0;
-}
-
-/****************************************************************************/
-int utimensat(int fd, const char *path, const struct timespec times[2],
-              int flag)
-{
-    (void) fd;
-    (void) path;
-    (void) times;
-    (void) flag;
-
-    ENTER();
-    return 0;
-}
 #endif /* CLIB2_SYS_STAT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
 /****************************************************************************/
@@ -4591,63 +4568,107 @@ int statvfs(const char *restrict path, struct statvfs *restrict buf)
 /****************************************************************************/
 int futimes(int fd, const struct timeval tv[2])
 {
+    (void) fd;
+    (void) tv;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int futimesat(int dirfd, const char *pathname, const struct timeval times[2])
 {
+    (void) dirfd;
+    (void) pathname;
+    (void) times;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int futimens(int fd, const struct timespec times[2])
 {
+    (void) fd;
+    (void) times;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int getitimer(int which, struct itimerval *curr_value)
 {
+    (void) which;
+    (void) curr_value;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int gettimeofday(struct timeval *tv, struct timezone *tz)
 {
+    (void) tv;
+    (void) tz;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int lutimes(const char *filename, const struct timeval tv[2])
 {
+    (void) filename;
+    (void) tv;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int setitimer(int which, const struct itimerval *new_value,
               struct itimerval *old_value)
 {
+    (void) which;
+    (void) new_value;
+    (void) old_value;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int settimeofday(const struct timeval *tv, const struct timezone *tz)
 {
+    (void) tv;
+    (void) tz;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int utimes(const char *path, const struct timeval times[2])
 {
+    (void) path;
+    (void) times;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int utimensat(int fd, const char *path, const struct timespec times[2],
               int flag)
 {
+    (void) fd;
+    (void) path;
+    (void) times;
+    (void) flag;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_TIME_STUB) || defined(CLIB2_MULTUM_STUB) */
 
@@ -4657,13 +4678,25 @@ int utimensat(int fd, const char *path, const struct timespec times[2],
 /****************************************************************************/
 ssize_t preadv(int fd, const struct iovec *iov, int iovcnt, off_t offset)
 {
+    (void) fd;
+    (void) iov;
+    (void) iovcnt;
+    (void) offset;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 ssize_t pwritev(int fd, const struct iovec *iov, int iovcnt, off_t offset)
 {
+    (void) fd;
+    (void) iov;
+    (void) iovcnt;
+    (void) offset;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_UIO_STUB) || defined(CLIB2_MULTUM_STUB) */
 

@@ -157,9 +157,6 @@ extern int mkfifo(const char *pathname, mode_t mode);
 extern int mkfifoat(int dirfd, const char *pathname, mode_t mode);
 extern int mknod(const char *pathname, mode_t mode, dev_t dev);
 extern int mknodat(int dirfd, const char *pathname, mode_t mode, dev_t dev);
-extern int futimens(int fd, const struct timespec times[2]);
-extern int utimensat(int fd, const char *path,
-                     const struct timespec times[2], int flag);
 
 #endif /* defined(CLIB2_SYS_STAT_STUB) || defined(CLIB2_MULTUM_STUB) */
 
