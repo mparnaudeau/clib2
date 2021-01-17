@@ -468,6 +468,8 @@ extern void _Exit(int status);
 
 /****************************************************************************/
 
+#warning "STUB: stdlib.h"
+
 #if defined(CLIB2_STDLIB_STUB) || defined(CLIB2_MULTUM_STUB)
 
 extern long int a64l(const char *str64);
@@ -478,7 +480,7 @@ extern double drand48(void);
 extern char *ecvt(double number, int ndigits, int *decpt, int *sign);
 extern double erand48(unsigned short xsubi[3]);
 extern char *fcvt(double number, int ndigits, int *decpt, int *sign);
-extern char *gcvt(double number, int ndigit, char *buf);
+extern char *gcvt(double number, int ndigits, char *buf);
 extern int getloadavg(double loadavg[], int nelem);
 extern int getsubopt(char **optionp, char * const *tokens, char **valuep);
 extern int grantpt(int fd);

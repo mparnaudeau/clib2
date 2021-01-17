@@ -3400,259 +3400,407 @@ int renameat(int oldfd, const char *old, int newfd, const char *new)
 /****************************************************************************/
 long int a64l(const char *str64)
 {
+    (void) str64;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void *aligned_alloc(size_t alignment, size_t size)
 {
+    (void) alignment;
+    (void) size;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int at_quick_exit(void (*func)(void))
 {
+    (void) func;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int clearenv(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double drand48(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *ecvt(double number, int ndigits, int *decpt, int *sign)
 {
+    (void) number;
+    (void) ndigits;
+    (void) decpt;
+    (void) sign;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 double erand48(unsigned short xsubi[3])
 {
+    (void) xsubi;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *fcvt(double number, int ndigits, int *decpt, int *sign)
 {
+    (void) number;
+    (void) ndigits;
+    (void) decpt;
+    (void) sign;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
-char *gcvt(double number, int ndigit, char *buf)
+char *gcvt(double number, int ndigits, char *buf)
 {
+    (void) number;
+    (void) ndigits;
+    (void) buf;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int getloadavg(double loadavg[], int nelem)
 {
+    (void) loadavg;
+    (void) nelem;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int getsubopt(char **optionp, char * const *tokens, char **valuep)
 {
+    (void) optionp;
+    (void) tokens;
+    (void) valuep;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int grantpt(int fd)
 {
+    (void) fd;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *initstate(unsigned seed, char *state, size_t n)
 {
+    (void) seed;
+    (void) state;
+    (void) n;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 long int jrand48(unsigned short xsubi[3])
 {
+    (void) xsubi;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *l64a(long value)
 {
+    (void) value;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 void lcong48(unsigned short param[7])
 {
+    (void) param;
+
     ENTER();
 }
 
 /****************************************************************************/
-long int lrand48 (void)
+long int lrand48(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 size_t malloc_usable_size(void *ptr)
 {
+    (void) ptr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void *memalign(size_t alignment, size_t size)
 {
+    (void) alignment;
+    (void) size;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int mkostemp(char *template, int flags)
 {
+    (void) template;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long int mrand48(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mkostemps(char *template, int suffixlen, int flags)
 {
+    (void) template;
+    (void) suffixlen;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int mkstemps(char *template, int suffixlen)
 {
+    (void) template;
+    (void) suffixlen;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long int nrand48(unsigned short xsubi[3])
 {
+    (void) xsubi;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_memalign(void **memptr, size_t alignment, size_t size)
 {
+    (void) memptr;
+    (void) alignment;
+    (void) size;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int posix_openpt(int flags)
 {
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 char *ptsname(int fd)
 {
+    (void) fd;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int ptsname_r(int fd, char *buf, size_t buflen)
 {
+    (void) fd;
+    (void) buf;
+    (void) buflen;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long int random(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void *reallocarray(void *ptr, size_t nmemb, size_t size)
 {
+    (void) ptr;
+    (void) nmemb;
+    (void) size;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *realpath(const char *path, char *resolved_path)
 {
+    (void) path;
+    (void) resolved_path;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 char *secure_getenv(const char *name)
 {
+    (void) name;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 unsigned short *seed48(unsigned short seed16v[3])
 {
+    (void) seed16v;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void setkey(const char *key)
 {
+    (void) key;
+
     ENTER();
 }
 
 /****************************************************************************/
 char *setstate(char *state)
 {
+    (void) state;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 void srand48(long int seedval)
 {
+    (void) seedval;
+
     ENTER();
 }
 
 /****************************************************************************/
 void srandom(unsigned int seed)
 {
+    (void) seed;
+
     ENTER();
 }
 
 /****************************************************************************/
 float strtof_l(const char *nptr, char **endptr, locale_t loc)
 {
+    (void) nptr;
+    (void) endptr;
+    (void) loc;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 double strtod_l(const char *nptr, char **endptr, locale_t loc)
 {
+    (void) nptr;
+    (void) endptr;
+    (void) loc;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double strtold(const char *nptr, char **endptr)
 {
+    (void) nptr;
+    (void) endptr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double strtold_l(const char *nptr, char **endptr, locale_t loc)
 {
+    (void) nptr;
+    (void) endptr;
+    (void) loc;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int unlockpt(int fd)
 {
+    (void) fd;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void *valloc(size_t size)
 {
+    (void) size;
+
     ENTER();
+    return NULL;
 }
 #endif /* CLIB2_STDLIB_STUB) || defined(CLIB2_MULTUM_STUB) */
 
