@@ -4020,7 +4020,11 @@ int acct(const char *filename)
 /****************************************************************************/
 int flock(int fd, int operation)
 {
+    (void) fd;
+    (void) operation;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_FILE_STUB) || defined(CLIB2_MULTUM_STUB) */
 
