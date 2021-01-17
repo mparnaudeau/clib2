@@ -4742,18 +4742,28 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options)
 /****************************************************************************/
 int setlogmask(int mask)
 {
+    (void) mask;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void openlog(const char *ident, int option, int facility)
 {
+    (void) ident;
+    (void) option;
+    (void) facility;
+
     ENTER();
 }
 
 /****************************************************************************/
 void syslog(int priority, const char *format, ...)
 {
+    (void) priority;
+    (void) format;
+
     ENTER();
 }
 
