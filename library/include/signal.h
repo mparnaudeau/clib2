@@ -115,6 +115,8 @@ extern int kill(pid_t pid, int signal_number);
 
 #if defined(CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: signal.h"
+
 #include <time.h>
 
 union sigval {
@@ -122,25 +124,13 @@ union sigval {
 	void *sival_ptr;
 };
 
+typedef void * stack_t;
+
 typedef struct {
-	int si_signo;
-	int si_code;
-	union sigval si_value;
-	int si_errno;
-	pid_t si_pid;
-	uid_t si_uid;
-	void *si_addr;
-	int si_status;
-	int si_band;
+    int dummy;
 } siginfo_t;
 
-struct sigaction {
-    void (*sa_handler)(int sig);
-    void (*sa_sigaction)(int sig, siginfo_t *info, void *ucontext);
-    sigset_t sa_mask;
-    int sa_flags;
-    void (*sa_restorer)(void);
-};
+struct sigaction;
 
 extern int sigemptyset(sigset_t *set);
 extern int sigfillset(sigset_t *set);

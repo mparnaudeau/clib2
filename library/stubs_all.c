@@ -2893,105 +2893,168 @@ int sem_wait(sem_t *sem)
 /****************************************************************************/
 int sigemptyset(sigset_t *set)
 {
+    (void) set;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigfillset(sigset_t *set)
 {
+    (void) set;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigdelset(sigset_t *set, int signo)
 {
+    (void) set;
+    (void) signo;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigismember(const sigset_t *set, int signo)
 {
+    (void) set;
+    (void) signo;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigsuspend(const sigset_t *sigmask)
 {
+    (void) sigmask;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigaction(int sig, const struct sigaction *restrict act,
               struct sigaction *restrict oact)
 {
+    (void) sig;
+    (void) act;
+    (void) oact;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigpending(sigset_t *set)
 {
+    (void) set;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigwait(const sigset_t *set, int *sig)
 {
+    (void) set;
+    (void) sig;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigwaitinfo(const sigset_t *set, siginfo_t *info)
 {
+    (void) set;
+    (void) info;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigtimedwait(const sigset_t *set, siginfo_t *info,
                  const struct timespec *timeout)
 {
+    (void) set;
+    (void) info;
+    (void) timeout;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigqueue(pid_t pid, int sig, const union sigval value)
 {
+    (void) pid;
+    (void) sig;
+    (void) value;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigaltstack(const stack_t *ss, stack_t *old_ss)
 {
+    (void) ss;
+    (void) old_ss;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sighold(int sig)
 {
+    (void) sig;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigignore(int sig)
 {
+    (void) sig;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int siginterrupt(int sig, int flag)
 {
+    (void) sig;
+    (void) flag;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigpause(int sig)
 {
+    (void) sig;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int sigrelse(int sig)
 {
+    (void) sig;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB) */
 
