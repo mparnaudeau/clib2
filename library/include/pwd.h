@@ -99,6 +99,8 @@ extern void setpwent(void);
 
 #if defined(CLIB2_PWD_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: pwd.h"
+
 extern int getpwnam_r(const char *name, struct passwd *pwd, char *buf,
                       size_t buflen, struct passwd **result);
 extern int getpwuid_r(uid_t uid, struct passwd *pwd, char *buf, size_t buflen,

@@ -2476,14 +2476,28 @@ pid_t forkpty(int *amaster, char *name, const struct termios *termp,
 int getpwnam_r(const char *name, struct passwd *pwd, char *buf, size_t buflen,
                struct passwd **result)
 {
+    (void) name;
+    (void) pwd;
+    (void) buf;
+    (void) buflen;
+    (void) result;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int getpwuid_r(uid_t uid, struct passwd *pwd, char *buf, size_t buflen,
                struct passwd **result)
 {
+    (void) uid;
+    (void) pwd;
+    (void) buf;
+    (void) buflen;
+    (void) result;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_PWD_STUB) || defined(CLIB2_MULTUM_STUB) */
 
