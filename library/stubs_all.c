@@ -4567,13 +4567,21 @@ int utimensat(int fd, const char *path, const struct timespec times[2],
 /****************************************************************************/
 int fstatvfs(int fd, struct statvfs *buf)
 {
+    (void) fd;
+    (void) buf;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-int statvfs(const char *restrict path, struct statvfs *restric buf)
+int statvfs(const char *restrict path, struct statvfs *restrict buf)
 {
+    (void) path;
+    (void) buf;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_STATVFS_STUB) || defined(CLIB2_MULTUM_STUB) */
 
