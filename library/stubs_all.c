@@ -4283,19 +4283,32 @@ long int ptrace(enum __ptrace_request_dummy request, pid_t pid,
 /****************************************************************************/
 int getrusage(int who, struct rusage *usage)
 {
+    (void) who;
+    (void) usage;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int getpriority(int which, id_t who)
 {
+    (void) which;
+    (void) who;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int setpriority(int which, id_t who, int prio)
 {
+    (void) which;
+    (void) who;
+    (void) prio;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_SYS_RESOURCE_STUB) || defined(CLIB2_MULTUM_STUB) */
 

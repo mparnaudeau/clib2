@@ -92,6 +92,11 @@ extern int setrlimit(int resource,const struct rlimit *rlp);
 
 #if defined(CLIB2_SYS_RESOURCE_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: sys/resource.h"
+
+typedef int id_t;
+struct rusage;
+
 extern int getrusage(int who, struct rusage *usage);
 extern int getpriority(int which, id_t who);
 extern int setpriority(int which, id_t who, int prio);
@@ -105,3 +110,5 @@ extern int setpriority(int which, id_t who, int prio);
 #endif /* __cplusplus */
 
 /****************************************************************************/
+
+#endif /* _RESOURCE_H */
