@@ -456,6 +456,8 @@ extern int snprintf(char *s,size_t size,const char *format,...);
 
 #if defined(CLIB2_STDIO_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: stdio.h"
+
 extern FILE *fmemopen(void *buf, size_t size, const char *mode);
 extern FILE *open_memstream(char **ptr, size_t *sizeloc);
 extern FILE *open_wmemstream(wchar_t **ptr, size_t *sizeloc);

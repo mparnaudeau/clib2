@@ -3307,51 +3307,90 @@ int posix_spawnp(pid_t *pid, const char *file,
 /****************************************************************************/
 FILE *fmemopen(void *buf, size_t size, const char *mode)
 {
+    (void) buf;
+    (void) size;
+    (void) mode;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 FILE *open_memstream(char **ptr, size_t *sizeloc)
 {
+    (void) ptr;
+    (void) sizeloc;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 FILE *open_wmemstream(wchar_t **ptr, size_t *sizeloc)
 {
+    (void) ptr;
+    (void) sizeloc;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 int dprintf(int fildes, const char *restrict format, ...)
 {
+    (void) fildes;
+    (void) format;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int vdprintf(int fd, const char *format, va_list ap)
 {
+    (void) fd;
+    (void) format;
+    (void) ap;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 ssize_t getdelim(char **restrict lineptr, size_t *restrict n, int delimiter,
                  FILE *restrict stream)
 {
+    (void) lineptr;
+    (void) n;
+    (void) delimiter;
+    (void) stream;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 ssize_t getline(char **restrict lineptr, size_t *restrict n,
                 FILE *restrict stream)
 {
+    (void) lineptr;
+    (void) n;
+    (void) stream;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int renameat(int oldfd, const char *old, int newfd, const char *new)
 {
+    (void) oldfd;
+    (void) old;
+    (void) newfd;
+    (void) new;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_STDIO_STUB) || defined(CLIB2_MULTUM_STUB) */
 
