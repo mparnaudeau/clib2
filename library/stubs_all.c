@@ -4998,25 +4998,39 @@ size_t mbrtoc16(char16_t *pc16, const char *s, size_t n, mbstate_t *ps)
 /****************************************************************************/
 int getcontext(ucontext_t *ucp)
 {
+    (void) ucp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void makecontext(ucontext_t *ucp, void (*func)(), int argc, ...)
 {
+    (void) ucp;
+    (void) func;
+    (void) argc;
+
     ENTER();
 }
 
 /****************************************************************************/
 int setcontext(const ucontext_t *ucp)
 {
+    (void) ucp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int swapcontext(ucontext_t *oucp, const ucontext_t *ucp)
 {
+    (void) oucp;
+    (void) ucp;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_UCONTEXT_STUB) || defined(CLIB2_MULTUM_STUB) */
 

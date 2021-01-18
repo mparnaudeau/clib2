@@ -7,6 +7,8 @@
 
 #warning "STUB: ucontext.h"
 
+typedef int ucontext_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
