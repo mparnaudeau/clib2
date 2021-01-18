@@ -4948,25 +4948,47 @@ int timer_settime(timer_t timerid, int flags,
 /****************************************************************************/
 size_t c16rtomb(char *s, char16_t c16, mbstate_t *ps)
 {
+    (void) s;
+    (void) c16;
+    (void) ps;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 size_t c32rtomb(char *s, char32_t c32, mbstate_t *ps)
 {
+    (void) s;
+    (void) c32;
+    (void) ps;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 size_t mbrtoc32(char32_t *pc32, const char *s, size_t n, mbstate_t *ps)
 {
+    (void) s;
+    (void) pc32;
+    (void) n;
+    (void) ps;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 size_t mbrtoc16(char16_t *pc16, const char *s, size_t n, mbstate_t *ps)
 {
+    (void) s;
+    (void) pc16;
+    (void) n;
+    (void) ps;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_UCHAR_STUB) || defined(CLIB2_MULTUM_STUB) */
 
