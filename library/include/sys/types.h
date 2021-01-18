@@ -46,6 +46,20 @@
 /* The following is not part of the ISO 'C' (1994) standard. */
 
 /****************************************************************************/
+/****************************************************************************/
+
+typedef char * caddr_t;
+typedef unsigned int comp_t;
+typedef unsigned long dev_t;
+typedef unsigned int gid_t;
+typedef unsigned int ino_t;
+typedef unsigned int mode_t;
+typedef unsigned int nlink_t;
+typedef long int off_t;
+typedef int pid_t;
+typedef unsigned int rlim_t;
+typedef int ssize_t;
+typedef unsigned int uid_t;
 
 #ifndef _TIME_H
 #include <time.h>
@@ -62,21 +76,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
-
-/****************************************************************************/
-
-typedef char * caddr_t;
-typedef unsigned int comp_t;
-typedef unsigned long dev_t;
-typedef unsigned int gid_t;
-typedef unsigned int ino_t;
-typedef unsigned int mode_t;
-typedef unsigned int nlink_t;
-typedef long int off_t;
-typedef int pid_t;
-typedef unsigned int rlim_t;
-typedef int ssize_t;
-typedef unsigned int uid_t;
 
 /****************************************************************************/
 

@@ -10,7 +10,6 @@
 #include <signal.h>
 
 struct aiocb;
-struct sigevent;
 
 #ifdef __cplusplus
 extern "C" {

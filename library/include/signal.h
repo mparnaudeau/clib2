@@ -78,6 +78,18 @@ typedef int sig_atomic_t;
 
 /****************************************************************************/
 
+#if defined(CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB)
+struct sigevent;
+struct sigaction;
+typedef void * stack_t;
+typedef struct siginfo siginfo_t;
+union sigval {
+    int dummy;
+};
+#endif /* defined(CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB) */
+
+/****************************************************************************/
+
 /* The following is not part of the ISO 'C' (1994) standard. */
 
 /****************************************************************************/
@@ -110,27 +122,11 @@ extern int sigemptyset(sigset_t * set);
 extern int sigaddset(sigset_t * set,int sig);
 extern int kill(pid_t pid, int signal_number);
 
-
 /****************************************************************************/
 
 #if defined(CLIB2_SIGNAL_STUB) || defined(CLIB2_MULTUM_STUB)
 
 #warning "STUB: signal.h"
-
-#include <time.h>
-
-union sigval {
-	int sival_int;
-	void *sival_ptr;
-};
-
-typedef void * stack_t;
-
-typedef struct {
-    int dummy;
-} siginfo_t;
-
-struct sigaction;
 
 extern int sigemptyset(sigset_t *set);
 extern int sigfillset(sigset_t *set);

@@ -7,8 +7,9 @@
 
 #warning "STUB: mqueue.h"
 
+#include <signal.h>
+
 typedef int mqd_t;
-struct sigevent;
 struct mq_attr;
 
 #ifdef __cplusplus

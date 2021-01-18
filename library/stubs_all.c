@@ -4813,38 +4813,64 @@ int tcsetwinsize(int fd, const struct winsize *sws)
 /****************************************************************************/
 int clock_getcpuclockid(pid_t pid, clockid_t *clockid)
 {
+    (void) pid;
+    (void) clockid;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int clock_getres(clockid_t clockid, struct timespec *res)
 {
+    (void) clockid;
+    (void) res;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int clock_gettime(clockid_t clockid, struct timespec *tp)
 {
+    (void) clockid;
+    (void) tp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int clock_nanosleep(clockid_t clockid, int flags,
                     const struct timespec *request, struct timespec *remain)
 {
+    (void) clockid;
+    (void) flags;
+    (void) request;
+    (void) remain;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int clock_settime(clockid_t clockid, const struct timespec *tp)
 {
+    (void) clockid;
+    (void) tp;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int nanosleep(const struct timespec *req, struct timespec *rem)
 {
+    (void) req;
+    (void) rem;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -4852,31 +4878,53 @@ size_t strftime_l(char *restrict s, size_t maxsize,
                   const char *restrict format,
                   const struct tm *restrict timeptr, locale_t locale)
 {
+    (void) s;
+    (void) maxsize;
+    (void) format;
+    (void) timeptr;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int timer_create(clockid_t clockid, struct sigevent *sevp, timer_t *timerid)
 {
+    (void) clockid;
+    (void) sevp;
+    (void) timerid;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int timer_delete(timer_t timerid)
 {
+    (void) timerid;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int timer_getoverrun(timer_t timerid)
 {
+    (void) timerid;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int timer_gettime(timer_t timerid, struct itimerspec *curr_value)
 {
+    (void) timerid;
+    (void) curr_value;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -4884,7 +4932,13 @@ int timer_settime(timer_t timerid, int flags,
                   const struct itimerspec *new_value,
                   struct itimerspec *old_value)
 {
+    (void) timerid;
+    (void) flags;
+    (void) new_value;
+    (void) old_value;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_TIME_STUB) || defined(CLIB2_MULTUM_STUB) */
 

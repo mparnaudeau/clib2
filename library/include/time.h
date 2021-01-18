@@ -129,6 +129,15 @@ extern void tzset(void);
 
 #if defined(CLIB2_TIME_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: time.h"
+
+#include <signal.h>
+#include <locale.h>
+
+typedef int timer_t;
+typedef int clockid_t;
+struct itimerspec;
+
 extern int clock_getcpuclockid(pid_t pid, clockid_t *clockid);
 extern int clock_getres(clockid_t clockid, struct timespec *res);
 extern int clock_gettime(clockid_t clockid, struct timespec *tp);
