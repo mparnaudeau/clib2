@@ -5040,189 +5040,235 @@ int swapcontext(ucontext_t *oucp, const ucontext_t *ucp)
 /****************************************************************************/
 int pipe(int pipefd[2])
 {
+    (void) pipefd;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pipe2(int pipefd[2], int flags)
 {
-    ENTER();
-}
+    (void) pipefd;
+    (void) flags;
 
-/****************************************************************************/
-int close(int fd)
-{
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int dup3(int oldfd, int newfd, int flags)
 {
-    ENTER();
-}
+    (void) oldfd;
+    (void) newfd;
+    (void) flags;
 
-/****************************************************************************/
-off_t lseek(int fd, off_t offset, int whence)
-{
     ENTER();
-}
-
-/****************************************************************************/
-ssize_t read(int fd, void *buf, size_t count)
-{
-    ENTER();
-}
-
-/****************************************************************************/
-ssize_t write(int fd, const void *buf, size_t count)
-{
-    ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 ssize_t pread(int fd, void *buf, size_t count, off_t offset)
 {
+    (void) fd;
+    (void) buf;
+    (void) count;
+    (void) offset;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset)
 {
+    (void) fd;
+    (void) buf;
+    (void) count;
+    (void) offset;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int fchownat(int dirfd, const char *pathname, uid_t owner, gid_t group,
              int flags)
 {
+    (void) dirfd;
+    (void) pathname;
+    (void) owner;
+    (void) group;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int linkat(int olddirfd, const char *oldpath, int newdirfd,
            const char *newpath, int flags)
 {
+    (void) olddirfd;
+    (void) oldpath;
+    (void) newdirfd;
+    (void) newpath;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int symlinkat(const char *oldpath, int newdirfd, const char *newpath)
 {
-    ENTER();
-}
+    (void) oldpath;
+    (void) newdirfd;
+    (void) newpath;
 
-/****************************************************************************/
-int rmdir(const char *path)
-{
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int unlinkat(int dirfd, const char *pathname, int flags)
 {
+    (void) dirfd;
+    (void) pathname;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int faccessat(int dirfd, const char *pathname, int mode, int flags)
 {
+    (void) dirfd;
+    (void) pathname;
+    (void) mode;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int fchdir(int fd)
 {
+    (void) fd;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-unsigned alarm(unsigned seconds)
+unsigned int alarm(unsigned seconds)
 {
+    (void) seconds;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int pause(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 pid_t getppid(void)
 {
     ENTER();
-}
-
-/****************************************************************************/
-pid_t getpgrp(void)
-{
-    ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 pid_t getpgid(pid_t pid)
 {
+    (void) pid;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int setpgid(pid_t pid, pid_t pgid)
 {
+    (void) pid;
+    (void) pgid;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 pid_t getsid(pid_t pid)
 {
+    (void) pid;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 pid_t tcgetpgrp(int fd)
 {
+    (void) fd;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int tcsetpgrp(int fd, pid_t pgrp)
 {
-    ENTER();
-}
+    (void) fd;
+    (void) pgrp;
 
-/****************************************************************************/
-char *getlogin(void)
-{
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int getlogin_r(char *buf, size_t bufsize)
 {
+    (void) buf;
+    (void) bufsize;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
-char *ctermid(char *s)
+long int sysconf(int name)
 {
-    ENTER();
-}
+    (void) name;
 
-/****************************************************************************/
-long sysconf(int name)
-{
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 size_t confstr(int name, char *buf, size_t len)
 {
+    (void) name;
+    (void) buf;
+    (void) len;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int nice(int inc)
 {
+    (void) inc;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -5235,24 +5281,26 @@ void sync(void)
 pid_t setpgrp(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void encrypt(char block[64], int edflag)
 {
-    ENTER();
-}
+    (void) block;
+    (void) edflag;
 
-/****************************************************************************/
-void swab(const void *from, void *to, ssize_t n)
-{
     ENTER();
 }
 
 /****************************************************************************/
 useconds_t ualarm(useconds_t usecs, useconds_t interval)
 {
+    (void) usecs;
+    (void) interval;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_UNISTD_STUB) || defined(CLIB2_MULTUM_STUB) */
 

@@ -60,6 +60,8 @@ typedef int pid_t;
 typedef unsigned int rlim_t;
 typedef int ssize_t;
 typedef unsigned int uid_t;
+typedef unsigned int useconds_t;
+typedef int suseconds_t;
 
 #ifndef _TIME_H
 #include <time.h>
