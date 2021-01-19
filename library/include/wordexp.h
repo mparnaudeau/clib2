@@ -7,6 +7,9 @@
 
 #warning "STUB: wordexp.h"
 
+struct ___wordexp_stub_struct;
+typedef struct ___wordexp_stub_struct wordexp_t;
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */

@@ -5816,12 +5816,19 @@ wint_t towupper_l(wint_t c, locale_t locale)
 /****************************************************************************/
 int wordexp(const char *s, wordexp_t *p, int flags)
 {
+    (void) s;
+    (void) p;
+    (void) flags;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 void wordfree(wordexp_t *p)
 {
+    (void) p;
+
     ENTER();
 }
 #endif /* CLIB2_WORDEXP_STUB) || defined(CLIB2_MULTUM_STUB) */
