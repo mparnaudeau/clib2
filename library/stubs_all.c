@@ -5672,85 +5672,141 @@ int wcswidth(const wchar_t *s, size_t n)
 /****************************************************************************/
 int iswalnum_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswalpha_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswcntrl_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswdigit_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswxdigit_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswgraph_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswpunct_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswprint_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswlower_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswupper_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswspace_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int iswblank_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wint_t towlower_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wint_t towupper_l(wint_t c, locale_t locale)
 {
+    (void) c;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_WCTYPE_STUB) || defined(CLIB2_MULTUM_STUB) */
 

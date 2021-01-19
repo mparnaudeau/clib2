@@ -84,6 +84,8 @@ extern wint_t towupper(wint_t c);
 
 #if defined(CLIB2_WCTYPE_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: wctype.h"
+
 extern int iswalnum_l(wint_t c, locale_t locale);
 extern int iswalpha_l(wint_t c, locale_t locale);
 extern int iswcntrl_l(wint_t c, locale_t locale);
