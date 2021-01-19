@@ -3326,16 +3326,6 @@ FILE *open_memstream(char **ptr, size_t *sizeloc)
 }
 
 /****************************************************************************/
-FILE *open_wmemstream(wchar_t **ptr, size_t *sizeloc)
-{
-    (void) ptr;
-    (void) sizeloc;
-
-    ENTER();
-    return NULL;
-}
-
-/****************************************************************************/
 int dprintf(int fildes, const char *restrict format, ...)
 {
     (void) fildes;
@@ -5317,24 +5307,34 @@ void endutent(void)
 struct utmp *getutent(void)
 {
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct utmp *getutid(struct utmp *ut)
 {
+    (void) ut;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct utmp *getutline(struct utmp *ut)
 {
+    (void) ut;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 struct utmp *pututline(struct utmp *ut)
 {
+    (void) ut;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
@@ -5346,7 +5346,10 @@ void setutent(void)
 /****************************************************************************/
 int utmpname(const char *file)
 {
+    (void) file;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_UTMP_STUB) || defined(CLIB2_MULTUM_STUB) */
 
@@ -5363,24 +5366,34 @@ void endutxent(void)
 struct utmpx *getutxent(void)
 {
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
-struct utmpx *getutxid(const struct utmpx *)
+struct utmpx *getutxid(const struct utmpx *ut)
 {
+    (void) ut;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
-struct utmpx *getutxline(const struct utmpx *)
+struct utmpx *getutxline(const struct utmpx *ut)
 {
+    (void) ut;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
-struct utmpx *pututxline(const struct utmpx *)
+struct utmpx *pututxline(const struct utmpx *ut)
 {
+    (void) ut;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
@@ -5396,87 +5409,140 @@ void setutxent(void)
 /****************************************************************************/
 wchar_t *wcswcs(const wchar_t *ws1, const wchar_t *ws2)
 {
+    (void) ws1;
+    (void) ws2;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 float wcstof(const wchar_t *restrict nptr, wchar_t **restrict endptr)
 {
+    (void) nptr;
+    (void) endptr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 long double wcstold(const wchar_t *restrict nptr, wchar_t **restrict endptr)
 {
+    (void) nptr;
+    (void) endptr;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int vwscanf(const wchar_t *restrict format, va_list arg)
 {
+    (void) format;
+    (void) arg;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int vfwscanf(FILE *restrict stream, const wchar_t *restrict format,
              va_list arg)
 {
+    (void) stream;
+    (void) format;
+    (void) arg;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int vswscanf(const wchar_t *restrict ws, const wchar_t *restrict format,
              va_list arg)
 {
+    (void) ws;
+    (void) format;
+    (void) arg;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wint_t fgetwc_unlocked(FILE *stream)
 {
+    (void) stream;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wint_t getwc_unlocked(FILE *stream)
 {
+    (void) stream;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wint_t getwchar_unlocked(void)
 {
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wint_t fputwc_unlocked(wchar_t wc, FILE *stream)
 {
+    (void) wc;
+    (void) stream;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wint_t putwc_unlocked(wchar_t wc, FILE *stream)
 {
+    (void) wc;
+    (void) stream;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wint_t putwchar_unlocked(wchar_t wc)
 {
+    (void) wc;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wchar_t *fgetws_unlocked(wchar_t *ws, int n, FILE *stream)
 {
+    (void) ws;
+    (void) n;
+    (void) stream;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int fputws_unlocked(const wchar_t *ws, FILE *stream)
 {
+    (void) ws;
+    (void) stream;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
@@ -5484,69 +5550,119 @@ size_t wcsftime_l(wchar_t *restrict wcs, size_t maxsize,
                   const wchar_t *restrict format,
                   const struct tm *restrict timeptr, locale_t locale)
 {
+    (void) wcs;
+    (void) maxsize;
+    (void) format;
+    (void) timeptr;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 FILE *open_wmemstream(wchar_t **ptr, size_t *sizeloc)
 {
+    (void) ptr;
+    (void) sizeloc;
+
     ENTER();
+    return NULL;
 }
 
 /****************************************************************************/
 wchar_t *wcsdup(const wchar_t *s)
 {
+    (void) s;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wchar_t *wcpcpy(wchar_t *dest, const wchar_t *src)
 {
+    (void) dest;
+    (void) src;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 wchar_t *wcpncpy(wchar_t *dest, const wchar_t *src, size_t n)
 {
+    (void) dest;
+    (void) src;
+    (void) n;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int wcscasecmp(const wchar_t *s1, const wchar_t *s2)
 {
+    (void) s1;
+    (void) s2;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int wcscasecmp_l(const wchar_t *ws1, const wchar_t *ws2,
                         locale_t locale)
 {
+    (void) ws1;
+    (void) ws2;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int wcsncasecmp(const wchar_t *s1, const wchar_t *s2, size_t n)
 {
+    (void) s1;
+    (void) s2;
+    (void) n;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int wcsncasecmp_l(const wchar_t *ws1, const wchar_t *ws2, size_t n,
                   locale_t locale)
 {
+    (void) ws1;
+    (void) ws2;
+    (void) n;
+    (void) locale;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int wcwidth(wchar_t c)
 {
+    (void) c;
+
     ENTER();
+    return 0;
 }
 
 /****************************************************************************/
 int wcswidth(const wchar_t *s, size_t n)
 {
+    (void) s;
+    (void) n;
+
     ENTER();
+    return 0;
 }
 #endif /* CLIB2_WCHAR_STUB) || defined(CLIB2_MULTUM_STUB) */
 

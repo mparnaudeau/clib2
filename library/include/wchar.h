@@ -207,6 +207,8 @@ extern unsigned long long wcstoull(const wchar_t *str, wchar_t **ptr, int base);
 
 #if defined(CLIB2_WCHAR_STUB) || defined(CLIB2_MULTUM_STUB)
 
+#warning "STUB: wchar.h"
+
 extern wchar_t *wcswcs(const wchar_t *ws1, const wchar_t *ws2);
 extern float wcstof(const wchar_t *restrict nptr,
                     wchar_t **restrict endptr);

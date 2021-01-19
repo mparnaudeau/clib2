@@ -460,7 +460,6 @@ extern int snprintf(char *s,size_t size,const char *format,...);
 
 extern FILE *fmemopen(void *buf, size_t size, const char *mode);
 extern FILE *open_memstream(char **ptr, size_t *sizeloc);
-extern FILE *open_wmemstream(wchar_t **ptr, size_t *sizeloc);
 extern int dprintf(int fildes, const char *restrict format, ...);
 extern int vdprintf(int fd, const char *format, va_list ap);
 extern ssize_t getdelim(char **restrict lineptr, size_t *restrict n,
