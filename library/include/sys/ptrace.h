@@ -7,15 +7,17 @@
 
 #warning "STUB: sys/ptrace.h"
 
-enum __ptrace_request_dummy {
-    PTRACE_DUMMY
+#include <sys/types.h>
+
+enum ___ptrace_request_stub_dummy {
+    PTRACE_STUB_DUMMY
 };
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
-extern long int ptrace(enum __ptrace_request_dummy request, pid_t pid,
+extern long int ptrace(enum ___ptrace_request_stub_dummy request, pid_t pid,
                        void *addr, void *data);
 
 #ifdef __cplusplus

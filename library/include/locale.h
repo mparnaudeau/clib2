@@ -121,6 +121,8 @@ extern struct lconv *localeconv(void);
 
 #warning "STUB: locale.h"
 
+#include <stddef.h>
+
 extern locale_t duplocale(locale_t locobj);
 extern locale_t newlocale(int category_mask, const char *locale, locale_t base);
 extern void freelocale(locale_t locobj);

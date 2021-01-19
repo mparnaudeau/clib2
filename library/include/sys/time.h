@@ -146,6 +146,8 @@ int gettimeofday(struct timeval *tp, struct timezone *tzp);
 
 #warning "STUB: sys/time.h"
 
+#include <time.h>
+
 struct itimerval;
 
 extern int futimes(int fd, const struct timeval tv[2]);

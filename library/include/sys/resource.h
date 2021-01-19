@@ -94,7 +94,6 @@ extern int setrlimit(int resource,const struct rlimit *rlp);
 
 #warning "STUB: sys/resource.h"
 
-typedef int id_t;
 struct rusage;
 
 extern int getrusage(int who, struct rusage *usage);

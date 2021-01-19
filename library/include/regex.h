@@ -7,13 +7,14 @@
 
 #warning "STUB: regex.h"
 
-typedef struct re_pattern_buffer {
-    int dummy;
-} regex_t;
+#include <sys/types.h>
 
 typedef struct {
     int dummy;
 } regmatch_t;
+
+struct ___pattern_buffer_stub_dummy;
+typedef struct ___pattern_buffer_stub_dummy regex_t;
 
 #ifdef __cplusplus
 extern "C" {

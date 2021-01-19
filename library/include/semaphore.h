@@ -7,9 +7,10 @@
 
 #warning "STUB: semaphore.h"
 
-typedef struct {
-    int dummy;
-} sem_t;
+#include <stddef.h>
+
+struct ___semaphore_stub_dummy;
+typedef struct ___semaphore_stub_dummy sem_t;
 
 #ifdef __cplusplus
 extern "C" {

@@ -8,6 +8,7 @@
 #warning "STUB: mqueue.h"
 
 #include <signal.h>
+#include <locale.h>
 
 typedef int mqd_t;
 struct mq_attr;

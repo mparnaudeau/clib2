@@ -41,6 +41,8 @@
 #ifndef _STDDEF_H
 #define _STDDEF_H
 
+#include <sys/types.h>
+
 /****************************************************************************/
 
 #ifdef __cplusplus
@@ -60,7 +62,6 @@ extern "C" {
 /****************************************************************************/
 
 typedef int ptrdiff_t;
-typedef unsigned int size_t;
 
 /* wchar_t is a built-in type in C++ */
 #ifndef __cplusplus

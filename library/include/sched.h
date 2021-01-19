@@ -7,6 +7,8 @@
 
 #warning "STUB: sched.h"
 
+#include <sys/types.h>
+
 typedef int cpu_set_t;
 struct sched_param;
 

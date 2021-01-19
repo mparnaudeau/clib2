@@ -7,6 +7,8 @@
 
 #warning "STUB: sys/shm.h"
 
+#include <sys/types.h>
+
 struct shmid_ds;
 
 #ifdef __cplusplus

@@ -7,6 +7,8 @@
 
 #warning "STUB: net/if.h"
 
+#include <stddef.h>
+
 struct if_nameindex;
 
 #ifdef __cplusplus

@@ -7,6 +7,11 @@
 
 #warning "STUB: spawn.h"
 
+#undef CLIB2_SCHED_STUB
+#define CLIB2_SCHED_STUB
+
+#include <sched.h>
+
 typedef int posix_spawnattr_t;
 typedef int posix_spawn_file_actions_t;
 

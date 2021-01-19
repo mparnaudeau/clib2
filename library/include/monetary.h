@@ -7,6 +7,8 @@
 
 #warning "STUB: monetary.h"
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */

@@ -131,6 +131,8 @@ extern void tzset(void);
 
 #warning "STUB: time.h"
 
+#undef CLIB2_SIGNAL_STUB
+#define CLIB2_SIGNAL_STUB
 #include <signal.h>
 #include <locale.h>
 

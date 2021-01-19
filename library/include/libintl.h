@@ -7,6 +7,8 @@
 
 #warning "STUB: libintl.h"
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */

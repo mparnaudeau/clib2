@@ -7,6 +7,8 @@
 
 #warning "STUB: utmpx.h"
 
+#include <stddef.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */

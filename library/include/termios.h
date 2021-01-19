@@ -210,6 +210,8 @@ extern int cfsetospeed(struct termios *tios_p,speed_t output_speed);
 
 #warning "STUB: termios.h"
 
+#include <sys/types.h>
+
 struct winsize;
 
 extern pid_t tcgetsid(int fd);

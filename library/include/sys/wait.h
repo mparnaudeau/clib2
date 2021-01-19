@@ -7,8 +7,10 @@
 
 #warning "STUB: sys/wait.h"
 
+#include <sys/types.h>
+
 typedef enum {
-    DUMMY
+    SYS_WAIT_STUB_DUMMY
 } idtype_t;
 
 #ifdef __cplusplus
