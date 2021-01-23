@@ -2,6 +2,12 @@
  * Experimental: Not a part of clib2 from Olaf Barthel
  */
 
+#ifndef _STDLIB_HEADERS_H
+#include "stdlib_headers.h"
+#endif /* _STDLIB_HEADERS_H */
+
+/****************************************************************************/
+
 #ifndef _MATH_HEADERS_H
 #include "math_headers.h"
 #endif /* _MATH_HEADERS_H */
@@ -17,9 +23,10 @@
 /****************************************************************************/
 
 long double
-fmodl(long double x, long double y)
+strtold(const char *str, char **ptr)
 {
-    return fmod(x, y);
+    // We might be sacrificing precision. Consider this a stub and a FIXME.
+    return strtod(str, ptr);
 }
 
 /****************************************************************************/

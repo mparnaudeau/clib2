@@ -146,6 +146,7 @@ extern void qsort(void *base,size_t count,size_t size,
 
 extern double strtod(const char *str, char ** ptr);
 extern long strtol(const char *str, char **ptr, int base);
+extern long double strtold(const char *str, char **ptr);
 extern unsigned long strtoul(const char *str, char **ptr, int base);
 
 /****************************************************************************/
