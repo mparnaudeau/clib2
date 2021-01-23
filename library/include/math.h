@@ -265,16 +265,20 @@ extern float hypotf(float x, float y);
 extern float lgammaf(float x);
 extern float log1pf(float x);
 extern float logbf(float x);
+extern long int llrintf(float x);
 extern long int lrintf(float x);
+extern long long int llroundf(float x);
 extern long int lroundf(float x);
 extern float nanf(const char *tagp);
 extern float nearbyintf(float x);
 extern float nextafterf(float x,float y);
+extern float nexttowardf(float x, long double y);
 extern float remainderf(float x, float p);
 extern float remquof(float x,float y,int * quo);
 extern float rintf(float x);
 extern float roundf(float x);
-extern float scalbnf (float x, int n);
+extern float scalblnf(float x, long n);
+extern float scalbnf(float x, int n);
 extern float tgammaf(float x);
 extern float truncf(float x);
 extern int ilogbf(float x);
@@ -299,14 +303,17 @@ extern double log1p(double x);
 extern double logb(double x);
 extern long long int llrint(double x);
 extern long int lrint(double x);
+extern long long int llround(double x);
 extern long int lround(double x);
 extern double nan(const char *tagp);
 extern double nearbyint(double x);
 extern double nextafter(double x,double y);
+extern double nexttoward(double x, long double y);
 extern double remainder(double x, double p);
 extern double remquo(double x,double y,int * quo);
 extern double rint(double x);
 extern double round(double x);
+extern double scalbln(double x, long n);
 extern double scalbn (double x, int n);
 extern double tgamma(double x);
 extern double trunc(double x);
@@ -316,9 +323,72 @@ extern int ilogb(double x);
 
 extern float exp2f(float x);
 extern double exp2(double x);
+extern long double exp2l(long double x);
 
 extern double log2(double x);
 extern float log2f(float x);
+extern long double log2l(long double x);
+
+/****************************************************************************/
+
+extern long double acosl(long double x);
+extern long double asinl(long double x);
+extern long double atanl(long double x);
+extern long double atan2l(long double y, long double x);
+extern long double ceill(long double x);
+extern long double cosl(long double x);
+extern long double coshl(long double x);
+extern long double expl(long double x);
+extern long double fabsl(long double x);
+extern long double floorl(long double x);
+extern long double fmodl(long double x, long double y);
+extern long double frexpl(long double x, int *nptr);
+extern long double ldexpl(long double x, int n);
+extern long double logl(long double x);
+extern long double log10l(long double x);
+extern long double modfl(long double x, long double *iptr);
+extern long double powl(long double x, long double y);
+extern long double sinl(long double x);
+extern long double sinhl(long double x);
+extern long double sqrtl(long double x);
+extern long double tanl(long double x);
+extern long double tanhl(long double x);
+
+/****************************************************************************/
+
+extern long double acoshl(long double x);
+extern long double asinhl(long double x);
+extern long double atanhl(long double x);
+extern long double cbrtl(long double x);
+extern long double copysignl(long double x, long double y);
+extern long double erfcl(long double x);
+extern long double erfl(long double x);
+extern long double expm1l(long double x);
+extern long double fdiml(long double x, long double y);
+extern long double fmal(long double x, long double y, long double z);
+extern long double fmaxl(long double x, long double y);
+extern long double fminl(long double x, long double y);
+extern long double hypotl(long double x, long double y);
+extern long double lgammal(long double x);
+extern long double log1pl(long double x);
+extern long double logbl(long double x);
+extern long long int llrintl(long double x);
+extern long int lrintl(long double x);
+extern long long int llroundl(long double x);
+extern long int lroundl(long double x);
+extern long double nanl(const char *tagp);
+extern long double nearbyintl(long double x);
+extern long double nextafterl(long double x, long double y);
+extern long double nexttowardl(long double x, long double y);
+extern long double remainderl(long double x, long double p);
+extern long double remquol(long double x, long double y, int *quo);
+extern long double rintl(long double x);
+extern long double roundl(long double x);
+extern long double scalblnl(long double x, long int n);
+extern long double scalbnl(long double x, int n);
+extern long double tgammal(long double x);
+extern long double truncl(long double x);
+extern int ilogbl(long double x);
 
 /****************************************************************************/
 
