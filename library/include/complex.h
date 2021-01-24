@@ -156,6 +156,10 @@ extern double complex ctanh(double complex z);
 extern float complex ctanhf(float complex z);
 extern long double complex ctanhl(long double complex z);
 
+extern double complex cexp(double complex z);
+extern float complex cexpf(float complex z);
+extern long double complex cexpl(long double complex z);
+
 /****************************************************************************/
 
 /* Unimplemented functions (so far)... */
@@ -163,10 +167,6 @@ extern long double complex ctanhl(long double complex z);
 /****************************************************************************/
 
 #if 0
-
-extern double complex cexp(double complex z);
-extern float complex cexpf(float complex z);
-extern long double complex cexpl(long double complex z);
 
 extern double complex clog(double complex z);
 extern float complex clogf(float complex z);
