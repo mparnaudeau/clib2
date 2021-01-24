@@ -78,9 +78,13 @@ extern "C" {
 
 /****************************************************************************/
 
-/* Constants */
+/* Constants / macros */
 #define _Complex_I (__extension__ 0.0+1.0fi)
 #define I _Complex_I
+#define __CMPLX(x, y, t) (+(_Complex t) { (t) (x), (t) (y) })
+#define CMPLX(x, y) __CMPLX(x, y, double)
+#define CMPLXF(x, y) __CMPLX(x, y, float)
+#define CMPLXL(x, y) __CMPLX(x, y, long double)
 
 /****************************************************************************/
 
@@ -103,6 +107,10 @@ extern long double cargl(long double complex z);
 extern double cabs(double complex z);
 extern float cabsf(float complex z);
 extern long double cabsl(long double complex z);
+
+extern double complex csin(double complex z);
+extern float complex csinf(float complex z);
+extern long double complex csinl(long double complex z);
 
 /****************************************************************************/
 
@@ -127,10 +135,6 @@ extern long double complex catanl(long double complex z);
 extern double complex ccos(double complex z);
 extern float complex ccosf(float complex z);
 extern long double complex ccosl(long double complex z);
-
-extern double complex csin(double complex z);
-extern float complex csinf(float complex z);
-extern long double complex csinl(long double complex z);
 
 extern double complex ctan(double complex z);
 extern float complex ctanf(float complex z);
