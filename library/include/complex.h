@@ -100,6 +100,10 @@ extern double carg(double complex z);
 extern float cargf(float complex z);
 extern long double cargl(long double complex z);
 
+extern double cabs(double complex z);
+extern float cabsf(float complex z);
+extern long double cabsl(long double complex z);
+
 /****************************************************************************/
 
 /* Unimplemented functions (so far)... */
@@ -163,10 +167,6 @@ extern long double complex cexpl(long double complex z);
 extern double complex clog(double complex z);
 extern float complex clogf(float complex z);
 extern long double complex clogl(long double complex z);
-
-extern double cabs(double complex z);
-extern float cabsf(float complex z);
-extern long double cabsl(long double complex z);
 
 extern double complex cpow(double complex z);
 extern float complex cpowf(float complex z);
