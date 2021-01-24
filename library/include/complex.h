@@ -120,6 +120,10 @@ extern double complex ccos(double complex z);
 extern float complex ccosf(float complex z);
 extern long double complex ccosl(long double complex z);
 
+extern double complex cacosh(double complex z);
+extern float complex cacoshf(float complex z);
+extern long double complex cacoshl(long double complex z);
+
 /****************************************************************************/
 
 /* Unimplemented functions (so far)... */
@@ -140,10 +144,6 @@ extern long double complex catanl(long double complex z);
 extern double complex ctan(double complex z);
 extern float complex ctanf(float complex z);
 extern long double complex ctanl(long double complex z);
-
-extern double complex cacosh(double complex z);
-extern float complex cacoshf(float complex z);
-extern long double complex cacoshl(long double complex z);
 
 extern double complex casinh(double complex z);
 extern float complex casinhf(float complex z);
