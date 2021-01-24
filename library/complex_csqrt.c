@@ -12,10 +12,10 @@
 
 /****************************************************************************/
 
-float complex
-clogf(float complex z)
+double complex
+csqrt(double complex z)
 {
-    return CMPLXF(logf(cabsf(z)), cargf(z));
+    return CMPLX(0.0, 0.0);
 }
 
 /****************************************************************************/

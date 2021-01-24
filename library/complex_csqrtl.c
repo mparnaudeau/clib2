@@ -12,11 +12,19 @@
 
 /****************************************************************************/
 
-float complex
-clogf(float complex z)
+#if LDBL_MANT_DIG == DBL_MANT_DIG && LDBL_MAX_EXP == DBL_MAX_EXP
+
+/****************************************************************************/
+
+long double complex
+csqrtl(long double complex z)
 {
-    return CMPLXF(logf(cabsf(z)), cargf(z));
+    return csqrt(z);
 }
+
+/****************************************************************************/
+
+#endif /* LDBL_MANT_DIG == DBL_MANT_DIG && LDBL_MAX_EXP == DBL_MAX_EXP */
 
 /****************************************************************************/
 

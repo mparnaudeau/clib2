@@ -168,6 +168,10 @@ extern double complex cpow(double complex z, double c);
 extern float complex cpowf(float complex z, float c);
 extern long double complex cpowl(long double complex z, long double c);
 
+extern double complex csqrt(double complex z);
+extern float complex csqrtf(float complex z);
+extern long double complex csqrtl(long double complex z);
+
 /****************************************************************************/
 
 /* Unimplemented functions (so far)... */
@@ -175,10 +179,6 @@ extern long double complex cpowl(long double complex z, long double c);
 /****************************************************************************/
 
 #if 0
-
-extern double complex csqrt(double complex z);
-extern float complex csqrtf(float complex z);
-extern long double complex csqrtl(long double complex z);
 
 extern double complex cproj(double complex z);
 extern float complex cprojf(float complex z);

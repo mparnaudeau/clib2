@@ -13,9 +13,9 @@
 /****************************************************************************/
 
 float complex
-clogf(float complex z)
+csqrtf(float complex z)
 {
-    return CMPLXF(logf(cabsf(z)), cargf(z));
+    return CMPLXF(0.0, 0.0);
 }
 
 /****************************************************************************/
