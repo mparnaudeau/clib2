@@ -164,6 +164,10 @@ extern double complex clog(double complex z);
 extern float complex clogf(float complex z);
 extern long double complex clogl(long double complex z);
 
+extern double complex cpow(double complex z, double c);
+extern float complex cpowf(float complex z, float c);
+extern long double complex cpowl(long double complex z, long double c);
+
 /****************************************************************************/
 
 /* Unimplemented functions (so far)... */
@@ -171,10 +175,6 @@ extern long double complex clogl(long double complex z);
 /****************************************************************************/
 
 #if 0
-
-extern double complex cpow(double complex z);
-extern float complex cpowf(float complex z);
-extern long double complex cpowl(long double complex z);
 
 extern double complex csqrt(double complex z);
 extern float complex csqrtf(float complex z);
