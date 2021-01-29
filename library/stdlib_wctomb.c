@@ -40,6 +40,5 @@
 int
 wctomb(char *s, wchar_t wchar)
 {
-	/* ZZZ unimplemented */
-	return(-1);
+    return s ? wcrtomb(s, wc, 0) : 0;
 }
