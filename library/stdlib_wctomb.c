@@ -38,7 +38,7 @@
 /****************************************************************************/
 
 int
-wctomb(char *s, wchar_t wchar)
+wctomb(char *s, wchar_t wc)
 {
     return s ? wcrtomb(s, wc, 0) : 0;
 }
