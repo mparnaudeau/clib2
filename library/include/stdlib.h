@@ -83,9 +83,9 @@ typedef struct { long quot; long rem; } ldiv_t;
 
 extern int mblen(const char *s, size_t n);
 extern int mbtowc(wchar_t *pwc, const char *s, size_t n);
-extern int wctomb(char *s, wchar_t wchar);
+extern int wctomb(char *s, wchar_t wc);
 extern size_t mbstowcs(wchar_t *pwcs, const char *s, size_t n);
-extern size_t wcstombs(char *s, const wchar_t *pwcs, size_t n);
+extern size_t wcstombs(char *s, const wchar_t *ws, size_t n);
 
 /****************************************************************************/
 

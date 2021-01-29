@@ -38,8 +38,7 @@
 /****************************************************************************/
 
 size_t
-wcstombs(char *s, const wchar_t *pwcs, size_t n)
+wcstombs(char *s, const wchar_t *ws, size_t n)
 {
-	/* ZZZ unimplemented */
-	return(0);
+    return wcsrtombs(s, &(const wchar_t *) { ws }, n, 0);
 }
