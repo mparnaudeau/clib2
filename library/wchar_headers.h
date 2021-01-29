@@ -46,4 +46,10 @@
 
 /****************************************************************************/
 
+/* Arbitrary encoding for representing code units instead of characters. */
+#define CODEUNIT(C) (0xdfff & (signed char) (C) )
+#define IS_CODEUNIT(C) ((unsigned) (C) - 0xdf80 < 0x80)
+
+/****************************************************************************/
+
 #endif /* _WCHAR_HEADERS_H */
