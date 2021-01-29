@@ -94,6 +94,7 @@ extern int mbsinit(const mbstate_t *ps);
 extern size_t wcrtomb(char *s, wchar_t wc, mbstate_t *ps);
 extern size_t mbsrtowcs(wchar_t *pwcs, const char **src, size_t n, mbstate_t *ps);
 extern size_t wcsrtombs(char *s, const wchar_t **src, size_t n, mbstate_t *ps);
+extern size_t wcsnrtombs(char *dst, const wchar_t **wcs, size_t wn, size_t n, mbstate_t *st);
 
 /****************************************************************************/
 
