@@ -23,11 +23,8 @@
 
 /****************************************************************************/
 
-size_t
-wcsspn(const wchar_t *p, const wchar_t *q)
+int
+vswscanf(wchar_t *s, const wchar_t *format, ...)
 {
-	(void) p;
-	(void) q;
-
 	return 0;
 }

@@ -23,11 +23,24 @@
 
 /****************************************************************************/
 
-size_t
-wcsspn(const wchar_t *p, const wchar_t *q)
-{
-	(void) p;
-	(void) q;
+#if defined(FLOATING_POINT_SUPPORT)
 
-	return 0;
+/****************************************************************************/
+
+#if LDBL_MANT_DIG == DBL_MANT_DIG && LDBL_MAX_EXP == DBL_MAX_EXP
+
+/****************************************************************************/
+
+long double
+wcstold(const wchar_t *p, wchar_t **q)
+{
+	return wcstod(p, q);
 }
+
+/****************************************************************************/
+
+#endif /* LDBL_MANT_DIG == DBL_MANT_DIG && LDBL_MAX_EXP == DBL_MAX_EXP */
+
+/****************************************************************************/
+
+#endif /* FLOATING_POINT_SUPPORT */

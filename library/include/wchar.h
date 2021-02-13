@@ -104,7 +104,7 @@ extern int wcsncmp(const wchar_t *p, const wchar_t *q, size_t n);
 extern wchar_t * wcscpy(wchar_t *p, const wchar_t *q);
 extern wchar_t * wcsncpy(wchar_t *p, const wchar_t *q, size_t n);
 extern size_t wcslen(const wchar_t *s);
-extern wchar_t * wcschr(const wchar_t *s, wchar_t c);
+extern wchar_t * wcschr(const wchar_t *p, wchar_t c);
 extern size_t wcsspn(const wchar_t *p, const wchar_t *q);
 extern wchar_t *wcspbrk(const wchar_t *p, const wchar_t *q);
 extern wchar_t *wcstok(wchar_t *p, const wchar_t *q);
@@ -112,9 +112,13 @@ extern wchar_t *wcsstr(const wchar_t *src, const wchar_t *sub);
 
 /****************************************************************************/
 
+extern float wcstof(const wchar_t *p, wchar_t **q);
 extern double wcstod(const wchar_t *p, wchar_t **q);
+extern long double wcstold(const wchar_t *p, wchar_t **q);
 extern long wcstol(const wchar_t *p, wchar_t **q, int base);
+extern long long wcstoll(const wchar_t *p, wchar_t **q, int base);
 extern unsigned long wcstoul(const wchar_t *p, wchar_t **q, int base);
+extern unsigned long long wcstoull(const wchar_t *p, wchar_t **q, int base);
 
 /****************************************************************************/
 
@@ -147,8 +151,11 @@ extern wchar_t *fgetws(wchar_t *p, int n, FILE *f);
 /****************************************************************************/
 
 extern int fwscanf(FILE *f, const wchar_t *format, ...);
+extern int vfwscanf(FILE *f, const wchar_t *format, ...);
 extern int wscanf(const wchar_t *format, ...);
+extern int vwscanf(const wchar_t *format, ...);
 extern int swscanf(wchar_t *s, const wchar_t *format, ...);
+extern int vswscanf(wchar_t *s, const wchar_t *format, ...);
 
 /****************************************************************************/
 
@@ -165,7 +172,6 @@ extern wint_t fputws(const wchar_t *s, FILE *f);
 extern int fwprintf(FILE *f, const wchar_t *format, ...);
 extern int wprintf(const wchar_t *format, ...);
 extern int swprintf(wchar_t *s, const wchar_t *format, ...);
-
 /****************************************************************************/
 
 extern int vfwprintf(FILE *f, const wchar_t *format, va_list arg);

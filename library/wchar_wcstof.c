@@ -23,11 +23,15 @@
 
 /****************************************************************************/
 
-size_t
-wcsspn(const wchar_t *p, const wchar_t *q)
+#if defined(FLOATING_POINT_SUPPORT)
+
+float
+wcstof(const wchar_t *p, wchar_t **q)
 {
 	(void) p;
 	(void) q;
 
 	return 0;
 }
+
+#endif /* FLOATING_POINT_SUPPORT */

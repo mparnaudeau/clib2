@@ -267,7 +267,7 @@ extern float hypotf(float x, float y);
 extern float lgammaf(float x);
 extern float log1pf(float x);
 extern float logbf(float x);
-extern long int llrintf(float x);
+extern long long int llrintf(float x);
 extern long int lrintf(float x);
 extern long long int llroundf(float x);
 extern long int lroundf(float x);
