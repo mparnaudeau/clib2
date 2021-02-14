@@ -21,10 +21,9 @@
 /****************************************************************************/
 
 int
-swprintf(wchar_t *s, const wchar_t *format, ...)
+wcscoll_l(const wchar_t *ws1, const wchar_t *ws2, locale_t loc)
 {
-	(void) s;
-	(void) format;
+	(void) loc;
 
-	return 0;
+	return wcscmp(ws1, ws2);
 }

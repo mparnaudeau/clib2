@@ -107,7 +107,7 @@ extern size_t wcslen(const wchar_t *s);
 extern wchar_t * wcschr(const wchar_t *p, wchar_t c);
 extern size_t wcsspn(const wchar_t *p, const wchar_t *q);
 extern wchar_t *wcspbrk(const wchar_t *p, const wchar_t *q);
-extern wchar_t *wcstok(wchar_t *p, const wchar_t *q);
+extern wchar_t *wcstok(wchar_t *s, const wchar_t *q, wchar_t **p);
 extern wchar_t *wcsstr(const wchar_t *src, const wchar_t *sub);
 
 /****************************************************************************/
@@ -174,13 +174,13 @@ extern int wprintf(const wchar_t *format, ...);
 extern int swprintf(wchar_t *s, const wchar_t *format, ...);
 /****************************************************************************/
 
-extern int vfwprintf(FILE *f, const wchar_t *format, va_list arg);
-extern int vwprintf(const wchar_t *format, va_list arg);
-extern int vswprintf(wchar_t *s, size_t maxlen, const wchar_t *format, va_list arg);
+extern int vfwprintf(FILE *f, const wchar_t *format, ...);
+extern int vwprintf(const wchar_t *format, ...);
+extern int vswprintf(wchar_t *s, size_t maxlen, const wchar_t *format, ...);
 
 /****************************************************************************/
 
-extern size_t wcsftime(wchar_t *s, size_t maxsize, const wchar_t *format, const struct tm *timeptr);
+extern size_t wcsftime(wchar_t *s, size_t n, const wchar_t *f, const struct tm *tm);
 
 /****************************************************************************/
 
