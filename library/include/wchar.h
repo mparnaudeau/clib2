@@ -190,7 +190,7 @@ extern size_t wcsftime(wchar_t *s, size_t n, const wchar_t *f, const struct tm *
 /****************************************************************************/
 
 extern size_t mbrlen(const char *restrict s, size_t n, mbstate_t *restrict ps);
-extern size_t mbrtowc(wchar_t *wcp, const char *s, size_t n, mbstate_t *ps);
+extern size_t mbrtowc(wchar_t *wcp, const char *sp, size_t n, mbstate_t *ps);
 extern int mbsinit(const mbstate_t *ps);
 extern size_t mbsnrtowcs(wchar_t *restrict dst, const char **restrict src, size_t nmc, size_t len, mbstate_t *restrict ps);
 extern size_t mbsrtowcs(wchar_t *restrict dst, const char **restrict src, size_t len, mbstate_t *restrict ps);
