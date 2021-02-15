@@ -151,11 +151,11 @@ extern wchar_t *fgetws(wchar_t *p, int n, FILE *f);
 /****************************************************************************/
 
 extern int fwscanf(FILE *f, const wchar_t *format, ...);
-extern int vfwscanf(FILE *f, const wchar_t *format, ...);
+extern int vfwscanf(FILE *f, const wchar_t *format, va_list arg);
 extern int wscanf(const wchar_t *format, ...);
-extern int vwscanf(const wchar_t *format, ...);
+extern int vwscanf(const wchar_t *format, va_list arg);
 extern int swscanf(wchar_t *s, const wchar_t *format, ...);
-extern int vswscanf(wchar_t *s, const wchar_t *format, ...);
+extern int vswscanf(wchar_t *s, const wchar_t *format, va_list arg);
 
 /****************************************************************************/
 
@@ -174,9 +174,9 @@ extern int wprintf(const wchar_t *format, ...);
 extern int swprintf(wchar_t *s, const wchar_t *format, ...);
 /****************************************************************************/
 
-extern int vfwprintf(FILE *f, const wchar_t *format, ...);
-extern int vwprintf(const wchar_t *format, ...);
-extern int vswprintf(wchar_t *s, size_t maxlen, const wchar_t *format, ...);
+extern int vfwprintf(FILE *f, const wchar_t *format, va_list arg);
+extern int vwprintf(const wchar_t *format, va_list arg);
+extern int vswprintf(wchar_t *s, size_t maxlen, const wchar_t *format, va_list arg);
 
 /****************************************************************************/
 
