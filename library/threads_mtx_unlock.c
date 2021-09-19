@@ -20,6 +20,12 @@
 
 int mtx_unlock(mtx_t *mutex)
 {
+    ENTER();
+    assert(mutex && mutex->mutex);
+
+    TLOG(("Unlock mutex.\n"));
     MutexRelease((APTR) mutex->mutex);
+
+    LEAVE();
     return thrd_success;
 }

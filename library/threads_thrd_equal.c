@@ -20,5 +20,9 @@
 
 int thrd_equal(thrd_t lhs, thrd_t rhs)
 {
+    ENTER();
+    assert(lhs && rhs);
+
+    LEAVE();
     return lhs == rhs;
 }

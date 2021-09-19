@@ -20,17 +20,28 @@
 
 int mtx_init(mtx_t *mutex, int type)
 {
+    ENTER();
+    assert(mutex);
+
+    TLOG(("Check type and create mutex.\n"));
     if(unlikely(!type || type >= (mtx_timed << 1) || ((type & mtx_timed) &&
       (type & mtx_plain)) || !__thrd_mutex_create(&mutex->mutex, type &
        mtx_recursive)))
     {
-        /* Invalid type or out of memory. */
+        TLOG(("Invalid type or out of memory.\n"));
+
+        LEAVE();
         return thrd_error;
     }
 
+    assert(mutex->mutex);
+
+    TLOG(("Locked mutex created.\n"));
     mutex->type = type;
 
-    /* Mutex is locked at birth. Unlock before returning. */
+    TLOG(("Unlock mutex.\n"));
     MutexRelease((APTR) mutex->mutex);
+
+    LEAVE();
     return thrd_success;
 }

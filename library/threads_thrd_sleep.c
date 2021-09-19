@@ -20,7 +20,10 @@
 
 int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
 {
-    /* Very crude sleep by converting timespec to ticks. */
+    ENTER();
+    assert(duration);
+
+    /* Very rough sleep in ticks. */
     uint32_t nsecs_per_tick = 1000000000 / TICKS_PER_SECOND,
              nsecs_remain = duration->tv_nsec % nsecs_per_tick,
              nticks = duration->tv_nsec / nsecs_per_tick +
@@ -28,9 +31,13 @@ int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
 
     if(remaining)
     {
+        TLOG(("No time remaining.\n"));
         remaining->tv_sec = remaining->tv_nsec = 0;
     }
 
+    TLOG(("Go to sleep.\n"));
     Delay(nticks);
+
+    LEAVE();
     return 0;
 }

@@ -20,8 +20,14 @@
 
 void call_once(once_flag *flag, void (*func)(void))
 {
+    ENTER();
+    assert(flag && func);
+
     if(!atomic_flag_test_and_set(flag))
     {
+        TLOG(("Enter func().\n"));
         func();
     }
+
+    LEAVE();
 }

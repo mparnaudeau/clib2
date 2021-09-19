@@ -23,19 +23,28 @@ extern atomic_uintptr_t __thrd_store_lock;
 
 void thrd_exit(int retval)
 {
+    ENTER();
+    assert(__thrd_store_lock);
+
+    TLOG(("Lock thread store.\n"));
     MutexObtain((APTR) __thrd_store_lock);
 
-    /* Find ourselves in thread store. */
+    TLOG(("Find current thread in store.\n"));
     __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, FindTask(NULL));
 
+    TLOG(("Unlock thread store.\n"));
     MutexRelease((APTR) __thrd_store_lock);
 
     if(unlikely(!thread))
     {
-        /* Not thrd_create:ed. */
+        TLOG(("Thread not found.\n"));
+
+        LEAVE();
         return;
     }
 
-    /* __thrd_wrap exit point. */
+    TLOG(("Jump to thread exit point.\n"));
+
+    LEAVE();
     longjmp(thread->stop, retval);
 }

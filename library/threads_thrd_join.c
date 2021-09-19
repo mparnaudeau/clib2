@@ -23,44 +23,63 @@ extern atomic_uintptr_t __thrd_store_lock;
 
 int thrd_join(thrd_t thread, int *retval)
 {
+    ENTER();
+    assert(thread);
+
     if(!__thrd_store)
     {
-        /* Nothing to join. */
+        TLOG(("No threads.\n"));
+
+        LEAVE();
         return thrd_error;
     }
 
-    /* Find thread to be joined. */
+    TLOG(("Lock thread store.\n"));
     MutexObtain((APTR) __thrd_store_lock);
+
+    TLOG(("Find thread to be joined.\n"));
     __thrd_s *node = (__thrd_s *) FindSkipNode(__thrd_store, thread);
 
     if(unlikely(!node))
     {
-        /* Thread is not running anymore. */
+        TLOG(("Thread not found.\n"));
         MutexRelease((APTR) __thrd_store_lock);
+
+        LEAVE();
         return thrd_error;
     }
 
     do
     {
-        /* Disable __thrd_final garbage collection. */
+        TLOG(("Block garbage collection.\n"));
         atomic_flag_clear(&(node->gc));
 
-        /* Wait for signal of death. */
+        TLOG(("Unlock thread store.\n"));
         MutexRelease((APTR) __thrd_store_lock);
+
+        TLOG(("Wait for signal of death.\n"));
         Wait(SIGF_CHILD);
+
+        TLOG(("Received signal of death.\n"));
         SetSignal(0L, SIGF_CHILD);
+
+        TLOG(("Lock thread store.\n"));
         MutexObtain((APTR) __thrd_store_lock);
     }
     while(!atomic_flag_test_and_set(&node->gc));
 
     if(retval)
     {
-        /* Get thread return value. */
+        TLOG(("Get thread return value.\n"));
         *retval = node->retval;
     }
 
-    /* Remove thread from thread store. */
+    TLOG(("Garbage collect thread.\n"));
     RemoveSkipNode(__thrd_store, &thread);
+
+    TLOG(("Unlock thread store.\n"));
     MutexRelease((APTR) __thrd_store_lock);
+
+    LEAVE();
     return thrd_success;
 }

@@ -20,5 +20,10 @@
 
 void thrd_yield(void)
 {
+    ENTER();
+
+    TLOG(("Reschedule.\n"));
     Reschedule();
+
+    LEAVE();
 }
