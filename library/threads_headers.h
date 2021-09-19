@@ -40,8 +40,24 @@
 #include "include/threads.h"
 
 /*------------------------------------------------------------------------------
- Thread list node.
- */
+ * thrd|tss|mtx|cnd
+*/
+LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs);
+bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec);
+void __thrd_mutex_free(atomic_uintptr_t *target);
+int __thrd_mutex_replace(atomic_uintptr_t *target);
+
+/*------------------------------------------------------------------------------
+ * cnd|mtx
+*/
+#define POLL_STRIDE 5
+
+ULONG __eclock_future(const struct timespec *restrict time_point);
+int __eclock_poll(int (*poll)(void *), void *data, ULONG time, ULONG stride);
+
+/*------------------------------------------------------------------------------
+ * thrd
+*/
 typedef struct
 {
     struct SkipNode node;
@@ -53,31 +69,35 @@ typedef struct
 } __thrd_s;
 
 /*------------------------------------------------------------------------------
- TSS skip list value node.
- */
+ * tss
+*/
 typedef struct
 {
     struct SkipNode node;
     void *value;
 } __tss_v;
 
-/*------------------------------------------------------------------------------
- TSS list node.
- */
 typedef struct
 {
     struct Node node;
     tss_t tss;
 } __tss_n;
 
-
-ULONG __eclock_future(const struct timespec *restrict time_point);
-int __eclock_poll(int (*poll)(void *), void *data, ULONG time, ULONG stride);
-LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs);
-bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec);
-void __thrd_mutex_free(atomic_uintptr_t *target);
-int __thrd_mutex_replace(atomic_uintptr_t *target);
 void __tss_store_purge(struct Task *task);
 
+/*------------------------------------------------------------------------------
+ * cnd
+*/
+
+typedef struct
+{
+    struct Node node;
+    struct Task *task;
+    BYTE sigbit;
+} __cnd_node;
+
+void __cnd_signal(cnd_t *cond, bool broadcast);
+int __cnd_wait(cnd_t *cond, mtx_t *mutex,
+               const struct timespec *restrict time_point);
 
 #endif /* _THREADS_HEADERS_H */

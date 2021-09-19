@@ -66,5 +66,5 @@ int mtx_timedlock(mtx_t *restrict mutex,
 
     LEAVE();
     return __eclock_poll(__mtx_trylock_callback, mutex,
-                         __eclock_future(time_point), 5);
+                         __eclock_future(time_point), POLL_STRIDE);
 }
