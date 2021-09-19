@@ -27,14 +27,24 @@
 */
 void __thrd_mutex_free(atomic_uintptr_t *target)
 {
+    ENTER();
+    assert(target);
+
+    TLOG(("Zero exchange mutex.\n"));
     atomic_uintptr_t mutex = atomic_exchange(target, 0);
 
     if(unlikely(!mutex))
     {
+        TLOG(("No mutex.\n"));
+
+        LEAVE();
         return;
     }
 
+    TLOG(("Unlock mutex.\n"));
     MutexRelease((APTR) mutex);
+
+    TLOG(("Free mutex.\n"));
     FreeSysObject(ASOT_MUTEX, (APTR) mutex);
 }
 
@@ -48,21 +58,27 @@ void __thrd_mutex_free(atomic_uintptr_t *target)
 */
 bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec)
 {
+    ENTER();
+    assert(target);
+
+    TLOG(("Create mutex.\n"));
     atomic_uintptr_t mutex = (atomic_uintptr_t)
         AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
         rec ? TRUE : FALSE, TAG_END);
 
-    /* Always store the result. */
+    TLOG(("Store mutex.\n"));
     atomic_store(target, mutex);
 
     if(unlikely(!mutex))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
         return false;
     }
 
-    /* Locked from birth. */
+    TLOG(("Lock mutex.\n"));
     MutexObtain((APTR) mutex);
+
+    LEAVE();
     return true;
 }
 
@@ -76,28 +92,37 @@ bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec)
 */
 int __thrd_mutex_replace(atomic_uintptr_t *target)
 {
+    ENTER();
+    assert(target);
+
     atomic_uintptr_t mutex;
 
+    TLOG(("Create mutex.\n"));
     if(unlikely(!__thrd_mutex_create(&mutex, true)))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
         return thrd_error;
     }
 
+    TLOG(("Exchange mutex.\n"));
     atomic_uintptr_t old = atomic_exchange(target, mutex);
 
     if(likely(!old))
     {
-        /* Nothing replaced. */
+        TLOG(("No exchange.\n"));
         return thrd_success;
     }
 
-    /* Lock in case it's in use. */
+    TLOG(("Lock old mutex.\n"));
     MutexObtain((APTR) old);
+
+    TLOG(("Unlock old mutex.\n"));
     MutexRelease((APTR) old);
+
+    TLOG(("Free old mutex.\n"));
     FreeSysObject(ASOT_MUTEX, (APTR) old);
 
-    /* Signal replacement with thrd_busy. */
+    LEAVE();
     return thrd_busy;
 }
 
@@ -134,33 +159,45 @@ static bool __thrd_store_init(void)
         .h_Entry = (uint32 (*)()) __thrd_ptr_cmp_callback
     };
 
-    /* Mutex is locked at birth. */
+    TLOG(("Create locked thread store mutex.\n"));
     int status = __thrd_mutex_replace(&__thrd_store_lock);
 
     if(unlikely(status == thrd_error))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
         return false;
     }
 
-    /* This should be impossible. */
     if(unlikely(status == thrd_busy))
     {
+        TLOG(("Init called more than once.\n"));
+
+        TLOG(("Unlock thread store mutex.\n"));
         MutexRelease((APTR) __thrd_store_lock);
+
+        LEAVE();
         return __thrd_store != NULL;
     }
 
-    /* Create thread store skip list. */
+    TLOG(("Create thread store skip list.\n"));
     __thrd_store = CreateSkipList(&__thrd_ptr_cmp_hook, 16);
 
     if(unlikely(!__thrd_store))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
+
+        TLOG(("Free thread store mutex.\n"));
         __thrd_mutex_free(&__thrd_store_lock);
+        assert(!__thrd_store_lock);
+
+        LEAVE();
         return false;
     }
 
+    TLOG(("Unlock thread store mutex.\n"));
     MutexRelease((APTR) __thrd_store_lock);
+
+    LEAVE();
     return true;
 }
 
@@ -176,38 +213,54 @@ static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
     (void) data;
     (void) sysbase;
 
+    ENTER();
+    assert(__thrd_store && __thrd_store_lock);
+
+    TLOG(("Lock thread store mutex.\n"));
     struct Task *task = FindTask(NULL);
     MutexObtain((APTR) __thrd_store_lock);
+
+    TLOG(("Find thread in store.\n"));
     __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, task);
 
     if(unlikely(!thread))
     {
-        /* This will only happen on out of memory. */
+        TLOG(("Thread not found.\n"));
         MutexRelease((APTR) __thrd_store_lock);
+
+        LEAVE();
         return;
     }
 
     if(atomic_flag_test_and_set(&(thread->gc)))
     {
-        /* Garbage collect thread. */
+        TLOG(("Garbage collect thread.\n"));
         RemoveSkipNode(__thrd_store, task);
 
         if(!GetFirstSkipNode(__thrd_store))
         {
-            /* Delete empty thread store. */
+            TLOG(("Free empty thread store.\n"));
             DeleteSkipList(__thrd_store);
             __thrd_store = NULL;
+
+            TLOG(("Free thread store mutex.\n"));
             __thrd_mutex_free(&__thrd_store_lock);
+            assert(!__thrd_store_lock);
+
+            LEAVE();
             return;
         }
     }
     else
     {
-        /* Thread is being joined. */
+        TLOG(("Get thread return value.\n"));
         thread->retval = retval;
     }
 
+    TLOG(("Unlock thread store mutex.\n"));
     MutexRelease((APTR) __thrd_store_lock);
+
+    LEAVE();
 }
 
 /*------------------------------------------------------------------------------
@@ -219,80 +272,111 @@ static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
 */
 static int32_t __thrd_wrap(void)
 {
+    ENTER();
+    assert(__thrd_store && __thrd_store_lock);
+
     struct Task *task = FindTask(NULL);
 
-    /* Wait until initialized. */
+    TLOG(("Halt by locking thread store mutex.\n"));
     MutexObtain((APTR) __thrd_store_lock);
 
-    /* We should find ourselves unless out of memory. */
+    TLOG(("Find current thread in store.\n"));
     __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, task);
+
+    TLOG(("Unlock thread store mutex.\n"));
     MutexRelease((APTR) __thrd_store_lock);
 
     if(unlikely(!thread))
     {
+        TLOG(("Thread not found.\n"));
+
+        LEAVE();
         return -1;
     }
 
-    /* Exit point. */
+    TLOG(("Set thread exit point.\n"));
     int32_t retval = setjmp(thread->stop);
 
     if(unlikely(retval))
     {
-        /* thrd_exit(). */
+        TLOG(("Thread exit.\n"));
+
+        TLOG(("Free TSS.\n"));
         __tss_store_purge(task);
+
+        LEAVE();
         return retval;
     }
 
-    /* Enter user function. */
+    TLOG(("Invoke thread start function.\n"));
     retval = thread->start(thread->arg);
 
-    /* Free TSS. */
+    TLOG(("Free TSS.\n"));
     __tss_store_purge(task);
+
+    LEAVE();
     return retval;
 }
 
 int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
 {
+    ENTER();
+    assert(thread && start);
+
+    /* Init store once only. */
     static atomic_flag init = ATOMIC_FLAG_INIT;
 
-    /* Init store one time and one time only. */
     if(unlikely(!atomic_flag_test_and_set(&init) && !__thrd_store_init()))
     {
+        TLOG(("Out of memory.\n"));
         atomic_flag_clear(&init);
+
+        LEAVE();
         return thrd_nomem;
     }
 
-    /* Lock store to halt new process. See __thrd_wrap(). */
+    assert(__thrd_store && __thrd_store_lock);
+
+    TLOG(("Lock thread store mutex to halt new process.\n"));
     MutexObtain((APTR) __thrd_store_lock);
 
-    /* Spawn new process. */
+    TLOG(("Create new process.\n"));
     *thread = (struct Task *) CreateNewProcTags(NP_Entry, __thrd_wrap,
         NP_FinalCode, __thrd_final, NP_Child, TRUE, NP_NotifyOnDeathSigTask,
         FindTask(NULL), TAG_END);
 
     if(unlikely(!*thread))
     {
+        TLOG(("Out of memory.\n"));
         MutexRelease((APTR) __thrd_store_lock);
+
+        LEAVE();
         return thrd_nomem;
     }
 
-    /* Create thread store entry. */
+    TLOG(("Create thread store entry.\n"));
     __thrd_s *node = (__thrd_s *)
         InsertSkipNode(__thrd_store, *thread, sizeof(__thrd_s));
 
     if(unlikely(!node))
     {
+        TLOG(("Out of memory.\n"));
         MutexRelease((APTR) __thrd_store_lock);
+
+        LEAVE();
         return thrd_nomem;
     }
 
-    /* Initialize thread. */
+    TLOG(("Initialize thread.\n"));
+
     (void) atomic_flag_test_and_set(&(node->gc));
     node->start = start;
     node->arg = arg;
     node->retval = 0;
 
-    /* Unlock will unhalt thread. */
+    TLOG(("Unlock thread store mutex.\n"));
     MutexRelease((APTR) __thrd_store_lock);
+
+    LEAVE();
     return thrd_success;
 }

@@ -30,32 +30,52 @@ atomic_uintptr_t __tss_store_lock = 0;
 */
 static bool __tss_store_init(void)
 {
+    ENTER();
+
+    TLOG(("Create locked TSS store mutex.\n"));
     int status = __thrd_mutex_replace(&__tss_store_lock);
 
     if(unlikely(status == thrd_error))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
+        assert(!__tss_store_lock);
+
+        LEAVE();
         return false;
     }
 
-    /* This should never happen. */
+    assert(status != thrd_busy);
+
     if(unlikely(status == thrd_busy))
     {
+        TLOG(("Init called more than once.\n"));
+
+        TLOG(("Unlock TSS store mutex.\n"));
         MutexRelease((APTR) __tss_store_lock);
+
+        LEAVE();
         return __tss_store != NULL;
     }
 
-    /* Create global TSS store. */
+    TLOG(("Create TSS store.\n"));
     __tss_store = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
     if(unlikely(!__tss_store))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
+
+        TLOG(("Free TSS store mutex.\n"));
         __thrd_mutex_free(&__tss_store_lock);
+        assert(!__tss_store_lock);
+
+        LEAVE();
         return false;
     }
 
+    TLOG(("Unlock TSS store lock.\n"));
     MutexRelease((APTR) __tss_store_lock);
+
+    LEAVE();
     return true;
 }
 
@@ -68,74 +88,106 @@ static bool __tss_store_init(void)
 */
 static bool __tss_store_insert(tss_t *tss_key)
 {
-    static atomic_flag init = ATOMIC_FLAG_INIT;
+    ENTER();
+    assert(tss_key);
 
     /* Init store once only. */
+    static atomic_flag init = ATOMIC_FLAG_INIT;
+
     if(unlikely(!atomic_flag_test_and_set(&init) && !__tss_store_init()))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
         atomic_flag_clear(&init);
+
+        LEAVE();
         return false;
     }
 
-    /* Create list node. */
+    TLOG(("Create TSS node.\n"));
     __tss_n *node = (__tss_n *)
         AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__tss_n),
         ASONODE_Type, NT_USER, TAG_END);
 
     if(unlikely(!node))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
+
+        LEAVE();
         return false;
     }
 
-    /* Initialize node. */
+    TLOG(("Initialize TSS node.\n"));
     node->tss = *tss_key;
 
-    /* Insert node in store list. */
+    TLOG(("Lock TSS store mutex.\n"));
     MutexObtain((APTR) __tss_store_lock);
+
+    TLOG(("Insert TSS node in store.\n"));
     AddTail(__tss_store, (struct Node *) node);
+
+    TLOG(("Unlock TSS store mutex.\n"));
     MutexRelease((APTR) __tss_store_lock);
+
+    LEAVE();
     return true;
 }
 
 int tss_create(tss_t *tss_key, tss_dtor_t destructor)
 {
+    ENTER();
+    assert(tss_key);
+
     static struct Hook tss_t_cmp_hook =
     {
         .h_Entry = (uint32 (*)()) __thrd_ptr_cmp_callback
     };
 
-    /* Mutex is locked from birth. */
+    TLOG(("Create locked mutex.\n"));
     if(unlikely(!__thrd_mutex_create(&tss_key->mutex, true)))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
+
+        LEAVE();
         return thrd_error;
     }
 
-    /* Values are stored in a skip list. */
+    TLOG(("Create value skip list.\n"));
     tss_key->values = CreateSkipList(&tss_t_cmp_hook, 16);
 
     if(unlikely(!tss_key->values))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
+
+        TLOG(("Free mutex.\n"));
         __thrd_mutex_free(&tss_key->mutex);
+        assert(!tss_key->mutex);
+
+        LEAVE();
         return thrd_error;
     }
 
-    /* Set destructor. */
+    TLOG(("Set destructor.\n"));
     tss_key->destructor = destructor;
 
-    /* Insert in global TSS store. */
+    TLOG(("Insert key in global TSS store.\n"));
     if(unlikely(!__tss_store_insert(tss_key)))
     {
-        /* Out of memory. */
+        TLOG(("Out of memory.\n"));
+
+        TLOG(("Free value skip list.\n"));
         DeleteSkipList(tss_key->values);
+
+        TLOG(("Free mutex.\n"));
         __thrd_mutex_free(&tss_key->mutex);
+        assert(!tss_key->mutex);
+
+        LEAVE();
         return thrd_error;
     }
 
+    TLOG(("Unlock mutex.\n"));
     MutexRelease((APTR) tss_key->mutex);
+
+    LEAVE();
     return thrd_success;
 }
-

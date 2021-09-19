@@ -1,6 +1,18 @@
 #ifndef _THREADS_HEADERS_H
 #define _THREADS_HEADERS_H
 
+#ifdef NDEBUG
+#undef NDEBUG
+#endif /* NDEBUG */
+
+#ifndef DEBUG
+#define DEBUG
+#endif /* DEBUG */
+
+#ifndef _DEBUG_H
+#include "debug.h"
+#endif /* _DEBUG_H */
+
 #ifndef _MACROS_H
 #include "macros.h"
 #endif /* _MACROS_H */

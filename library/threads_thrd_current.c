@@ -20,5 +20,7 @@
 
 thrd_t thrd_current(void)
 {
+    ENTER();
+    LEAVE();
     return FindTask(NULL);
 }

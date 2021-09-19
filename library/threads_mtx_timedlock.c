@@ -28,26 +28,43 @@
 */
 static int __mtx_trylock_callback(void *data)
 {
+    ENTER();
+    assert(data);
+
+    TLOG(("Attempt to lock mutex.\n"));
+
+    LEAVE();
     return mtx_trylock((mtx_t *) data);
 }
 
 int mtx_timedlock(mtx_t *restrict mutex,
                   const struct timespec *restrict time_point)
 {
+    ENTER();
+    assert(mutex && mutex->mutex && time_point);
+
     if(unlikely(!(mutex->type & mtx_timed)))
     {
+        TLOG(("Not an mtx_timed mutex.\n"));
+
+        LEAVE();
         return thrd_error;
     }
 
-    /* Initial attempt. */
+    TLOG(("Initial locking attempt.\n"));
     int lock = mtx_trylock(mutex);
 
     if(lock != thrd_busy)
     {
+        TLOG(("Not busy.\n"));
+
+        LEAVE();
         return lock;
     }
 
-    /* Poll until timeout or success. */
+    TLOG(("Poll mutex with timeout.\n"));
+
+    LEAVE();
     return __eclock_poll(__mtx_trylock_callback, mutex,
                          __eclock_future(time_point), 5);
 }

@@ -20,6 +20,11 @@
 
 int thrd_detach(thrd_t thread)
 {
+    ENTER();
+    assert(thread);
+
     (void) thread;
+
+    LEAVE();
     return thrd_success;
 }

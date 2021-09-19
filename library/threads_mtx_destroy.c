@@ -20,7 +20,15 @@
 
 void mtx_destroy(mtx_t *mutex)
 {
-    /* Safety belt. */
+    ENTER();
+    assert(mutex && mutex->mutex);
+
+    TLOG(("Lock mutex before free.\n"));
     MutexObtain((APTR) mutex->mutex);
+
+    TLOG(("Free mutex.\n"));
     __thrd_mutex_free(&mutex->mutex);
+
+    assert(!mutex->mutex);
+    LEAVE();
 }
