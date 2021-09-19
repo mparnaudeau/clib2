@@ -325,6 +325,25 @@ C_LIB := \
 	string_strtok.o \
 	string_strtok_r.o \
 	string_strxfrm.o \
+    threads_call_once.o \
+    threads_mtx_destroy.o \
+    threads_mtx_init.o \
+    threads_mtx_lock.o \
+    threads_mtx_timedlock.o \
+    threads_mtx_trylock.o \
+    threads_mtx_unlock.o \
+    threads_thrd_create.o \
+    threads_thrd_current.o \
+    threads_thrd_detach.o \
+    threads_thrd_equal.o \
+    threads_thrd_exit.o \
+    threads_thrd_join.o \
+    threads_thrd_sleep.o \
+    threads_thrd_yield.o \
+    threads_tss_create.o \
+    threads_tss_delete.o \
+    threads_tss_get.o \
+    threads_tss_set.o \
 	time_asctime.o \
 	time_asctime_r.o \
 	time_clock.o \

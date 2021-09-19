@@ -175,4 +175,19 @@
 
 /****************************************************************************/
 
+#ifdef __has_builtin
+# if __has_builtin (__builtin_expect)
+#  define likely(X) __builtin_expect((X), 1)
+#  define unlikely(X) __builtin_expect((X), 0)
+# endif
+#endif
+#ifndef likely
+# define likely(X) X
+#endif
+#ifndef unlikely
+# define unlikely(X) X
+#endif
+
+/****************************************************************************/
+
 #endif /* _MACROS_H */
