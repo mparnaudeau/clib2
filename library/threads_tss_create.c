@@ -41,12 +41,12 @@ static bool __tss_store_init(void)
     /* This should never happen. */
     if(unlikely(status == thrd_busy))
     {
-        IExec->MutexRelease((APTR) __tss_store_lock);
+        MutexRelease((APTR) __tss_store_lock);
         return __tss_store != NULL;
     }
 
     /* Create global TSS store. */
-    __tss_store = (struct List *) IExec->AllocSysObjectTags(ASOT_LIST, TAG_END);
+    __tss_store = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
     if(unlikely(!__tss_store))
     {
@@ -55,7 +55,7 @@ static bool __tss_store_init(void)
         return false;
     }
 
-    IExec->MutexRelease((APTR) __tss_store_lock);
+    MutexRelease((APTR) __tss_store_lock);
     return true;
 }
 
@@ -80,7 +80,7 @@ static bool __tss_store_insert(tss_t *tss_key)
 
     /* Create list node. */
     __tss_n *node = (__tss_n *)
-        IExec->AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__tss_n),
+        AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__tss_n),
         ASONODE_Type, NT_USER, TAG_END);
 
     if(unlikely(!node))
@@ -93,9 +93,9 @@ static bool __tss_store_insert(tss_t *tss_key)
     node->tss = *tss_key;
 
     /* Insert node in store list. */
-    IExec->MutexObtain((APTR) __tss_store_lock);
-    IExec->AddTail(__tss_store, (struct Node *) node);
-    IExec->MutexRelease((APTR) __tss_store_lock);
+    MutexObtain((APTR) __tss_store_lock);
+    AddTail(__tss_store, (struct Node *) node);
+    MutexRelease((APTR) __tss_store_lock);
     return true;
 }
 
@@ -114,7 +114,7 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
     }
 
     /* Values are stored in a skip list. */
-    tss_key->values = IUtility->CreateSkipList(&tss_t_cmp_hook, 16);
+    tss_key->values = CreateSkipList(&tss_t_cmp_hook, 16);
 
     if(unlikely(!tss_key->values))
     {
@@ -130,12 +130,12 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
     if(unlikely(!__tss_store_insert(tss_key)))
     {
         /* Out of memory. */
-        IUtility->DeleteSkipList(tss_key->values);
+        DeleteSkipList(tss_key->values);
         __thrd_mutex_free(&tss_key->mutex);
         return thrd_error;
     }
 
-    IExec->MutexRelease((APTR) tss_key->mutex);
+    MutexRelease((APTR) tss_key->mutex);
     return thrd_success;
 }
 

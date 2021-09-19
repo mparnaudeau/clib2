@@ -21,6 +21,10 @@
 #include <stdbool.h>
 #endif /* _STDBOOL_H */
 
+#ifndef _SETJMP_H
+#include <setjmp.h>
+#endif /* _SETJMP_H */
+
 #include "include/threads.h"
 
 /*------------------------------------------------------------------------------

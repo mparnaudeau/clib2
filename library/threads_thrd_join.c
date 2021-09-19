@@ -30,14 +30,13 @@ int thrd_join(thrd_t thread, int *retval)
     }
 
     /* Find thread to be joined. */
-    IExec->MutexObtain((APTR) __thrd_store_lock);
-    __thrd_s *node = (__thrd_s *)
-        IUtility->FindSkipNode(__thrd_store, thread);
+    MutexObtain((APTR) __thrd_store_lock);
+    __thrd_s *node = (__thrd_s *) FindSkipNode(__thrd_store, thread);
 
     if(unlikely(!node))
     {
         /* Thread is not running anymore. */
-        IExec->MutexRelease((APTR) __thrd_store_lock);
+        MutexRelease((APTR) __thrd_store_lock);
         return thrd_error;
     }
 
@@ -47,10 +46,10 @@ int thrd_join(thrd_t thread, int *retval)
         atomic_flag_clear(&(node->gc));
 
         /* Wait for signal of death. */
-        IExec->MutexRelease((APTR) __thrd_store_lock);
-        IExec->Wait(SIGF_CHILD);
-        IExec->SetSignal(0L, SIGF_CHILD);
-        IExec->MutexObtain((APTR) __thrd_store_lock);
+        MutexRelease((APTR) __thrd_store_lock);
+        Wait(SIGF_CHILD);
+        SetSignal(0L, SIGF_CHILD);
+        MutexObtain((APTR) __thrd_store_lock);
     }
     while(!atomic_flag_test_and_set(&node->gc));
 
@@ -61,7 +60,7 @@ int thrd_join(thrd_t thread, int *retval)
     }
 
     /* Remove thread from thread store. */
-    IUtility->RemoveSkipNode(__thrd_store, &thread);
-    IExec->MutexRelease((APTR) __thrd_store_lock);
+    RemoveSkipNode(__thrd_store, &thread);
+    MutexRelease((APTR) __thrd_store_lock);
     return thrd_success;
 }

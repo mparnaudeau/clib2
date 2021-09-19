@@ -31,6 +31,6 @@ int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
         remaining->tv_sec = remaining->tv_nsec = 0;
     }
 
-    IDOS->Delay(nticks);
+    Delay(nticks);
     return 0;
 }

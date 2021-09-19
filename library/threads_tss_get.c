@@ -20,14 +20,13 @@
 
 void *tss_get(tss_t tss_key)
 {
-    IExec->MutexObtain((APTR) tss_key.mutex);
+    MutexObtain((APTR) tss_key.mutex);
 
     /* Value or NULL. */
-    __tss_v *tss = (__tss_v *)
-        IUtility->FindSkipNode(tss_key.values, IExec->FindTask(NULL));
+    __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, FindTask(NULL));
     void *value = tss ? tss->value : NULL;
 
-    IExec->MutexRelease((APTR) tss_key.mutex);
+    MutexRelease((APTR) tss_key.mutex);
     return value;
 }
 

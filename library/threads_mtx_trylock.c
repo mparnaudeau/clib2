@@ -20,5 +20,5 @@
 
 int mtx_trylock(mtx_t *mutex)
 {
-    return IExec->MutexAttempt((APTR) mutex->mutex) ? thrd_success : thrd_busy;
+    return MutexAttempt((APTR) mutex->mutex) ? thrd_success : thrd_busy;
 }

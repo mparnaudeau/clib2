@@ -34,8 +34,8 @@ void __thrd_mutex_free(atomic_uintptr_t *target)
         return;
     }
 
-    IExec->MutexRelease((APTR) mutex);
-    IExec->FreeSysObject(ASOT_MUTEX, (APTR) mutex);
+    MutexRelease((APTR) mutex);
+    FreeSysObject(ASOT_MUTEX, (APTR) mutex);
 }
 
 /*------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ void __thrd_mutex_free(atomic_uintptr_t *target)
 bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec)
 {
     atomic_uintptr_t mutex = (atomic_uintptr_t)
-        IExec->AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
+        AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
         rec ? TRUE : FALSE, TAG_END);
 
     /* Always store the result. */
@@ -62,7 +62,7 @@ bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec)
     }
 
     /* Locked from birth. */
-    IExec->MutexObtain((APTR) mutex);
+    MutexObtain((APTR) mutex);
     return true;
 }
 
@@ -93,9 +93,9 @@ int __thrd_mutex_replace(atomic_uintptr_t *target)
     }
 
     /* Lock in case it's in use. */
-    IExec->MutexObtain((APTR) old);
-    IExec->MutexRelease((APTR) old);
-    IExec->FreeSysObject(ASOT_MUTEX, (APTR) old);
+    MutexObtain((APTR) old);
+    MutexRelease((APTR) old);
+    FreeSysObject(ASOT_MUTEX, (APTR) old);
 
     /* Signal replacement with thrd_busy. */
     return thrd_busy;
@@ -116,6 +116,7 @@ atomic_uintptr_t __thrd_store_lock = 0;
 */
 LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs)
 {
+    (void) hook;
     return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
 }
 
@@ -145,12 +146,12 @@ static bool __thrd_store_init(void)
     /* This should be impossible. */
     if(unlikely(status == thrd_busy))
     {
-        IExec->MutexRelease((APTR) __thrd_store_lock);
+        MutexRelease((APTR) __thrd_store_lock);
         return __thrd_store != NULL;
     }
 
     /* Create thread store skip list. */
-    __thrd_store = IUtility->CreateSkipList(&__thrd_ptr_cmp_hook, 16);
+    __thrd_store = CreateSkipList(&__thrd_ptr_cmp_hook, 16);
 
     if(unlikely(!__thrd_store))
     {
@@ -159,7 +160,7 @@ static bool __thrd_store_init(void)
         return false;
     }
 
-    IExec->MutexRelease((APTR) __thrd_store_lock);
+    MutexRelease((APTR) __thrd_store_lock);
     return true;
 }
 
@@ -172,26 +173,29 @@ static bool __thrd_store_init(void)
 */
 static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
 {
-    struct Task *task = IExec->FindTask(NULL);
-    IExec->MutexObtain((APTR) __thrd_store_lock);
-    __thrd_s *thread = (__thrd_s *) IUtility->FindSkipNode(__thrd_store, task);
+    (void) data;
+    (void) sysbase;
+
+    struct Task *task = FindTask(NULL);
+    MutexObtain((APTR) __thrd_store_lock);
+    __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, task);
 
     if(unlikely(!thread))
     {
         /* This will only happen on out of memory. */
-        IExec->MutexRelease((APTR) __thrd_store_lock);
+        MutexRelease((APTR) __thrd_store_lock);
         return;
     }
 
     if(atomic_flag_test_and_set(&(thread->gc)))
     {
         /* Garbage collect thread. */
-        IUtility->RemoveSkipNode(__thrd_store, task);
+        RemoveSkipNode(__thrd_store, task);
 
-        if(!IUtility->GetFirstSkipNode(__thrd_store))
+        if(!GetFirstSkipNode(__thrd_store))
         {
             /* Delete empty thread store. */
-            IUtility->DeleteSkipList(__thrd_store);
+            DeleteSkipList(__thrd_store);
             __thrd_store = NULL;
             __thrd_mutex_free(&__thrd_store_lock);
             return;
@@ -203,7 +207,7 @@ static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
         thread->retval = retval;
     }
 
-    IExec->MutexRelease((APTR) __thrd_store_lock);
+    MutexRelease((APTR) __thrd_store_lock);
 }
 
 /*------------------------------------------------------------------------------
@@ -215,14 +219,14 @@ static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
 */
 static int32_t __thrd_wrap(void)
 {
-    struct Task *task = IExec->FindTask(NULL);
+    struct Task *task = FindTask(NULL);
 
     /* Wait until initialized. */
-    IExec->MutexObtain((APTR) __thrd_store_lock);
+    MutexObtain((APTR) __thrd_store_lock);
 
     /* We should find ourselves unless out of memory. */
-    __thrd_s *thread = (__thrd_s *) IUtility->FindSkipNode(__thrd_store, task);
-    IExec->MutexRelease((APTR) __thrd_store_lock);
+    __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, task);
+    MutexRelease((APTR) __thrd_store_lock);
 
     if(unlikely(!thread))
     {
@@ -259,26 +263,26 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
     }
 
     /* Lock store to halt new process. See __thrd_wrap(). */
-    IExec->MutexObtain((APTR) __thrd_store_lock);
+    MutexObtain((APTR) __thrd_store_lock);
 
     /* Spawn new process. */
-    *thread = (struct Task *) IDOS->CreateNewProcTags(NP_Entry, __thrd_wrap,
+    *thread = (struct Task *) CreateNewProcTags(NP_Entry, __thrd_wrap,
         NP_FinalCode, __thrd_final, NP_Child, TRUE, NP_NotifyOnDeathSigTask,
-        IExec->FindTask(NULL), TAG_END);
+        FindTask(NULL), TAG_END);
 
     if(unlikely(!*thread))
     {
-        IExec->MutexRelease((APTR) __thrd_store_lock);
+        MutexRelease((APTR) __thrd_store_lock);
         return thrd_nomem;
     }
 
     /* Create thread store entry. */
     __thrd_s *node = (__thrd_s *)
-        IUtility->InsertSkipNode(__thrd_store, *thread, sizeof(__thrd_s));
+        InsertSkipNode(__thrd_store, *thread, sizeof(__thrd_s));
 
     if(unlikely(!node))
     {
-        IExec->MutexRelease((APTR) __thrd_store_lock);
+        MutexRelease((APTR) __thrd_store_lock);
         return thrd_nomem;
     }
 
@@ -289,6 +293,6 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
     node->retval = 0;
 
     /* Unlock will unhalt thread. */
-    IExec->MutexRelease((APTR) __thrd_store_lock);
+    MutexRelease((APTR) __thrd_store_lock);
     return thrd_success;
 }

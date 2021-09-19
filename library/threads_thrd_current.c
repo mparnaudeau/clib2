@@ -20,5 +20,5 @@
 
 thrd_t thrd_current(void)
 {
-    return IExec->FindTask(NULL);
+    return FindTask(NULL);
 }

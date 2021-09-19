@@ -20,6 +20,6 @@
 
 int mtx_unlock(mtx_t *mutex)
 {
-    IExec->MutexRelease((APTR) mutex->mutex);
+    MutexRelease((APTR) mutex->mutex);
     return thrd_success;
 }

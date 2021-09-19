@@ -20,29 +20,29 @@
 
 int tss_set(tss_t tss_key, void *val)
 {
-    IExec->MutexObtain((APTR) tss_key.mutex);
+    MutexObtain((APTR) tss_key.mutex);
 
     /* Search for existing value. */
-    struct Task *key = IExec->FindTask(NULL);
-    __tss_v *tss = (__tss_v *) IUtility->FindSkipNode(tss_key.values, key);
+    struct Task *key = FindTask(NULL);
+    __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, key);
 
     if(!tss)
     {
         /* No existing value, create new node. */
-        tss = (__tss_v *) IUtility->InsertSkipNode(tss_key.values, key,
+        tss = (__tss_v *) InsertSkipNode(tss_key.values, key,
               sizeof(__tss_v));
     }
 
     if(unlikely(!tss))
     {
         /* Out of memory. */
-        IExec->MutexRelease((APTR) tss_key.mutex);
+        MutexRelease((APTR) tss_key.mutex);
         return thrd_error;
     }
 
     /* Set or update value. */
     tss->value = val;
 
-    IExec->MutexRelease((APTR) tss_key.mutex);
+    MutexRelease((APTR) tss_key.mutex);
     return thrd_success;
 }
