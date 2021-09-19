@@ -31,6 +31,6 @@ int mtx_init(mtx_t *mutex, int type)
     mutex->type = type;
 
     /* Mutex is locked at birth. Unlock before returning. */
-    IExec->MutexRelease((APTR) mutex->mutex);
+    MutexRelease((APTR) mutex->mutex);
     return thrd_success;
 }

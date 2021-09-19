@@ -20,5 +20,5 @@
 
 void thrd_yield(void)
 {
-    IExec->Reschedule();
+    Reschedule();
 }

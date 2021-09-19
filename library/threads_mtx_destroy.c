@@ -21,6 +21,6 @@
 void mtx_destroy(mtx_t *mutex)
 {
     /* Safety belt. */
-    IExec->MutexObtain((APTR) mutex->mutex);
+    MutexObtain((APTR) mutex->mutex);
     __thrd_mutex_free(&mutex->mutex);
 }

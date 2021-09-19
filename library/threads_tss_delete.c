@@ -23,12 +23,12 @@ extern atomic_uintptr_t __tss_store_lock;
 
 void tss_delete(tss_t tss_key)
 {
-    IExec->MutexObtain((APTR) __tss_store_lock);
+    MutexObtain((APTR) __tss_store_lock);
 
-    for(struct Node *head = IExec->GetHead(__tss_store); head;)
+    for(struct Node *head = GetHead(__tss_store); head;)
     {
         tss_t *tss = &((__tss_n *) head)->tss;
-        head = IExec->GetSucc(head);
+        head = GetSucc(head);
 
         if(tss->values == tss_key.values)
         {
@@ -41,9 +41,9 @@ void tss_delete(tss_t tss_key)
 DEN HÄR MÅSTE DU KOLLA
 */
 
-    IExec->MutexRelease((APTR) __tss_store_lock);
-    IExec->MutexObtain((APTR) tss_key.mutex);
-    IUtility->DeleteSkipList(tss_key.values);
+    MutexRelease((APTR) __tss_store_lock);
+    MutexObtain((APTR) tss_key.mutex);
+    DeleteSkipList(tss_key.values);
     tss_key.values = NULL;
-    IExec->MutexRelease((APTR) tss_key.mutex);
+    MutexRelease((APTR) tss_key.mutex);
 }

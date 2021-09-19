@@ -57,13 +57,29 @@ typedef struct
 extern "C" {
 #endif /* __cplusplus */
 
+
+void call_once(once_flag *flag, void (*func)(void));
+
+void mtx_destroy(mtx_t *mutex);
 int mtx_init(mtx_t *mutex, int type);
 int mtx_lock(mtx_t *mutex);
 int mtx_timedlock(mtx_t *restrict mutex, const struct timespec *restrict time_point);
 int mtx_trylock(mtx_t *mutex);
 int mtx_unlock(mtx_t *mutex);
-void mtx_destroy(mtx_t *mutex);
 
+thrd_t thrd_current(void);
+int thrd_create(thrd_t *thread, thrd_start_t start, void *arg);
+int thrd_detach(thrd_t thread);
+int thrd_equal(thrd_t lhs, thrd_t rhs);
+void thrd_exit(int retval);
+int thrd_join(thrd_t thread, int *retval);
+int thrd_sleep(const struct timespec *duration, struct timespec *remaining);
+void thrd_yield(void);
+
+int tss_create(tss_t *tss_key, tss_dtor_t destructor);
+void *tss_get(tss_t tss_key);
+void tss_delete(tss_t tss_key);
+int tss_set(tss_t tss_key, void *val);
 
 #ifdef __cplusplus
 }

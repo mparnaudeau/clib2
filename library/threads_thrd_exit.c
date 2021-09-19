@@ -23,13 +23,12 @@ extern atomic_uintptr_t __thrd_store_lock;
 
 void thrd_exit(int retval)
 {
-    IExec->MutexObtain((APTR) __thrd_store_lock);
+    MutexObtain((APTR) __thrd_store_lock);
 
     /* Find ourselves in thread store. */
-    __thrd_s *thread = (__thrd_s *)
-        IUtility->FindSkipNode(__thrd_store, IExec->FindTask(NULL));
+    __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, FindTask(NULL));
 
-    IExec->MutexRelease((APTR) __thrd_store_lock);
+    MutexRelease((APTR) __thrd_store_lock);
 
     if(unlikely(!thread))
     {

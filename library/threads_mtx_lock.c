@@ -20,6 +20,6 @@
 
 int mtx_lock(mtx_t *mutex)
 {
-    IExec->MutexObtain((APTR) mutex->mutex);
+    MutexObtain((APTR) mutex->mutex);
     return thrd_success;
 }
