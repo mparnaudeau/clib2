@@ -39,8 +39,17 @@ typedef struct
     int type;
 } mtx_t;
 
-#define ONCE_FLAG_INIT ATOMIC_FLAG_INIT
+typedef struct
+{
+    struct List *tasks;
+    atomic_uintptr_t mutex;
+} cnd_t;
+
 typedef atomic_flag once_flag;
+#define ONCE_FLAG_INIT ATOMIC_FLAG_INIT
+
+#define thread_local _Thread_local
+#define TSS_DTOR_ITERATIONS 16
 
 typedef int (*thrd_start_t)(void *);
 typedef struct Task *thrd_t;
@@ -57,8 +66,15 @@ typedef struct
 extern "C" {
 #endif /* __cplusplus */
 
-
 void call_once(once_flag *flag, void (*func)(void));
+
+int cnd_broadcast(cnd_t *cond);
+void cnd_destroy(cnd_t *cond);
+int cnd_init(cnd_t *cond);
+int cnd_signal(cnd_t *cond);
+int cnd_timedwait(cnd_t *cond, mtx_t *mutex,
+                  const struct timespec *restrict time_point);
+int cnd_wait(cnd_t *cond, mtx_t *mutex);
 
 void mtx_destroy(mtx_t *mutex);
 int mtx_init(mtx_t *mutex, int type);
@@ -67,8 +83,8 @@ int mtx_timedlock(mtx_t *restrict mutex, const struct timespec *restrict time_po
 int mtx_trylock(mtx_t *mutex);
 int mtx_unlock(mtx_t *mutex);
 
-thrd_t thrd_current(void);
 int thrd_create(thrd_t *thread, thrd_start_t start, void *arg);
+thrd_t thrd_current(void);
 int thrd_detach(thrd_t thread);
 int thrd_equal(thrd_t lhs, thrd_t rhs);
 void thrd_exit(int retval);

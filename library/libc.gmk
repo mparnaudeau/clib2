@@ -328,6 +328,12 @@ C_LIB := \
 	string_strtok_r.o \
 	string_strxfrm.o \
     threads_call_once.o \
+    threads_cnd_broadcast.o \
+    threads_cnd_destroy.o \
+    threads_cnd_init.o \
+    threads_cnd_signal.o \
+    threads_cnd_timedwait.o \
+    threads_cnd_wait.o \
     threads_mtx_destroy.o \
     threads_mtx_init.o \
     threads_mtx_lock.o \
