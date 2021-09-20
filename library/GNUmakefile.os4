@@ -75,7 +75,8 @@ WARNINGS := \
 
 INCLUDES   := -Iinclude -I. -I$(SDK_INCLUDE)
  OPTIONS   := -DUSE_64_BIT_INTS -D__USE_INLINE__ -Wa,-mregnames -fno-builtin -fno-common -std=c11 -nostdlib
-OPTIMIZE   := -DNDEBUG -O3
+OPTIMIZE   ?= -O3
+DEBUG      ?= -DNDEBUG
 
 #DEBUG     := -ggdb
 #MEMDEBUG  := -D__USE_MEM_TREES -D__MEM_DEBUG
