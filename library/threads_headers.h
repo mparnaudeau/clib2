@@ -1,14 +1,6 @@
 #ifndef _THREADS_HEADERS_H
 #define _THREADS_HEADERS_H
 
-#ifdef NDEBUG
-#undef NDEBUG
-#endif /* NDEBUG */
-
-#ifndef DEBUG
-#define DEBUG
-#endif /* DEBUG */
-
 #ifndef _DEBUG_H
 #include "debug.h"
 #endif /* _DEBUG_H */
@@ -37,7 +29,9 @@
 #include <setjmp.h>
 #endif /* _SETJMP_H */
 
-#include "include/threads.h"
+#ifndef _THREADS_H
+#include <threads.h>
+#endif /* _THREADS_H */
 
 /*------------------------------------------------------------------------------
  * thrd|tss|mtx|cnd
