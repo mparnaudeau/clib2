@@ -30,13 +30,11 @@ void __thrd_mutex_free(atomic_uintptr_t *target)
     ENTER();
     assert(target);
 
-    TLOG(("Zero exchange mutex.\n"));
+    TLOG(("Clear mutex.\n"));
     atomic_uintptr_t mutex = atomic_exchange(target, 0);
 
     if(unlikely(!mutex))
     {
-        TLOG(("No mutex.\n"));
-
         LEAVE();
         return;
     }
@@ -46,6 +44,8 @@ void __thrd_mutex_free(atomic_uintptr_t *target)
 
     TLOG(("Free mutex.\n"));
     FreeSysObject(ASOT_MUTEX, (APTR) mutex);
+
+    LEAVE();
 }
 
 /*------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec)
 
     if(unlikely(!mutex))
     {
-        TLOG(("Out of memory.\n"));
+        LEAVE();
         return false;
     }
 
@@ -100,7 +100,7 @@ int __thrd_mutex_replace(atomic_uintptr_t *target)
     TLOG(("Create mutex.\n"));
     if(unlikely(!__thrd_mutex_create(&mutex, true)))
     {
-        TLOG(("Out of memory.\n"));
+        LEAVE();
         return thrd_error;
     }
 
@@ -109,7 +109,7 @@ int __thrd_mutex_replace(atomic_uintptr_t *target)
 
     if(likely(!old))
     {
-        TLOG(("No exchange.\n"));
+        LEAVE();
         return thrd_success;
     }
 
@@ -141,8 +141,13 @@ atomic_uintptr_t __thrd_store_lock = 0;
 */
 LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs)
 {
+    ENTER();
+
     (void) hook;
-    return (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
+    LONG status = (lhs < rhs) ? -1 : (lhs > rhs) ? 1 : 0;
+
+    LEAVE();
+    return status;
 }
 
 /*------------------------------------------------------------------------------
@@ -154,6 +159,8 @@ LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs)
 */
 static bool __thrd_store_init(void)
 {
+    ENTER();
+
     static struct Hook __thrd_ptr_cmp_hook =
     {
         .h_Entry = (uint32 (*)()) __thrd_ptr_cmp_callback
@@ -164,14 +171,12 @@ static bool __thrd_store_init(void)
 
     if(unlikely(status == thrd_error))
     {
-        TLOG(("Out of memory.\n"));
+        LEAVE();
         return false;
     }
 
     if(unlikely(status == thrd_busy))
     {
-        TLOG(("Init called more than once.\n"));
-
         TLOG(("Unlock thread store mutex.\n"));
         MutexRelease((APTR) __thrd_store_lock);
 
@@ -184,11 +189,7 @@ static bool __thrd_store_init(void)
 
     if(unlikely(!__thrd_store))
     {
-        TLOG(("Out of memory.\n"));
-
-        TLOG(("Free thread store mutex.\n"));
         __thrd_mutex_free(&__thrd_store_lock);
-        assert(!__thrd_store_lock);
 
         LEAVE();
         return false;
@@ -201,6 +202,8 @@ static bool __thrd_store_init(void)
     return true;
 }
 
+static atomic_flag __thrd_store_active = ATOMIC_FLAG_INIT;
+
 /*------------------------------------------------------------------------------
  __thrd_final
 
@@ -210,14 +213,14 @@ static bool __thrd_store_init(void)
 */
 static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
 {
-    (void) data;
-    (void) sysbase;
-
     ENTER();
     assert(__thrd_store && __thrd_store_lock);
 
-    TLOG(("Lock thread store mutex.\n"));
+    (void) data;
+    (void) sysbase;
     struct Task *task = FindTask(NULL);
+
+    TLOG(("Lock thread store mutex.\n"));
     MutexObtain((APTR) __thrd_store_lock);
 
     TLOG(("Find thread in store.\n"));
@@ -241,11 +244,12 @@ static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
         {
             TLOG(("Free empty thread store.\n"));
             DeleteSkipList(__thrd_store);
-            __thrd_store = NULL;
+
+            TLOG(("Clear thread store ok.\n"));
+            atomic_flag_clear(&__thrd_store_active);
 
             TLOG(("Free thread store mutex.\n"));
             __thrd_mutex_free(&__thrd_store_lock);
-            assert(!__thrd_store_lock);
 
             LEAVE();
             return;
@@ -280,7 +284,7 @@ static int32_t __thrd_wrap(void)
     TLOG(("Halt by locking thread store mutex.\n"));
     MutexObtain((APTR) __thrd_store_lock);
 
-    TLOG(("Find current thread in store.\n"));
+    TLOG(("Find thread in store.\n"));
     __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, task);
 
     TLOG(("Unlock thread store mutex.\n"));
@@ -299,8 +303,6 @@ static int32_t __thrd_wrap(void)
 
     if(unlikely(retval))
     {
-        TLOG(("Thread exit.\n"));
-
         TLOG(("Free TSS.\n"));
         __tss_store_purge(task);
 
@@ -323,13 +325,11 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
     ENTER();
     assert(thread && start);
 
-    /* Init store once only. */
-    static atomic_flag init = ATOMIC_FLAG_INIT;
-
-    if(unlikely(!atomic_flag_test_and_set(&init) && !__thrd_store_init()))
+    if(unlikely(!atomic_flag_test_and_set(&__thrd_store_active) &&
+       !__thrd_store_init()))
     {
-        TLOG(("Out of memory.\n"));
-        atomic_flag_clear(&init);
+        TLOG(("Clear thread store ok.\n"));
+        atomic_flag_clear(&__thrd_store_active);
 
         LEAVE();
         return thrd_nomem;
@@ -347,7 +347,6 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
 
     if(unlikely(!*thread))
     {
-        TLOG(("Out of memory.\n"));
         MutexRelease((APTR) __thrd_store_lock);
 
         LEAVE();
@@ -360,7 +359,6 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
 
     if(unlikely(!node))
     {
-        TLOG(("Out of memory.\n"));
         MutexRelease((APTR) __thrd_store_lock);
 
         LEAVE();
@@ -368,7 +366,6 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
     }
 
     TLOG(("Initialize thread.\n"));
-
     (void) atomic_flag_test_and_set(&(node->gc));
     node->start = start;
     node->arg = arg;

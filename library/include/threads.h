@@ -48,11 +48,11 @@ typedef struct
 typedef atomic_flag once_flag;
 #define ONCE_FLAG_INIT ATOMIC_FLAG_INIT
 
-#define thread_local _Thread_local
-#define TSS_DTOR_ITERATIONS 16
-
 typedef int (*thrd_start_t)(void *);
 typedef struct Task *thrd_t;
+
+#define thread_local _Thread_local
+#define TSS_DTOR_ITERATIONS 16
 
 typedef void(*tss_dtor_t)(void *);
 typedef struct

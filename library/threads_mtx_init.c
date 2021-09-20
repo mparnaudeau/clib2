@@ -28,13 +28,9 @@ int mtx_init(mtx_t *mutex, int type)
       (type & mtx_plain)) || !__thrd_mutex_create(&mutex->mutex, type &
        mtx_recursive)))
     {
-        TLOG(("Invalid type or out of memory.\n"));
-
         LEAVE();
         return thrd_error;
     }
-
-    assert(mutex->mutex);
 
     TLOG(("Locked mutex created.\n"));
     mutex->type = type;

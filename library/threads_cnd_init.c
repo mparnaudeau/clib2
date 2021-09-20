@@ -30,7 +30,7 @@ int cnd_init(cnd_t *cond)
         return thrd_error;
     }
 
-    TLOG(("Allocate list of listeners.\n"));
+    TLOG(("Create list of listeners.\n"));
     cond->tasks = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
     if(unlikely(!cond->tasks))

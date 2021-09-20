@@ -21,6 +21,9 @@
 thrd_t thrd_current(void)
 {
     ENTER();
+
+    struct Task *current = FindTask(NULL);
+
     LEAVE();
-    return FindTask(NULL);
+    return current;
 }

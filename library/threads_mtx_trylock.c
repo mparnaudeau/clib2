@@ -24,7 +24,8 @@ int mtx_trylock(mtx_t *mutex)
     assert(mutex && mutex->mutex);
 
     TLOG(("Attempt to lock mutex.\n"));
+    int status = MutexAttempt((APTR) mutex->mutex) ? thrd_success : thrd_busy;
 
     LEAVE();
-    return MutexAttempt((APTR) mutex->mutex) ? thrd_success : thrd_busy;
+    return status;
 }

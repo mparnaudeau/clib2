@@ -23,14 +23,14 @@ void *tss_get(tss_t tss_key)
     ENTER();
     assert(tss_key.mutex);
 
-    TLOG(("Lock TSS key mutex.\n"));
+    TLOG(("Lock key mutex.\n"));
     MutexObtain((APTR) tss_key.mutex);
 
-    TLOG(("Find TSS key value.\n"));
+    TLOG(("Find key value.\n"));
     __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, FindTask(NULL));
     void *value = tss ? tss->value : NULL;
 
-    TLOG(("Unlock TSS key mutex.\n"));
+    TLOG(("Unlock key mutex.\n"));
     MutexRelease((APTR) tss_key.mutex);
 
     LEAVE();
