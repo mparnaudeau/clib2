@@ -26,10 +26,10 @@ void tss_delete(tss_t tss_key)
     ENTER();
     assert(__tss_store_lock && tss_key.mutex);
 
-    TLOG(("Lock TSS store mutex.\n"));
+    TLOG(("Lock store mutex.\n"));
     MutexObtain((APTR) __tss_store_lock);
 
-    TLOG(("Find key in TSS store.\n"));
+    TLOG(("Find key in store.\n"));
     for(struct Node *head = GetHead(__tss_store); head;)
     {
         tss_t *tss = &((__tss_n *) head)->tss;
@@ -47,17 +47,17 @@ void tss_delete(tss_t tss_key)
 DEN HÄR MÅSTE DU VERKLIGEN KOLLA
 */
 
-    TLOG(("Unlock TSS store mutex.\n"));
+    TLOG(("Unlock store mutex.\n"));
     MutexRelease((APTR) __tss_store_lock);
 
-    TLOG(("Lock TSS key mutex.\n"));
+    TLOG(("Lock key mutex.\n"));
     MutexObtain((APTR) tss_key.mutex);
 
-    TLOG(("Free TSS key values.\n"));
+    TLOG(("Free key values.\n"));
     DeleteSkipList(tss_key.values);
     tss_key.values = NULL;
 
-    TLOG(("Unlock TSS key mutex.\n"));
+    TLOG(("Unlock key mutex.\n"));
     MutexRelease((APTR) tss_key.mutex);
 
     LEAVE();

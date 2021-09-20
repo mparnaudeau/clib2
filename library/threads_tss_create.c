@@ -24,7 +24,7 @@ atomic_uintptr_t __tss_store_lock = 0;
 /*------------------------------------------------------------------------------
  __tss_store_init
 
- Description: Initialize TSS store.
+ Description: Initialize store.
  Input:       -
  Return:      bool: On success 'true', 'false' otherwise.
 */
@@ -32,52 +32,44 @@ static bool __tss_store_init(void)
 {
     ENTER();
 
-    TLOG(("Create locked TSS store mutex.\n"));
+    TLOG(("Create locked store mutex.\n"));
     int status = __thrd_mutex_replace(&__tss_store_lock);
 
     if(unlikely(status == thrd_error))
     {
-        TLOG(("Out of memory.\n"));
-        assert(!__tss_store_lock);
-
         LEAVE();
         return false;
     }
 
-    assert(status != thrd_busy);
-
     if(unlikely(status == thrd_busy))
     {
-        TLOG(("Init called more than once.\n"));
-
-        TLOG(("Unlock TSS store mutex.\n"));
+        TLOG(("Unlock store mutex.\n"));
         MutexRelease((APTR) __tss_store_lock);
 
         LEAVE();
         return __tss_store != NULL;
     }
 
-    TLOG(("Create TSS store.\n"));
+    TLOG(("Create store.\n"));
     __tss_store = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
     if(unlikely(!__tss_store))
     {
-        TLOG(("Out of memory.\n"));
-
-        TLOG(("Free TSS store mutex.\n"));
+        TLOG(("Free store mutex.\n"));
         __thrd_mutex_free(&__tss_store_lock);
-        assert(!__tss_store_lock);
 
         LEAVE();
         return false;
     }
 
-    TLOG(("Unlock TSS store lock.\n"));
+    TLOG(("Unlock store mutex.\n"));
     MutexRelease((APTR) __tss_store_lock);
 
     LEAVE();
     return true;
 }
+
+static atomic_flag __tss_store_active = ATOMIC_FLAG_INIT;
 
 /*------------------------------------------------------------------------------
  __tss_store_insert
@@ -91,41 +83,36 @@ static bool __tss_store_insert(tss_t *tss_key)
     ENTER();
     assert(tss_key);
 
-    /* Init store once only. */
-    static atomic_flag init = ATOMIC_FLAG_INIT;
-
-    if(unlikely(!atomic_flag_test_and_set(&init) && !__tss_store_init()))
+    if(unlikely(!atomic_flag_test_and_set(&__tss_store_active) &&
+       !__tss_store_init()))
     {
-        TLOG(("Out of memory.\n"));
-        atomic_flag_clear(&init);
+        atomic_flag_clear(&__tss_store_active);
 
         LEAVE();
         return false;
     }
 
-    TLOG(("Create TSS node.\n"));
+    TLOG(("Create node.\n"));
     __tss_n *node = (__tss_n *)
         AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__tss_n),
         ASONODE_Type, NT_USER, TAG_END);
 
     if(unlikely(!node))
     {
-        TLOG(("Out of memory.\n"));
-
         LEAVE();
         return false;
     }
 
-    TLOG(("Initialize TSS node.\n"));
+    TLOG(("Initialize node.\n"));
     node->tss = *tss_key;
 
-    TLOG(("Lock TSS store mutex.\n"));
+    TLOG(("Lock store mutex.\n"));
     MutexObtain((APTR) __tss_store_lock);
 
-    TLOG(("Insert TSS node in store.\n"));
+    TLOG(("Insert node in store.\n"));
     AddTail(__tss_store, (struct Node *) node);
 
-    TLOG(("Unlock TSS store mutex.\n"));
+    TLOG(("Unlock store mutex.\n"));
     MutexRelease((APTR) __tss_store_lock);
 
     LEAVE();
@@ -145,8 +132,6 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
     TLOG(("Create locked mutex.\n"));
     if(unlikely(!__thrd_mutex_create(&tss_key->mutex, true)))
     {
-        TLOG(("Out of memory.\n"));
-
         LEAVE();
         return thrd_error;
     }
@@ -156,11 +141,8 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
 
     if(unlikely(!tss_key->values))
     {
-        TLOG(("Out of memory.\n"));
-
         TLOG(("Free mutex.\n"));
         __thrd_mutex_free(&tss_key->mutex);
-        assert(!tss_key->mutex);
 
         LEAVE();
         return thrd_error;
@@ -169,17 +151,14 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
     TLOG(("Set destructor.\n"));
     tss_key->destructor = destructor;
 
-    TLOG(("Insert key in global TSS store.\n"));
+    TLOG(("Insert key in store.\n"));
     if(unlikely(!__tss_store_insert(tss_key)))
     {
-        TLOG(("Out of memory.\n"));
-
         TLOG(("Free value skip list.\n"));
         DeleteSkipList(tss_key->values);
 
         TLOG(("Free mutex.\n"));
         __thrd_mutex_free(&tss_key->mutex);
-        assert(!tss_key->mutex);
 
         LEAVE();
         return thrd_error;

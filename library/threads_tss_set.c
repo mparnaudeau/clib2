@@ -23,33 +23,32 @@ int tss_set(tss_t tss_key, void *val)
     ENTER();
     assert(tss_key.mutex);
 
-    TLOG(("Lock TSS key mutex.\n"));
+    TLOG(("Lock mutex.\n"));
     MutexObtain((APTR) tss_key.mutex);
 
-    TLOG(("Find existing value.\n"));
+    TLOG(("Find value.\n"));
     struct Task *key = FindTask(NULL);
     __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, key);
 
     if(!tss)
     {
-        TLOG(("No existing value. Create new node.\n"));
+        TLOG(("Create node.\n"));
         tss = (__tss_v *) InsertSkipNode(tss_key.values, key,
               sizeof(__tss_v));
     }
 
     if(unlikely(!tss))
     {
-        TLOG(("Out of memory.\n"));
         MutexRelease((APTR) tss_key.mutex);
 
         LEAVE();
         return thrd_error;
     }
 
-    TLOG(("Set / update value.\n"));
+    TLOG(("Set value.\n"));
     tss->value = val;
 
-    TLOG(("Unlock TSS key mutex.\n"));
+    TLOG(("Unlock mutex.\n"));
     MutexRelease((APTR) tss_key.mutex);
 
     LEAVE();

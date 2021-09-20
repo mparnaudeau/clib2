@@ -107,7 +107,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
 
     if(unlikely(sigbit == -1))
     {
-        TLOG(("Out of signals.\n"));
+        LEAVE();
         return thrd_error;
     }
 
@@ -118,7 +118,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
 
     if(unlikely(!node))
     {
-        TLOG(("Out of memory.\n"));
+        LEAVE();
         return thrd_error;
     }
 
@@ -179,7 +179,7 @@ int cnd_wait(cnd_t *cond, mtx_t *mutex)
 {
     ENTER();
     assert(cond && cond->mutex && mutex);
-    
+
     TLOG(("Conditional wait.\n"));
     int status = __cnd_wait(cond, mutex, NULL);
 

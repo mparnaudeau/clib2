@@ -32,9 +32,10 @@ static int __mtx_trylock_callback(void *data)
     assert(data);
 
     TLOG(("Attempt to lock mutex.\n"));
+    int status = mtx_trylock((mtx_t *) data);
 
     LEAVE();
-    return mtx_trylock((mtx_t *) data);
+    return status;
 }
 
 int mtx_timedlock(mtx_t *restrict mutex,
@@ -45,26 +46,23 @@ int mtx_timedlock(mtx_t *restrict mutex,
 
     if(unlikely(!(mutex->type & mtx_timed)))
     {
-        TLOG(("Not an mtx_timed mutex.\n"));
-
         LEAVE();
         return thrd_error;
     }
 
-    TLOG(("Initial locking attempt.\n"));
+    TLOG(("Attempt to lock mutex.\n"));
     int lock = mtx_trylock(mutex);
 
     if(lock != thrd_busy)
     {
-        TLOG(("Not busy.\n"));
-
         LEAVE();
         return lock;
     }
 
     TLOG(("Poll mutex with timeout.\n"));
+    int status = __eclock_poll(__mtx_trylock_callback, mutex,
+        __eclock_future(time_point), POLL_STRIDE);
 
     LEAVE();
-    return __eclock_poll(__mtx_trylock_callback, mutex,
-                         __eclock_future(time_point), POLL_STRIDE);
+    return status;
 }
