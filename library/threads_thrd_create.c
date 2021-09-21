@@ -160,6 +160,7 @@ LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs)
 static bool __thrd_store_init(void)
 {
     ENTER();
+    DECLARE_UTILITYBASE();
 
     static struct Hook __thrd_ptr_cmp_hook =
     {
@@ -214,6 +215,7 @@ static atomic_flag __thrd_store_active = ATOMIC_FLAG_INIT;
 static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
 {
     ENTER();
+    DECLARE_UTILITYBASE();
     assert(__thrd_store && __thrd_store_lock);
 
     (void) data;
@@ -267,6 +269,61 @@ static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
     LEAVE();
 }
 
+extern struct List *__tss_store;
+extern atomic_uintptr_t __tss_store_lock;
+
+/*------------------------------------------------------------------------------
+ __tss_store_purge
+
+ Description: Remove and execute destructors for all TSS values of a task.
+ Input:       struct Task *task - the task to purge.
+ Return:      -
+*/
+void __tss_store_purge(struct Task *task)
+{
+    ENTER();
+    DECLARE_UTILITYBASE();
+    assert(task);
+
+    if(!atomic_load(&__tss_store))
+    {
+        LEAVE();
+        return;
+    }
+
+    TLOG(("Lock store mutex.\n"));
+    MutexObtain((APTR) __tss_store_lock);
+
+    for(struct Node *head = GetHead(__tss_store); head;)
+    {
+        tss_t *tss = &((__tss_n *) head)->tss;
+
+        TLOG(("Find task value.\n"));
+        struct SkipNode *node = FindSkipNode(tss->values, task);
+        head = GetSucc(head);
+
+        if(!node)
+        {
+            TLOG(("No value.\n"));
+            continue;
+        }
+
+        if(tss->destructor && ((__tss_v *) node)->value)
+        {
+            TLOG(("Invoke destructor.\n"));
+            tss->destructor(((__tss_v *) node)->value);
+        }
+
+        TLOG(("Remove value.\n"));
+        RemoveSkipNode(tss->values, task);
+    }
+
+    TLOG(("Unlock store mutex.\n"));
+    MutexRelease((APTR) __tss_store_lock);
+
+    LEAVE();
+}
+
 /*------------------------------------------------------------------------------
  __thrd_wrap
 
@@ -277,6 +334,7 @@ static void __thrd_final(int32_t retval, int32_t data, struct ExecBase *sysbase)
 static int32_t __thrd_wrap(void)
 {
     ENTER();
+    DECLARE_UTILITYBASE();
     assert(__thrd_store && __thrd_store_lock);
 
     struct Task *task = FindTask(NULL);
@@ -323,6 +381,7 @@ static int32_t __thrd_wrap(void)
 int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
 {
     ENTER();
+    DECLARE_UTILITYBASE();
     assert(thread && start);
 
     if(unlikely(!atomic_flag_test_and_set(&__thrd_store_active) &&

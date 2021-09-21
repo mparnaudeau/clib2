@@ -122,6 +122,7 @@ static bool __tss_store_insert(tss_t *tss_key)
 int tss_create(tss_t *tss_key, tss_dtor_t destructor)
 {
     ENTER();
+    DECLARE_UTILITYBASE();
     assert(tss_key);
 
     static struct Hook tss_t_cmp_hook =
