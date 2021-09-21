@@ -26,13 +26,13 @@ void thrd_exit(int retval)
     ENTER();
     assert(__thrd_store_lock);
 
-    TLOG(("Lock thread store mutex.\n"));
+    LOG(("Lock thread store mutex.\n"));
     MutexObtain((APTR) __thrd_store_lock);
 
-    TLOG(("Find current thread.\n"));
+    LOG(("Find current thread.\n"));
     __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, FindTask(NULL));
 
-    TLOG(("Unlock thread store mutex.\n"));
+    LOG(("Unlock thread store mutex.\n"));
     MutexRelease((APTR) __thrd_store_lock);
 
     if(unlikely(!thread))
@@ -41,6 +41,6 @@ void thrd_exit(int retval)
         return;
     }
 
-    TLOG(("Jump to exit point.\n"));
+    LOG(("Jump to exit point.\n"));
     longjmp(thread->stop, retval);
 }

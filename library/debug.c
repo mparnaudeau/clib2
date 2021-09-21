@@ -304,7 +304,7 @@ _ENTER(
 	if(__debug_level >= DEBUGLEVEL_CallTracing)
 	{
 		_INDENT();
-		KPrintF("%s:%ld:Entering %s\n",file,line,function);
+		KPrintF("%s:%ld: Entering %s\n",file,line,function);
 	}
 
 	indent_level++;

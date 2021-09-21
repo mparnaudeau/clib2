@@ -99,7 +99,6 @@ extern void kprintf(const char *format,...);
   #define PRINTHEADER()		_DPRINTF_HEADER(__FILE__,__LINE__)
   #define PRINTF(s)		_DLOG s
   #define LOG(s)		do { _DPRINTF_HEADER(__FILE__,__LINE__); _DLOG("<%s()>:",__FUNC__); _DLOG s; } while(0)
-  #define TLOG(s)		do { _DPRINTF_HEADER(__FILE__,__LINE__); _DLOG("%p <%s()>:",FindTask(NULL),__FUNC__); _DLOG s; } while(0)
   #define SETDEBUGLEVEL(l)	_SETDEBUGLEVEL(l)
   #define PUSHDEBUGLEVEL(l)	_PUSHDEBUGLEVEL(l)
   #define POPDEBUGLEVEL()	_POPDEBUGLEVEL()
@@ -117,7 +116,6 @@ extern void kprintf(const char *format,...);
   #define PRINTHEADER()		_DPRINTF_HEADER(__FILE__,__LINE__)
   #define PRINTF(s)		_DLOG s
   #define LOG(s)		do { _DPRINTF_HEADER(__FILE__,__LINE__); _DLOG("<%s()>:",__FUNCTION__); _DLOG s; } while(0)
-  #define TLOG(s)		do { _DPRINTF_HEADER(__FILE__,__LINE__); _DLOG("%p <%s()>:",FindTask(NULL),__FUNCTION__); _DLOG s; } while(0)
   #define SETDEBUGLEVEL(l)	_SETDEBUGLEVEL(l)
   #define PUSHDEBUGLEVEL(l)	_PUSHDEBUGLEVEL(l)
   #define POPDEBUGLEVEL()	_POPDEBUGLEVEL()
@@ -136,7 +134,6 @@ extern void kprintf(const char *format,...);
   #define PRINTHEADER()		_DPRINTF_HEADER(__FILE__,__LINE__)
   #define PRINTF(s)		_DLOG s
   #define LOG(s)		do { _DPRINTF_HEADER(__FILE__,__LINE__); _DLOG("<%s()>:",__FUNC__); _DLOG s; } while(0)
-  #define TLOG(s)		do { _DPRINTF_HEADER(__FILE__,__LINE__); _DLOG("%p <%s()>:",FindTask(NULL),__FUNC__); _DLOG s; } while(0)
   #define SETDEBUGLEVEL(l)	_SETDEBUGLEVEL(l)
   #define PUSHDEBUGLEVEL(l)	_PUSHDEBUGLEVEL(l)
   #define POPDEBUGLEVEL()	_POPDEBUGLEVEL()
@@ -188,7 +185,6 @@ extern void kprintf(const char *format,...);
  #define PRINTHEADER()		((void)0)
  #define PRINTF(s)		((void)0)
  #define LOG(s)			((void)0)
- #define TLOG(s)			((void)0)
  #define SETDEBUGLEVEL(l)	((void)0)
  #define PUSHDEBUGLEVEL(l)	((void)0)
  #define POPDEBUGLEVEL()	((void)0)
