@@ -1,14 +1,6 @@
 #ifndef _THREADS_HEADERS_H
 #define _THREADS_HEADERS_H
 
-#ifndef _DEBUG_H
-#include "debug.h"
-#endif /* _DEBUG_H */
-
-#ifndef _MACROS_H
-#include "macros.h"
-#endif /* _MACROS_H */
-
 #ifndef	PROTO_DOS_H
 #include <proto/dos.h>
 #endif /* PROTO_DOS_H */
@@ -32,6 +24,18 @@
 #ifndef _THREADS_H
 #include <threads.h>
 #endif /* _THREADS_H */
+
+#ifndef _DEBUG_H
+#include "debug.h"
+#endif /* _DEBUG_H */
+
+#ifndef _MACROS_H
+#include "macros.h"
+#endif /* _MACROS_H */
+
+#ifndef _STDLIB_UTILITYBASE_H
+#include "stdlib_utilitybase.h"
+#endif /* _STDLIB_UTILITYBASE_H */
 
 /*------------------------------------------------------------------------------
  * thrd|tss|mtx|cnd
