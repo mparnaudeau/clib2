@@ -32,7 +32,7 @@ static bool __tss_store_init(void)
 {
     ENTER();
 
-    TLOG(("Create locked store mutex.\n"));
+    LOG(("Create locked store mutex.\n"));
     int status = __thrd_mutex_replace(&__tss_store_lock);
 
     if(unlikely(status == thrd_error))
@@ -43,26 +43,26 @@ static bool __tss_store_init(void)
 
     if(unlikely(status == thrd_busy))
     {
-        TLOG(("Unlock store mutex.\n"));
+        LOG(("Unlock store mutex.\n"));
         MutexRelease((APTR) __tss_store_lock);
 
         LEAVE();
         return __tss_store != NULL;
     }
 
-    TLOG(("Create store.\n"));
+    LOG(("Create store.\n"));
     __tss_store = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
     if(unlikely(!__tss_store))
     {
-        TLOG(("Free store mutex.\n"));
+        LOG(("Free store mutex.\n"));
         __thrd_mutex_free(&__tss_store_lock);
 
         LEAVE();
         return false;
     }
 
-    TLOG(("Unlock store mutex.\n"));
+    LOG(("Unlock store mutex.\n"));
     MutexRelease((APTR) __tss_store_lock);
 
     LEAVE();
@@ -92,7 +92,7 @@ static bool __tss_store_insert(tss_t *tss_key)
         return false;
     }
 
-    TLOG(("Create node.\n"));
+    LOG(("Create node.\n"));
     __tss_n *node = (__tss_n *)
         AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__tss_n),
         ASONODE_Type, NT_USER, TAG_END);
@@ -103,16 +103,16 @@ static bool __tss_store_insert(tss_t *tss_key)
         return false;
     }
 
-    TLOG(("Initialize node.\n"));
+    LOG(("Initialize node.\n"));
     node->tss = *tss_key;
 
-    TLOG(("Lock store mutex.\n"));
+    LOG(("Lock store mutex.\n"));
     MutexObtain((APTR) __tss_store_lock);
 
-    TLOG(("Insert node in store.\n"));
+    LOG(("Insert node in store.\n"));
     AddTail(__tss_store, (struct Node *) node);
 
-    TLOG(("Unlock store mutex.\n"));
+    LOG(("Unlock store mutex.\n"));
     MutexRelease((APTR) __tss_store_lock);
 
     LEAVE();
@@ -130,42 +130,42 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
         .h_Entry = (uint32 (*)()) __thrd_ptr_cmp_callback
     };
 
-    TLOG(("Create locked mutex.\n"));
+    LOG(("Create locked mutex.\n"));
     if(unlikely(!__thrd_mutex_create(&tss_key->mutex, true)))
     {
         LEAVE();
         return thrd_error;
     }
 
-    TLOG(("Create value skip list.\n"));
+    LOG(("Create value skip list.\n"));
     tss_key->values = CreateSkipList(&tss_t_cmp_hook, 16);
 
     if(unlikely(!tss_key->values))
     {
-        TLOG(("Free mutex.\n"));
+        LOG(("Free mutex.\n"));
         __thrd_mutex_free(&tss_key->mutex);
 
         LEAVE();
         return thrd_error;
     }
 
-    TLOG(("Set destructor.\n"));
+    LOG(("Set destructor.\n"));
     tss_key->destructor = destructor;
 
-    TLOG(("Insert key in store.\n"));
+    LOG(("Insert key in store.\n"));
     if(unlikely(!__tss_store_insert(tss_key)))
     {
-        TLOG(("Free value skip list.\n"));
+        LOG(("Free value skip list.\n"));
         DeleteSkipList(tss_key->values);
 
-        TLOG(("Free mutex.\n"));
+        LOG(("Free mutex.\n"));
         __thrd_mutex_free(&tss_key->mutex);
 
         LEAVE();
         return thrd_error;
     }
 
-    TLOG(("Unlock mutex.\n"));
+    LOG(("Unlock mutex.\n"));
     MutexRelease((APTR) tss_key->mutex);
 
     LEAVE();

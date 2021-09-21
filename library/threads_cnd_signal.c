@@ -35,16 +35,16 @@ void __cnd_signal(cnd_t *cond, bool broadcast)
     for(__cnd_node *head = (__cnd_node *) GetHead(cond->tasks), *next;
         head; head = next)
     {
-        TLOG(("Signal task.\n"));
+        LOG(("Signal task.\n"));
         Signal(head->task, 1L << head->sigbit);
 
         next = broadcast ? (__cnd_node *)
             GetSucc((struct Node *) head) : NULL;
 
-        TLOG(("Remove task from list of listeners.\n"));
+        LOG(("Remove task from list of listeners.\n"));
         Remove((struct Node *) head);
 
-        TLOG(("Free task node.\n"));
+        LOG(("Free task node.\n"));
         FreeSysObject(ASOT_NODE, head);
     }
 
@@ -56,13 +56,13 @@ int cnd_signal(cnd_t *cond)
     ENTER();
     assert(cond && cond->mutex);
 
-    TLOG(("Lock mutex.\n"));
+    LOG(("Lock mutex.\n"));
     MutexObtain((APTR) cond->mutex);
 
-    TLOG(("Single signal.\n"));
+    LOG(("Single signal.\n"));
     __cnd_signal(cond, false);
 
-    TLOG(("Unlock mutex.\n"));
+    LOG(("Unlock mutex.\n"));
     MutexRelease((APTR) cond->mutex);
 
     LEAVE();

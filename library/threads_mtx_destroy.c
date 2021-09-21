@@ -23,10 +23,10 @@ void mtx_destroy(mtx_t *mutex)
     ENTER();
     assert(mutex && mutex->mutex);
 
-    TLOG(("Lock mutex.\n"));
+    LOG(("Lock mutex.\n"));
     MutexObtain((APTR) mutex->mutex);
 
-    TLOG(("Free mutex.\n"));
+    LOG(("Free mutex.\n"));
     __thrd_mutex_free(&mutex->mutex);
 
     LEAVE();
