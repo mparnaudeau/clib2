@@ -24,6 +24,7 @@ extern atomic_uintptr_t __thrd_store_lock;
 int thrd_join(thrd_t thread, int *retval)
 {
     ENTER();
+    DECLARE_UTILITYBASE();
     assert(thread);
 
     if(!__thrd_store)
