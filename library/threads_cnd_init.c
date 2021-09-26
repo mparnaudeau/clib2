@@ -24,13 +24,13 @@ int cnd_init(cnd_t *cond)
     ENTER();
     assert(cond);
 
-    LOG(("Create locked mutex.\n"));
+    FOG(("%p Create locked mutex.\n", cond));
     if(unlikely(!__thrd_mutex_create(&cond->mutex, true)))
     {
         return thrd_error;
     }
 
-    LOG(("Create list of listeners.\n"));
+    FOG(("%p Create list of listeners.\n", cond));
     cond->tasks = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
     if(unlikely(!cond->tasks))
@@ -39,7 +39,7 @@ int cnd_init(cnd_t *cond)
         return thrd_nomem;
     }
 
-    LOG(("Unlock mutex.\n"));
+    FOG(("%p Unlock mutex %p.\n", cond, cond->mutex));
     MutexRelease((APTR) cond->mutex);
 
     LEAVE();

@@ -33,50 +33,47 @@ int thrd_join(thrd_t thread, int *retval)
         return thrd_error;
     }
 
-    LOG(("Lock thread store mutex.\n"));
+    FOG(("%p Lock thread store mutex.\n", thread));
     MutexObtain((APTR) __thrd_store_lock);
 
-    LOG(("Find thread to be joined.\n"));
+    FOG(("%p Find thread in thread store.\n", thread));
     __thrd_s *node = (__thrd_s *) FindSkipNode(__thrd_store, thread);
 
-    if(unlikely(!node))
+    FOG(("%p Unlock thread store mutex.\n", thread));
+    MutexRelease((APTR) __thrd_store_lock);
+
+    if(unlikely(!node) || atomic_exchange(&(node->gc), GC_DONE) == GC_DONE)
     {
-        LOG(("Thread not found.\n"));
-        MutexRelease((APTR) __thrd_store_lock);
+        FOG(("%p Thread not found.\n", thread));
 
         LEAVE();
         return thrd_error;
     }
 
-    do
+    FOG(("%p Found thread.\n", thread));
+
+    while(atomic_load(&(node->gc)) == GC_DONE)
     {
-        LOG(("Block garbage collection.\n"));
-        atomic_flag_clear(&(node->gc));
-
-        LOG(("Unlock thread store mutex.\n"));
-        MutexRelease((APTR) __thrd_store_lock);
-
-        LOG(("Wait for signal of death.\n"));
+        FOG(("%p Wait for signal of death from thread.\n", thread));
         Wait(SIGF_CHILD);
 
-        LOG(("Received signal of death.\n"));
+        FOG(("%p Clear signal of death.\n", thread));
         SetSignal(0L, SIGF_CHILD);
-
-        LOG(("Lock thread store mutex.\n"));
-        MutexObtain((APTR) __thrd_store_lock);
     }
-    while(!atomic_flag_test_and_set(&node->gc));
 
     if(retval)
     {
-        LOG(("Get thread return value.\n"));
+        FOG(("%p Get thread return value %d.\n", thread, node->retval));
         *retval = node->retval;
     }
 
-    LOG(("Garbage collect thread.\n"));
-    RemoveSkipNode(__thrd_store, &thread);
+    FOG(("%p Lock thread store mutex.\n", thread));
+    MutexObtain((APTR) __thrd_store_lock);
 
-    LOG(("Unlock thread store mutex.\n"));
+    FOG(("%p Garbage collect thread.\n", thread));
+    RemoveSkipNode(__thrd_store, thread);
+
+    FOG(("%p Unlock thread store mutex.\n", thread));
     MutexRelease((APTR) __thrd_store_lock);
 
     LEAVE();

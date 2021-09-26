@@ -23,7 +23,7 @@ int mtx_lock(mtx_t *mutex)
     ENTER();
     assert(mutex && mutex->mutex);
 
-    LOG(("Lock mutex.\n"));
+    FOG(("Lock mutex.\n"));
     MutexObtain((APTR) mutex->mutex);
 
     LEAVE();

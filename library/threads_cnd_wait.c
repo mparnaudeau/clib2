@@ -33,10 +33,10 @@ static int __cnd_sigwait_callback(void *data)
 
     ULONG sigmask = 1 << *((BYTE *) data);
 
-    LOG(("Get signal mask.\n"));
+    FOG(("Get signal mask.\n"));
     if(SetSignal(0L, 0L) & sigmask)
     {
-        LOG(("Got signal.\n"));
+        FOG(("Got signal.\n"));
         SetSignal(0L, sigmask);
 
         LEAVE();
@@ -65,17 +65,17 @@ static int __cnd_wait_signal(BYTE sigbit,
 
     if(!time_point)
     {
-        LOG(("Wait for signal.\n"));
+        FOG(("Wait for signal.\n"));
         Wait(1L << sigbit);
 
-        LOG(("Got signal.\n"));
+        FOG(("Got signal.\n"));
         SetSignal(0L, 1L << sigbit);
 
         LEAVE();
         return thrd_success;
     }
 
-    LOG(("Poll signal with timeout.\n"));
+    FOG(("Poll signal with timeout.\n"));
     int status =  __eclock_poll(__cnd_sigwait_callback, &sigbit,
         __eclock_future(time_point), POLL_STRIDE);
 
@@ -102,7 +102,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     ENTER();
     assert(cond && cond->mutex && mutex && time_point);
 
-    LOG(("Allocate signal.\n"));
+    FOG(("Allocate signal.\n"));
     BYTE sigbit = AllocSignal(-1);
 
     if(unlikely(sigbit == -1))
@@ -111,7 +111,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
         return thrd_error;
     }
 
-    LOG(("Create listener thread node.\n"));
+    FOG(("Create listener thread node.\n"));
     __cnd_node *node = (__cnd_node *)
         AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__cnd_node),
         ASONODE_Type, NT_USER, TAG_END);
@@ -122,7 +122,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
         return thrd_error;
     }
 
-    LOG(("Initialize listener thread node.\n"));
+    FOG(("Initialize listener thread node.\n"));
     node->node.ln_Type = NT_USER;
     node->node.ln_Name = (STRPTR) __func__;
     node->task = FindTask(NULL);
@@ -132,43 +132,43 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     node->node.ln_Pri = SetTaskPri(node->task, 0);
     SetTaskPri(node->task, node->node.ln_Pri);
 
-    LOG(("Lock conditional mutex.\n"));
+    FOG(("Lock conditional mutex.\n"));
     MutexObtain((APTR) cond->mutex);
 
-    LOG(("Add current thread to list of listeners.\n"));
+    FOG(("Add current thread to list of listeners.\n"));
     Enqueue(cond->tasks, (struct Node *) node);
 
-    LOG(("Unlock conditional mutex.\n"));
+    FOG(("Unlock conditional mutex.\n"));
     MutexRelease((APTR) cond->mutex);
 
     /* Go to sleep or poll for signal if time_point exists. Encapsulate */
     /* with mutex unlock and lock (refer to cnd_wait documentation). */
 
-    LOG(("Unlock user mutex.\n"));
+    FOG(("Unlock user mutex.\n"));
     mtx_unlock(mutex);
 
-    LOG(("Wait for signal.\n"));
+    FOG(("Wait for signal.\n"));
     int status = __cnd_wait_signal(sigbit, time_point);
 
-    LOG(("Lock user mutex.\n"));
+    FOG(("Lock user mutex.\n"));
     mtx_lock(mutex);
 
-    LOG(("Lock conditional mutex.\n"));
+    FOG(("Lock conditional mutex.\n"));
     MutexObtain((APTR) cond->mutex);
 
-    LOG(("Remove current thread from list of listeners.\n"));
+    FOG(("Remove current thread from list of listeners.\n"));
     Remove((struct Node *) node);
 
-    LOG(("Unlock conditional mutex.\n"));
+    FOG(("Unlock conditional mutex.\n"));
     MutexRelease((APTR) cond->mutex);
 
-    LOG(("Clear signal.\n"));
+    FOG(("Clear signal.\n"));
     SetSignal(0L, 1L << sigbit);
 
-    LOG(("Free signal.\n"));
+    FOG(("Free signal.\n"));
     FreeSignal(sigbit);
 
-    LOG(("Free listener thread node.\n"));
+    FOG(("Free listener thread node.\n"));
     FreeSysObject(ASOT_NODE, node);
 
     LEAVE();
@@ -180,7 +180,7 @@ int cnd_wait(cnd_t *cond, mtx_t *mutex)
     ENTER();
     assert(cond && cond->mutex && mutex);
 
-    LOG(("Conditional wait.\n"));
+    FOG(("Conditional wait.\n"));
     int status = __cnd_wait(cond, mutex, NULL);
 
     LEAVE();

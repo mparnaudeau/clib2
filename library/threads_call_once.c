@@ -25,7 +25,7 @@ void call_once(once_flag *flag, void (*func)(void))
 
     if(!atomic_flag_test_and_set(flag))
     {
-        LOG(("Enter func().\n"));
+        FOG(("Enter func() %p.\n", func));
         func();
     }
 

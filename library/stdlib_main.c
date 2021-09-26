@@ -53,6 +53,10 @@
 #include "stdio_headers.h"
 #endif /* _STDIO_HEADERS_H */
 
+#ifndef _THREADS_HEADERS_H
+#include "threads_headers.h"
+#endif /* _THREADS_HEADERS_H */
+
 /****************************************************************************/
 
 #ifndef _STDLIB_PROFILE_MONITORING_H
@@ -207,7 +211,7 @@ call_main(void)
 /****************************************************************************/
 
 STATIC BOOL
-open_libraries(VOID)
+setup(VOID)
 {
 	BOOL success = FALSE;
 	int os_version;
@@ -236,6 +240,12 @@ open_libraries(VOID)
 		__IUtility = (struct UtilityIFace *)GetInterface(__UtilityBase, "main", 1, 0);
 		if(__IUtility == NULL)
 			goto out;
+
+        /* Initialize thread store. */
+        if(!__thrd_store_setup())
+        {
+            goto out;
+        }
 	}
 	#endif /* __amigaos4__ */
 
@@ -249,12 +259,15 @@ open_libraries(VOID)
 /****************************************************************************/
 
 STATIC VOID
-close_libraries(VOID)
+teardown(VOID)
 {
 	#if defined(__amigaos4__)
 	{
 		if(__IUtility != NULL)
 		{
+            /* Tear down thread store. */
+            __thrd_store_teardown();
+
 			DropInterface((struct Interface *)__IUtility);
 			__IUtility = NULL;
 		}
@@ -306,7 +319,7 @@ detach_cleanup(REG(d0, LONG UNUSED unused_return_code),REG(d1, BPTR segment_list
 	(void) segment_list;
 	#endif /* __amigaos4__ */
 
-	close_libraries();
+	teardown();
 }
 
 /****************************************************************************/
@@ -367,8 +380,8 @@ _main(void)
 
 	__WBenchMsg = (struct WBStartup *)startup_message;
 
-	/* Try to open the libraries we need to proceed. */
-	if(CANNOT open_libraries())
+	/* Try to open the libraries we need and initialize thread store. */
+	if(CANNOT setup())
 	{
 		const char * error_message;
 
@@ -583,7 +596,7 @@ _main(void)
 		__set_process_window(old_window_pointer);
 
 	if(child_process == NULL)
-		close_libraries();
+		teardown();
 
 	if(startup_message != NULL)
 	{
