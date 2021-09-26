@@ -62,18 +62,11 @@ typedef struct
 {
     struct SkipNode node;
     thrd_start_t start;
-    atomic_int gc;
+    atomic_flag gc;
     jmp_buf stop;
     void *arg;
     int retval;
 } __thrd_s;
-
-enum
-{
-    GC_DONE = 1,
-    GC_READY,
-    GC_INIT
-};
 
 /*------------------------------------------------------------------------------
  * tss
