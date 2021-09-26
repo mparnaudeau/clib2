@@ -23,16 +23,16 @@ int tss_set(tss_t tss_key, void *val)
     ENTER();
     assert(tss_key.mutex);
 
-    LOG(("Lock mutex.\n"));
+    FOG(("Lock mutex.\n"));
     MutexObtain((APTR) tss_key.mutex);
 
-    LOG(("Find value.\n"));
+    FOG(("Find value.\n"));
     struct Task *key = FindTask(NULL);
     __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, key);
 
     if(!tss)
     {
-        LOG(("Create node.\n"));
+        FOG(("Create node.\n"));
         tss = (__tss_v *) InsertSkipNode(tss_key.values, key,
               sizeof(__tss_v));
     }
@@ -45,10 +45,10 @@ int tss_set(tss_t tss_key, void *val)
         return thrd_error;
     }
 
-    LOG(("Set value.\n"));
+    FOG(("Set value.\n"));
     tss->value = val;
 
-    LOG(("Unlock mutex.\n"));
+    FOG(("Unlock mutex.\n"));
     MutexRelease((APTR) tss_key.mutex);
 
     LEAVE();

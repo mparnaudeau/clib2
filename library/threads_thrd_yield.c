@@ -22,9 +22,11 @@ void thrd_yield(void)
 {
     ENTER();
 
-    LOG(("Yield CPU.\n"));
+    FOG(("Yield CPU.\n"));
+
     Reschedule();
-    LOG(("Got CPU back.\n"));
+
+    FOG(("Got CPU back.\n"));
 
     LEAVE();
 }

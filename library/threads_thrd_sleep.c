@@ -30,14 +30,14 @@ int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
 
     if(remaining)
     {
-        LOG(("Clear remaining.\n"));
+        FOG(("Clear remaining.\n"));
         remaining->tv_sec = remaining->tv_nsec = 0;
     }
 
-    LOG(("Go to sleep.\n"));
+    FOG(("Go to sleep.\n"));
     Delay(nticks);
 
-    LOG(("Wake up.\n"));
+    FOG(("Wake up.\n"));
 
     LEAVE();
     return 0;

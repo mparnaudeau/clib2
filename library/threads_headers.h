@@ -44,6 +44,8 @@ LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs);
 bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec);
 void __thrd_mutex_free(atomic_uintptr_t *target);
 int __thrd_mutex_replace(atomic_uintptr_t *target);
+bool __thrd_store_setup(void);
+void __thrd_store_teardown(void);
 
 /*------------------------------------------------------------------------------
  * cnd|mtx
@@ -60,11 +62,18 @@ typedef struct
 {
     struct SkipNode node;
     thrd_start_t start;
-    atomic_flag gc;
+    atomic_int gc;
     jmp_buf stop;
     void *arg;
     int retval;
 } __thrd_s;
+
+enum
+{
+    GC_DONE = 1,
+    GC_READY,
+    GC_INIT
+};
 
 /*------------------------------------------------------------------------------
  * tss
@@ -97,5 +106,8 @@ typedef struct
 void __cnd_signal(cnd_t *cond, bool broadcast);
 int __cnd_wait(cnd_t *cond, mtx_t *mutex,
                const struct timespec *restrict time_point);
+
+#define FOG(...) DebugPrintF("%s:%d - ", __func__, __LINE__); DebugPrintF __VA_ARGS__
+//#define FOG(...)
 
 #endif /* _THREADS_HEADERS_H */

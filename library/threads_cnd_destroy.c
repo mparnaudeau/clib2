@@ -23,16 +23,16 @@ void cnd_destroy(cnd_t *cond)
     ENTER();
     assert(cond && cond->mutex);
 
-    LOG(("Lock mutex.\n"));
+    FOG(("%p Lock mutex %p.\n", cond, cond->mutex));
     MutexObtain((APTR) cond->mutex);
 
-    LOG(("Broadcast to avoid deadlocks.\n"));
+    FOG(("%p Broadcast to avoid deadlocks.\n", cond));
     (void) __cnd_signal(cond, true);
 
-    LOG(("Free list of listeners.\n"));
+    FOG(("%p Free list of listeners.\n", cond));
     FreeSysObject(ASOT_LIST, cond->tasks);
 
-    LOG(("Free mutex.\n"));
+    FOG(("%p Free mutex %p.\n", cond, cond->mutex));
     __thrd_mutex_free(&cond->mutex);
 
     LEAVE();

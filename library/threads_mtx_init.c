@@ -23,7 +23,7 @@ int mtx_init(mtx_t *mutex, int type)
     ENTER();
     assert(mutex);
 
-    LOG(("Check type and create mutex.\n"));
+    FOG(("Check type and create mutex.\n"));
     if(unlikely(!type || type >= (mtx_timed << 1) || ((type & mtx_timed) &&
       (type & mtx_plain)) || !__thrd_mutex_create(&mutex->mutex, type &
        mtx_recursive)))
@@ -32,10 +32,10 @@ int mtx_init(mtx_t *mutex, int type)
         return thrd_error;
     }
 
-    LOG(("Locked mutex created.\n"));
+    FOG(("Locked mutex created.\n"));
     mutex->type = type;
 
-    LOG(("Unlock mutex.\n"));
+    FOG(("Unlock mutex.\n"));
     MutexRelease((APTR) mutex->mutex);
 
     LEAVE();

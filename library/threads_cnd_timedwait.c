@@ -24,7 +24,7 @@ int cnd_timedwait(cnd_t *cond, mtx_t *mutex,
     ENTER();
     assert(cond && cond->mutex && mutex && time_point);
 
-    LOG(("Wait with timeout.\n"));
+    FOG(("%p Wait with timeout.\n", cond));
     int status = __cnd_wait(cond, mutex, time_point);
 
     LEAVE();

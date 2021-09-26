@@ -23,13 +23,13 @@ int cnd_broadcast(cnd_t *cond)
     ENTER();
     assert(cond && cond->mutex);
 
-    LOG(("Lock mutex.\n"));
+    FOG(("%p Lock mutex %p.\n", cond, cond->mutex));
     MutexObtain((APTR) cond->mutex);
 
-    LOG(("Signal all threads.\n"));
+    FOG(("%p Signal all threads.\n", cond));
     __cnd_signal(cond, true);
 
-    LOG(("Unlock mutex.\n"));
+    FOG(("%p Unlock mutex %p.\n", cond, cond->mutex));
     MutexRelease((APTR) cond->mutex);
 
     LEAVE();

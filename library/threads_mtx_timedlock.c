@@ -31,7 +31,7 @@ static int __mtx_trylock_callback(void *data)
     ENTER();
     assert(data);
 
-    LOG(("Attempt to lock mutex.\n"));
+    FOG(("Attempt to lock mutex.\n"));
     int status = mtx_trylock((mtx_t *) data);
 
     LEAVE();
@@ -50,7 +50,7 @@ int mtx_timedlock(mtx_t *restrict mutex,
         return thrd_error;
     }
 
-    LOG(("Attempt to lock mutex.\n"));
+    FOG(("Attempt to lock mutex.\n"));
     int lock = mtx_trylock(mutex);
 
     if(lock != thrd_busy)
@@ -59,7 +59,7 @@ int mtx_timedlock(mtx_t *restrict mutex,
         return lock;
     }
 
-    LOG(("Poll mutex with timeout.\n"));
+    FOG(("Poll mutex with timeout.\n"));
     int status = __eclock_poll(__mtx_trylock_callback, mutex,
         __eclock_future(time_point), POLL_STRIDE);
 
