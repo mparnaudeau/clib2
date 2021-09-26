@@ -19,63 +19,76 @@
 #endif
 
 extern struct SkipList *__thrd_store;
-extern atomic_uintptr_t __thrd_store_lock;
+extern APTR __thrd_store_lock;
 
 int thrd_join(thrd_t thread, int *retval)
 {
-    ENTER();
     DECLARE_UTILITYBASE();
-    assert(thread);
-
-    if(!__thrd_store)
-    {
-        LEAVE();
-        return thrd_error;
-    }
+    assert(__thrd_store && __thrd_store_lock && thread);
 
     FOG(("%p Lock thread store mutex.\n", thread));
-    MutexObtain((APTR) __thrd_store_lock);
+    MutexObtain(__thrd_store_lock);
 
     FOG(("%p Find thread in thread store.\n", thread));
     __thrd_s *node = (__thrd_s *) FindSkipNode(__thrd_store, thread);
 
-    FOG(("%p Unlock thread store mutex.\n", thread));
-    MutexRelease((APTR) __thrd_store_lock);
-
-    if(unlikely(!node) || atomic_exchange(&(node->gc), GC_DONE) == GC_DONE)
+    if(unlikely(!node) || atomic_flag_test_and_set(&(node->gc)))
     {
-        FOG(("%p Thread not found.\n", thread));
+        FOG(("%p Unlock thread store mutex.\n", thread));
+        MutexRelease(__thrd_store_lock);
 
-        LEAVE();
+        FOG(("%p Thread not found.\n", thread));
         return thrd_error;
     }
 
-    FOG(("%p Found thread.\n", thread));
+    FOG(("Allocate death signal.\n"));
+    BYTE sigdeath = AllocSignal(-1);
 
-    while(atomic_load(&(node->gc)) == GC_DONE)
+    if(unlikely(sigdeath == -1))
     {
-        FOG(("%p Wait for signal of death from thread.\n", thread));
-        Wait(SIGF_CHILD);
+        FOG(("%p Unlock thread store mutex.\n", thread));
+        MutexRelease(__thrd_store_lock);
 
-        FOG(("%p Clear signal of death.\n", thread));
-        SetSignal(0L, SIGF_CHILD);
+        FOG(("%p No free signals.\n", thread));
+        return thrd_error;
     }
+
+    struct Process *proc = (struct Process *) thread;
+
+    FOG(("%p Set death signal.\n", thread));
+    proc->pr_DeathSigBit = sigdeath;
+
+    FOG(("%p Set death signal receiver.\n", thread));
+    proc->pr_DeathSigTask = (APTR) FindTask(NULL);
+
+    FOG(("%p Unlock thread store mutex.\n", thread));
+    MutexRelease(__thrd_store_lock);
+
+    FOG(("%p Wait for death signal.\n", thread));
+    Wait(1L << sigdeath);
+
+    FOG(("%p Got death signal.\n", thread));
+
+    FOG(("%p Lock thread store mutex.\n", thread));
+    MutexObtain(__thrd_store_lock);
+
+    FOG(("%p Clear death signal.\n", thread));
+    SetSignal(0L, 1L << sigdeath);
+
+    FOG(("%p Free death signal.\n", thread));
+    FreeSignal(sigdeath);
 
     if(retval)
     {
-        FOG(("%p Get thread return value %d.\n", thread, node->retval));
+        FOG(("%p Get return value %d.\n", thread, node->retval));
         *retval = node->retval;
     }
-
-    FOG(("%p Lock thread store mutex.\n", thread));
-    MutexObtain((APTR) __thrd_store_lock);
 
     FOG(("%p Garbage collect thread.\n", thread));
     RemoveSkipNode(__thrd_store, thread);
 
     FOG(("%p Unlock thread store mutex.\n", thread));
-    MutexRelease((APTR) __thrd_store_lock);
+    MutexRelease(__thrd_store_lock);
 
-    LEAVE();
     return thrd_success;
 }
