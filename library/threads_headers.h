@@ -63,9 +63,9 @@ typedef struct
     struct SkipNode node;
     thrd_start_t start;
     atomic_flag gc;
-    jmp_buf stop;
     void *arg;
     int retval;
+    jmp_buf stop;
 } __thrd_s;
 
 /*------------------------------------------------------------------------------

@@ -69,9 +69,6 @@ int thrd_join(thrd_t thread, int *retval)
 
     FOG(("%p Got death signal.\n", thread));
 
-    FOG(("%p Lock thread store mutex.\n", thread));
-    MutexObtain(__thrd_store_lock);
-
     FOG(("%p Clear death signal.\n", thread));
     SetSignal(0L, 1L << sigdeath);
 
@@ -83,6 +80,9 @@ int thrd_join(thrd_t thread, int *retval)
         FOG(("%p Get return value %d.\n", thread, node->retval));
         *retval = node->retval;
     }
+
+    FOG(("%p Lock thread store mutex.\n", thread));
+    MutexObtain(__thrd_store_lock);
 
     FOG(("%p Garbage collect thread.\n", thread));
     RemoveSkipNode(__thrd_store, thread);

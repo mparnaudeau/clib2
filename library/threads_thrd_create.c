@@ -222,14 +222,33 @@ void __thrd_store_teardown(void)
     FOG(("Lock thread store mutex.\n"));
     MutexObtain(__thrd_store_lock);
 
-    if(GetFirstSkipNode(__thrd_store))
+    for(struct SkipNode *head = GetFirstSkipNode(__thrd_store); head;)
     {
         FOG(("Thread store not empty.\n"));
-        WaitForChildExit(0);
+
+        thrd_t thread = (thrd_t) ((__thrd_s *) head)->node.sn_Key;
+        struct SkipNode *next = GetNextSkipNode(__thrd_store, head);
+
+        FOG(("Unlock thread store mutex.\n"));
+        MutexRelease(__thrd_store_lock);
+
+        FOG(("Joining %p.\n", thread));
+        thrd_join(thread, NULL);
+
+        FOG(("Lock thread store mutex.\n"));
+        MutexObtain(__thrd_store_lock);
+
+        FOG(("Remove %p from thread store.\n", thread));
+        RemoveSkipNode(__thrd_store, thread);
+
+        head = next;
     }
 
     FOG(("Free thread store skip list.\n"));
     DeleteSkipList(__thrd_store);
+
+    FOG(("Unlock thread store mutex.\n"));
+    MutexRelease(__thrd_store_lock);
 
     FOG(("Free thread store mutex.\n"));
     FreeSysObject(ASOT_MUTEX, __thrd_store_lock);
@@ -427,6 +446,5 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
     FOG(("Unlock thread store mutex to unhalt process.\n"));
     MutexRelease(__thrd_store_lock);
 
-    LEAVE();
     return thrd_success;
 }
