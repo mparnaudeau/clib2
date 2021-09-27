@@ -14,19 +14,18 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ thrd_yield
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.5.8 (p. 385).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 void thrd_yield(void)
 {
-    ENTER();
-
-    FOG(("Yield CPU.\n"));
-
+    FOG((THRD_TRACE));
     Reschedule();
-
-    FOG(("Got CPU back.\n"));
-
-    LEAVE();
+    FOG((THRD_TRACE));
 }

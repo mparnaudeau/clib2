@@ -14,30 +14,41 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ mtx_init
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.4.2 (p. 380).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int mtx_init(mtx_t *mutex, int type)
 {
-    ENTER();
     assert(mutex);
 
-    FOG(("Check type and create mutex.\n"));
+    /* Validate mutex type. See ref for valid combinations. */
     if(unlikely(!type || type >= (mtx_timed << 1) || ((type & mtx_timed) &&
-      (type & mtx_plain)) || !__thrd_mutex_create(&mutex->mutex, type &
-       mtx_recursive)))
+      (type & mtx_plain))))
     {
-        LEAVE();
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Locked mutex created.\n"));
+    FOG((THRD_ALLOC));
+    mutex->mutex = AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
+        (type & mtx_recursive) ? TRUE : FALSE, TAG_END);
+
+    if(unlikely(!mutex->mutex))
+    {
+        FOG((THRD_ERROR));
+        return thrd_error;
+    }
+
+    /* Not strictly necessary, but save type anyway. */
+    FOG((THRD_TRACE));
     mutex->type = type;
 
-    FOG(("Unlock mutex.\n"));
-    MutexRelease((APTR) mutex->mutex);
-
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

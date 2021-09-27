@@ -14,25 +14,40 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ tss_get
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.6.3 (p. 386).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 void *tss_get(tss_t tss_key)
 {
-    ENTER();
     assert(tss_key.mutex);
 
-    FOG(("Lock key mutex.\n"));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) tss_key.mutex);
 
-    FOG(("Find key value.\n"));
+    FOG((THRD_FIND));
     __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, FindTask(NULL));
-    void *value = tss ? tss->value : NULL;
+    void *value;
 
-    FOG(("Unlock key mutex.\n"));
+    if(tss)
+    {
+        FOG((THRD_TRACE));
+        value = tss->value;
+    }
+    else
+    {
+        FOG((THRD_NOTFOUND));
+        value = NULL;
+    }
+
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) tss_key.mutex);
 
-    LEAVE();
+    FOG((THRD_TRACE));
     return value;
 }

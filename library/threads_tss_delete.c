@@ -21,23 +21,30 @@
 extern struct List *__tss_store;
 extern atomic_uintptr_t __tss_store_lock;
 
+/*------------------------------------------------------------------------------
+ tss_delete
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.6.1 (p. 386).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 void tss_delete(tss_t tss_key)
 {
-    ENTER();
     assert(__tss_store_lock && tss_key.mutex);
 
-    FOG(("Lock store mutex.\n"));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) __tss_store_lock);
 
-    FOG(("Find key in store.\n"));
     for(struct Node *head = GetHead(__tss_store); head;)
     {
         tss_t *tss = &((__tss_n *) head)->tss;
+
+        FOG((THRD_TRACE));
         head = GetSucc(head);
 
         if(tss->values == tss_key.values)
         {
-            FOG(("Key found. Remove from store.\n"));
+            FOG((THRD_TRACE));
             tss->values = NULL;
             break;
         }
@@ -47,18 +54,16 @@ void tss_delete(tss_t tss_key)
 DEN HÄR MÅSTE DU VERKLIGEN KOLLA
 */
 
-    FOG(("Unlock store mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) __tss_store_lock);
 
-    FOG(("Lock key mutex.\n"));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) tss_key.mutex);
 
-    FOG(("Free key values.\n"));
+    FOG((THRD_FREE));
     DeleteSkipList(tss_key.values);
     tss_key.values = NULL;
 
-    FOG(("Unlock key mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) tss_key.mutex);
-
-    LEAVE();
 }

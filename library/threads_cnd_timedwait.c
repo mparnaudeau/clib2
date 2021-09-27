@@ -14,19 +14,20 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ cnd_timedwait
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.3.5 (p. 379-380).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int cnd_timedwait(cnd_t *cond, mtx_t *mutex,
                   const struct timespec *restrict time_point)
 {
-    ENTER();
     assert(cond && cond->mutex && mutex && time_point);
 
-    FOG(("%p Wait with timeout.\n", cond));
-    int status = __cnd_wait(cond, mutex, time_point);
-
-    LEAVE();
-    return status;
+    FOG((THRD_TRACE));
+    return __cnd_wait(cond, mutex, time_point);
 }

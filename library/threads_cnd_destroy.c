@@ -14,26 +14,29 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ cnd_destroy
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.3.2 (p. 378-379).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 void cnd_destroy(cnd_t *cond)
 {
     ENTER();
     assert(cond && cond->mutex);
 
-    FOG(("%p Lock mutex %p.\n", cond, cond->mutex));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
-    FOG(("%p Broadcast to avoid deadlocks.\n", cond));
+    FOG((THRD_SIGNAL));
     (void) __cnd_signal(cond, true);
 
-    FOG(("%p Free list of listeners.\n", cond));
+    FOG((THRD_FREE));
     FreeSysObject(ASOT_LIST, cond->tasks);
 
-    FOG(("%p Free mutex %p.\n", cond, cond->mutex));
+    FOG((THRD_FREE));
     __thrd_mutex_free(&cond->mutex);
-
-    LEAVE();
 }

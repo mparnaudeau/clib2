@@ -14,41 +14,46 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ tss_set
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.6.4 (p. 387).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int tss_set(tss_t tss_key, void *val)
 {
-    ENTER();
     assert(tss_key.mutex);
+    struct Task *key = FindTask(NULL);
 
-    FOG(("Lock mutex.\n"));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) tss_key.mutex);
 
-    FOG(("Find value.\n"));
-    struct Task *key = FindTask(NULL);
+    FOG((THRD_FIND));
     __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, key);
 
     if(!tss)
     {
-        FOG(("Create node.\n"));
+        FOG((THRD_NOTFOUND));
         tss = (__tss_v *) InsertSkipNode(tss_key.values, key,
-              sizeof(__tss_v));
+            sizeof(__tss_v));
     }
 
     if(unlikely(!tss))
     {
+        FOG((THRD_UNLOCK));
         MutexRelease((APTR) tss_key.mutex);
 
-        LEAVE();
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Set value.\n"));
+    FOG((THRD_TRACE));
     tss->value = val;
 
-    FOG(("Unlock mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) tss_key.mutex);
 
     LEAVE();

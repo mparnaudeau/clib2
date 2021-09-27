@@ -14,9 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
 /*------------------------------------------------------------------------------
  __mtx_trylock_callback
@@ -28,41 +26,40 @@
 */
 static int __mtx_trylock_callback(void *data)
 {
-    ENTER();
     assert(data);
 
-    FOG(("Attempt to lock mutex.\n"));
-    int status = mtx_trylock((mtx_t *) data);
-
-    LEAVE();
-    return status;
+    FOG((THRD_TRACE));
+    return mtx_trylock((mtx_t *) data);
 }
 
+/*------------------------------------------------------------------------------
+ mtx_timedlock
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.4.4 (p. 381-382).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int mtx_timedlock(mtx_t *restrict mutex,
                   const struct timespec *restrict time_point)
 {
-    ENTER();
     assert(mutex && mutex->mutex && time_point);
 
+    /* Not strictly necessary, but validate type anyway. */
     if(unlikely(!(mutex->type & mtx_timed)))
     {
-        LEAVE();
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Attempt to lock mutex.\n"));
-    int lock = mtx_trylock(mutex);
-
-    if(lock != thrd_busy)
+    /* First locking attempt before polling. */
+    if(mtx_trylock(mutex) == thrd_success)
     {
-        LEAVE();
-        return lock;
+        FOG((THRD_SUCCESS));
+        return thrd_success;
     }
 
-    FOG(("Poll mutex with timeout.\n"));
-    int status = __eclock_poll(__mtx_trylock_callback, mutex,
+    FOG((THRD_TRACE));
+    /* Lock is busy, resort to polling. */
+    return __eclock_poll(__mtx_trylock_callback, mutex,
         __eclock_future(time_point), POLL_STRIDE);
-
-    LEAVE();
-    return status;
 }

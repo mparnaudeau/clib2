@@ -14,16 +14,17 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ thrd_current
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.5.2 (p. 383).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 thrd_t thrd_current(void)
 {
-    ENTER();
-
-    struct Task *current = FindTask(NULL);
-
-    LEAVE();
-    return current;
+    FOG((THRD_TRACE));
+    return FindTask(NULL);
 }

@@ -14,15 +14,19 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ thrd_equal
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.5.4 (p. 384).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int thrd_equal(thrd_t lhs, thrd_t rhs)
 {
-    ENTER();
     assert(lhs && rhs);
 
-    LEAVE();
+    FOG((THRD_TRACE));
     return lhs == rhs;
 }

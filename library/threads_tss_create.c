@@ -14,9 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
 struct List *__tss_store = NULL;
 atomic_uintptr_t __tss_store_lock = 0;
@@ -30,42 +28,40 @@ atomic_uintptr_t __tss_store_lock = 0;
 */
 static bool __tss_store_init(void)
 {
-    ENTER();
-
-    FOG(("Create locked store mutex.\n"));
+    FOG((THRD_ALLOC));
     int status = __thrd_mutex_replace(&__tss_store_lock);
 
     if(unlikely(status == thrd_error))
     {
-        LEAVE();
+        FOG((THRD_FALSE));
         return false;
     }
 
     if(unlikely(status == thrd_busy))
     {
-        FOG(("Unlock store mutex.\n"));
+        FOG((THRD_UNLOCK));
         MutexRelease((APTR) __tss_store_lock);
 
-        LEAVE();
+        FOG((THRD_TRACE));
         return __tss_store != NULL;
     }
 
-    FOG(("Create store.\n"));
+    FOG((THRD_ALLOC));
     __tss_store = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
     if(unlikely(!__tss_store))
     {
-        FOG(("Free store mutex.\n"));
+        FOG((THRD_FREE));
         __thrd_mutex_free(&__tss_store_lock);
 
-        LEAVE();
+        FOG((THRD_FALSE));
         return false;
     }
 
-    FOG(("Unlock store mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) __tss_store_lock);
 
-    LEAVE();
+    FOG((THRD_TRUE));
     return true;
 }
 
@@ -80,48 +76,54 @@ static atomic_flag __tss_store_active = ATOMIC_FLAG_INIT;
 */
 static bool __tss_store_insert(tss_t *tss_key)
 {
-    ENTER();
     assert(tss_key);
 
     if(unlikely(!atomic_flag_test_and_set(&__tss_store_active) &&
        !__tss_store_init()))
     {
+        FOG((THRD_TRACE));
         atomic_flag_clear(&__tss_store_active);
 
-        LEAVE();
+        FOG((THRD_FALSE));
         return false;
     }
 
-    FOG(("Create node.\n"));
+    FOG((THRD_ALLOC));
     __tss_n *node = (__tss_n *)
         AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__tss_n),
         ASONODE_Type, NT_USER, TAG_END);
 
     if(unlikely(!node))
     {
-        LEAVE();
+        FOG((THRD_FALSE));
         return false;
     }
 
-    FOG(("Initialize node.\n"));
+    FOG((THRD_TRACE));
     node->tss = *tss_key;
 
-    FOG(("Lock store mutex.\n"));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) __tss_store_lock);
 
-    FOG(("Insert node in store.\n"));
+    FOG((THRD_TRACE));
     AddTail(__tss_store, (struct Node *) node);
 
-    FOG(("Unlock store mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) __tss_store_lock);
 
-    LEAVE();
+    FOG((THRD_TRUE));
     return true;
 }
 
+/*------------------------------------------------------------------------------
+ tss_create
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.6.1 (p. 386).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int tss_create(tss_t *tss_key, tss_dtor_t destructor)
 {
-    ENTER();
     DECLARE_UTILITYBASE();
     assert(tss_key);
 
@@ -130,44 +132,44 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
         .h_Entry = (uint32 (*)()) __thrd_ptr_cmp_callback
     };
 
-    FOG(("Create locked mutex.\n"));
+    FOG((THRD_ALLOC));
     if(unlikely(!__thrd_mutex_create(&tss_key->mutex, true)))
     {
-        LEAVE();
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Create value skip list.\n"));
+    FOG((THRD_ALLOC));
     tss_key->values = CreateSkipList(&tss_t_cmp_hook, 16);
 
     if(unlikely(!tss_key->values))
     {
-        FOG(("Free mutex.\n"));
+        FOG((THRD_FREE));
         __thrd_mutex_free(&tss_key->mutex);
 
-        LEAVE();
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Set destructor.\n"));
+    FOG((THRD_TRACE));
     tss_key->destructor = destructor;
 
-    FOG(("Insert key in store.\n"));
+    FOG((THRD_TRACE));
     if(unlikely(!__tss_store_insert(tss_key)))
     {
-        FOG(("Free value skip list.\n"));
+        FOG((THRD_FREE));
         DeleteSkipList(tss_key->values);
 
-        FOG(("Free mutex.\n"));
+        FOG((THRD_FREE));
         __thrd_mutex_free(&tss_key->mutex);
 
-        LEAVE();
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Unlock mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) tss_key->mutex);
 
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

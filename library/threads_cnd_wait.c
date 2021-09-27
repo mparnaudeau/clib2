@@ -28,22 +28,21 @@
 */
 static int __cnd_sigwait_callback(void *data)
 {
-    ENTER();
     assert(data);
 
     ULONG sigmask = 1 << *((BYTE *) data);
 
-    FOG(("Get signal mask.\n"));
+    FOG((THRD_TRACE));
     if(SetSignal(0L, 0L) & sigmask)
     {
-        FOG(("Got signal.\n"));
+        FOG((THRD_TRACE));
         SetSignal(0L, sigmask);
 
-        LEAVE();
+        FOG((THRD_SUCCESS));
         return thrd_success;
     }
 
-    LEAVE();
+    FOG((THRD_BUSY));
     return thrd_busy;
 }
 
@@ -58,29 +57,25 @@ static int __cnd_sigwait_callback(void *data)
               'thrd_timedout' on timeout, otherwise 'thrd_error'.
 */
 static int __cnd_wait_signal(BYTE sigbit,
-                             const struct timespec *restrict time_point)
+    const struct timespec *restrict time_point)
 {
-    ENTER();
     assert(sigbit != -1);
 
     if(!time_point)
     {
-        FOG(("Wait for signal.\n"));
+        FOG((THRD_WAIT));
         Wait(1L << sigbit);
 
-        FOG(("Got signal.\n"));
+        FOG((THRD_TRACE));
         SetSignal(0L, 1L << sigbit);
 
-        LEAVE();
+        FOG((THRD_SUCCESS));
         return thrd_success;
     }
 
-    FOG(("Poll signal with timeout.\n"));
-    int status =  __eclock_poll(__cnd_sigwait_callback, &sigbit,
+    FOG((THRD_TRACE));
+    return __eclock_poll(__cnd_sigwait_callback, &sigbit,
         __eclock_future(time_point), POLL_STRIDE);
-
-    LEAVE();
-    return status;
 }
 
 /*------------------------------------------------------------------------------
@@ -99,90 +94,99 @@ static int __cnd_wait_signal(BYTE sigbit,
 int __cnd_wait(cnd_t *cond, mtx_t *mutex,
                const struct timespec *restrict time_point)
 {
-    ENTER();
     assert(cond && cond->mutex && mutex && time_point);
 
-    FOG(("Allocate signal.\n"));
+    FOG((THRD_ALLOC));
     BYTE sigbit = AllocSignal(-1);
 
     if(unlikely(sigbit == -1))
     {
-        LEAVE();
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Create listener thread node.\n"));
+    FOG((THRD_ALLOC));
     __cnd_node *node = (__cnd_node *)
         AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__cnd_node),
         ASONODE_Type, NT_USER, TAG_END);
 
     if(unlikely(!node))
     {
-        LEAVE();
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Initialize listener thread node.\n"));
+    FOG((THRD_TRACE));
     node->node.ln_Type = NT_USER;
     node->node.ln_Name = (STRPTR) __func__;
     node->task = FindTask(NULL);
     node->sigbit = sigbit;
 
+    FOG((THRD_TRACE));
     /* Ordered queue to avoid task priority inversion. */
     node->node.ln_Pri = SetTaskPri(node->task, 0);
     SetTaskPri(node->task, node->node.ln_Pri);
 
-    FOG(("Lock conditional mutex.\n"));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
-    FOG(("Add current thread to list of listeners.\n"));
+    FOG((THRD_TRACE));
     Enqueue(cond->tasks, (struct Node *) node);
 
-    FOG(("Unlock conditional mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) cond->mutex);
 
     /* Go to sleep or poll for signal if time_point exists. Encapsulate */
     /* with mutex unlock and lock (refer to cnd_wait documentation). */
 
-    FOG(("Unlock user mutex.\n"));
+    FOG((THRD_UNLOCK));
     mtx_unlock(mutex);
 
-    FOG(("Wait for signal.\n"));
+    FOG((THRD_WAIT));
     int status = __cnd_wait_signal(sigbit, time_point);
 
-    FOG(("Lock user mutex.\n"));
+    FOG((THRD_LOCK));
     mtx_lock(mutex);
 
-    FOG(("Lock conditional mutex.\n"));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
-    FOG(("Remove current thread from list of listeners.\n"));
+    FOG((THRD_TRACE));
     Remove((struct Node *) node);
 
-    FOG(("Unlock conditional mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) cond->mutex);
 
-    FOG(("Clear signal.\n"));
+    FOG((THRD_TRACE));
     SetSignal(0L, 1L << sigbit);
 
-    FOG(("Free signal.\n"));
+    FOG((THRD_FREE));
     FreeSignal(sigbit);
 
-    FOG(("Free listener thread node.\n"));
+    FOG((THRD_FREE));
     FreeSysObject(ASOT_NODE, node);
 
-    LEAVE();
     return status;
 }
 
+/*------------------------------------------------------------------------------
+ cnd_wait
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.3.6 (p. 380).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int cnd_wait(cnd_t *cond, mtx_t *mutex)
 {
-    ENTER();
     assert(cond && cond->mutex && mutex);
 
-    FOG(("Conditional wait.\n"));
-    int status = __cnd_wait(cond, mutex, NULL);
+    FOG((THRD_TRACE));
+    if(unlikely(__cnd_wait(cond, mutex, NULL) == thrd_error))
+    {
+        FOG((THRD_ERROR));
+        return thrd_error;
+    }
 
-    LEAVE();
-    return status;
+    FOG((THRD_SUCCESS));
+    return thrd_success;
 }

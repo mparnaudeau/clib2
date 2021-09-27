@@ -14,18 +14,22 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ mtx_unlock
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.4.6 (p. 382).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int mtx_unlock(mtx_t *mutex)
 {
-    ENTER();
     assert(mutex && mutex->mutex);
 
-    FOG(("Unlock mutex.\n"));
-    MutexRelease((APTR) mutex->mutex);
+    FOG((THRD_UNLOCK));
+    MutexRelease(mutex->mutex);
 
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

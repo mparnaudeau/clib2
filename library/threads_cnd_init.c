@@ -15,33 +15,42 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ cnd_init
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.3.3 (p. 379).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int cnd_init(cnd_t *cond)
 {
     ENTER();
     assert(cond);
 
-    FOG(("%p Create locked mutex.\n", cond));
+    FOG((THRD_ALLOC));
     if(unlikely(!__thrd_mutex_create(&cond->mutex, true)))
     {
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("%p Create list of listeners.\n", cond));
+    FOG((THRD_ALLOC));
     cond->tasks = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
     if(unlikely(!cond->tasks))
     {
+        FOG((THRD_FREE));
         __thrd_mutex_free(&cond->mutex);
+
+        FOG((THRD_NOMEM));
         return thrd_nomem;
     }
 
-    FOG(("%p Unlock mutex %p.\n", cond, cond->mutex));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) cond->mutex);
 
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

@@ -14,20 +14,22 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ call_once
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.2.1 (p. 378).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 void call_once(once_flag *flag, void (*func)(void))
 {
-    ENTER();
     assert(flag && func);
 
     if(!atomic_flag_test_and_set(flag))
     {
-        FOG(("Enter func() %p.\n", func));
+        FOG((THRD_TRACE));
         func();
     }
-
-    LEAVE();
 }

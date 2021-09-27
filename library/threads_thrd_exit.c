@@ -14,33 +14,38 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
 extern struct SkipList *__thrd_store;
-extern atomic_uintptr_t __thrd_store_lock;
+extern APTR __thrd_store_lock;
 
+/*------------------------------------------------------------------------------
+ thrd_exit
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.5.5 (p. 384).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 void thrd_exit(int retval)
 {
-    ENTER();
     assert(__thrd_store_lock);
 
-    FOG(("Lock thread store mutex.\n"));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) __thrd_store_lock);
 
-    FOG(("Find current thread.\n"));
+    /* This can fail if invoked by process not created by thrd_create(). */
+    FOG((THRD_FIND));
     __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, FindTask(NULL));
 
-    FOG(("Unlock thread store mutex.\n"));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) __thrd_store_lock);
 
     if(unlikely(!thread))
     {
-        LEAVE();
+        FOG((THRD_NOTFOUND));
         return;
     }
 
-    FOG(("Jump to exit point.\n"));
+    FOG((THRD_TRACE));
     longjmp(thread->stop, retval);
 }

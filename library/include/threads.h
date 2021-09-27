@@ -1,6 +1,10 @@
 #ifndef _THREADS_H
 #define _THREADS_H
 
+#ifndef	PROTO_EXEC_H
+#include <proto/exec.h>
+#endif /* PROTO_EXEC_H */
+
 #ifndef	_STDATOMIC_H
 #include <stdatomic.h>
 #endif /* _STDATOMIC_H */
@@ -8,10 +12,6 @@
 #ifndef	_STDINT_H
 #include <stdint.h>
 #endif /* _STDINT_H */
-
-#ifndef _STDNORETURN_H
-#include <stdnoreturn.h>
-#endif /* _STDNORETURN_H */
 
 #ifndef _TIME_H
 #include <time.h>
@@ -35,7 +35,7 @@ enum
 
 typedef struct
 {
-    atomic_uintptr_t mutex;
+    APTR mutex;
     int type;
 } mtx_t;
 

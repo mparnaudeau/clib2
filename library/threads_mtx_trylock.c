@@ -14,18 +14,26 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ mtx_trylock
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.4.5 (p. 382).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int mtx_trylock(mtx_t *mutex)
 {
-    ENTER();
     assert(mutex && mutex->mutex);
 
-    FOG(("Attempt to lock mutex.\n"));
-    int status = MutexAttempt((APTR) mutex->mutex) ? thrd_success : thrd_busy;
+    FOG((THRD_LOCK));
+    if(!MutexAttempt(mutex->mutex))
+    {
+        FOG((THRD_BUSY));
+        return thrd_busy;
+    }
 
-    LEAVE();
-    return status;
+    FOG((THRD_SUCCESS));
+    return thrd_success;
 }
