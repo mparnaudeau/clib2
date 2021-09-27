@@ -69,7 +69,7 @@ int thrd_join(thrd_t thread, int *retval)
     FOG((THRD_UNLOCK));
     MutexRelease(__thrd_store_lock);
 
-    FOG((THRD_TRACE));
+    FOG((THRD_WAIT));
     Wait(1L << sigdeath);
 
     FOG((THRD_TRACE));
