@@ -14,80 +14,83 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
 extern struct SkipList *__thrd_store;
 extern APTR __thrd_store_lock;
 
+/*------------------------------------------------------------------------------
+ thrd_join
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.5.6 (p. 384-385).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int thrd_join(thrd_t thread, int *retval)
 {
     DECLARE_UTILITYBASE();
     assert(__thrd_store && __thrd_store_lock && thread);
 
-    FOG(("%p Lock thread store mutex.\n", thread));
+    FOG((THRD_LOCK));
     MutexObtain(__thrd_store_lock);
 
-    FOG(("%p Find thread in thread store.\n", thread));
+    FOG((THRD_FIND));
     __thrd_s *node = (__thrd_s *) FindSkipNode(__thrd_store, thread);
 
     if(unlikely(!node) || atomic_flag_test_and_set(&(node->gc)))
     {
-        FOG(("%p Unlock thread store mutex.\n", thread));
+        FOG((THRD_UNLOCK));
         MutexRelease(__thrd_store_lock);
 
-        FOG(("%p Thread not found.\n", thread));
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG(("Allocate death signal.\n"));
+    FOG((THRD_ALLOC));
     BYTE sigdeath = AllocSignal(-1);
 
     if(unlikely(sigdeath == -1))
     {
-        FOG(("%p Unlock thread store mutex.\n", thread));
+        FOG((THRD_UNLOCK));
         MutexRelease(__thrd_store_lock);
 
-        FOG(("%p No free signals.\n", thread));
+        FOG((THRD_ERROR));
         return thrd_error;
     }
 
     struct Process *proc = (struct Process *) thread;
 
-    FOG(("%p Set death signal.\n", thread));
+    FOG((THRD_TRACE));
     proc->pr_DeathSigBit = sigdeath;
 
-    FOG(("%p Set death signal receiver.\n", thread));
+    FOG((THRD_TRACE));
     proc->pr_DeathSigTask = (APTR) FindTask(NULL);
 
-    FOG(("%p Unlock thread store mutex.\n", thread));
+    FOG((THRD_UNLOCK));
     MutexRelease(__thrd_store_lock);
 
-    FOG(("%p Wait for death signal.\n", thread));
+    FOG((THRD_TRACE));
     Wait(1L << sigdeath);
 
-    FOG(("%p Got death signal.\n", thread));
-
-    FOG(("%p Clear death signal.\n", thread));
+    FOG((THRD_TRACE));
     SetSignal(0L, 1L << sigdeath);
 
-    FOG(("%p Free death signal.\n", thread));
+    FOG((THRD_FREE));
     FreeSignal(sigdeath);
 
     if(retval)
     {
-        FOG(("%p Get return value %d.\n", thread, node->retval));
+        FOG((THRD_TRACE));
         *retval = node->retval;
     }
 
-    FOG(("%p Lock thread store mutex.\n", thread));
+    FOG((THRD_LOCK));
     MutexObtain(__thrd_store_lock);
 
-    FOG(("%p Garbage collect thread.\n", thread));
+    FOG((THRD_FREE));
     RemoveSkipNode(__thrd_store, thread);
 
-    FOG(("%p Unlock thread store mutex.\n", thread));
+    FOG((THRD_UNLOCK));
     MutexRelease(__thrd_store_lock);
 
     return thrd_success;

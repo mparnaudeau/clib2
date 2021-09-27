@@ -14,13 +14,10 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
 int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
 {
-    ENTER();
     assert(duration);
 
     uint32_t nsecs_per_tick = 1000000000 / TICKS_PER_SECOND,
@@ -30,15 +27,13 @@ int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
 
     if(remaining)
     {
-        FOG(("Clear remaining.\n"));
+        FOG((THRD_TRACE));
         remaining->tv_sec = remaining->tv_nsec = 0;
     }
 
-    FOG(("Go to sleep.\n"));
+    FOG((THRD_TRACE));
     Delay(nticks);
 
-    FOG(("Wake up.\n"));
-
-    LEAVE();
+    FOG((THRD_TRACE));
     return 0;
 }

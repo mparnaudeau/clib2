@@ -100,7 +100,25 @@ void __cnd_signal(cnd_t *cond, bool broadcast);
 int __cnd_wait(cnd_t *cond, mtx_t *mutex,
                const struct timespec *restrict time_point);
 
-#define FOG(...) DebugPrintF("%s:%d - ", __func__, __LINE__); DebugPrintF __VA_ARGS__
+#define FOG(...) DebugPrintF("%s:%d - ", __func__, __LINE__);\
+    DebugPrintF __VA_ARGS__
+
+#define THRD_ERROR "thrd_error.\n"
+#define THRD_SUCCESS "thrd_success.\n"
+#define THRD_BUSY "thrd_busy.\n"
+#define THRD_NOMEM "thrd_nomem.\n"
+#define THRD_ALLOC "Allocate resource.\n"
+#define THRD_FREE "Free resource.\n"
+#define THRD_LOCK "Lock mutex.\n"
+#define THRD_UNLOCK "Unlock mutex.\n"
+#define THRD_TRACE "Trace.\n"
+#define THRD_FALSE "False.\n"
+#define THRD_TRUE "True.\n"
+#define THRD_FIND "Find.\n"
+#define THRD_NOTFOUND "Not found.\n"
+#define THRD_SIGNAL "Signal.\n"
+#define THRD_WAIT "Wait.\n"
+
 //#define FOG(...)
 
 #endif /* _THREADS_HEADERS_H */

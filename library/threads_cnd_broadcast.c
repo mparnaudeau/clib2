@@ -14,24 +14,28 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ cnd_broadcast
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.3.1 (p. 378).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int cnd_broadcast(cnd_t *cond)
 {
-    ENTER();
     assert(cond && cond->mutex);
 
-    FOG(("%p Lock mutex %p.\n", cond, cond->mutex));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
-    FOG(("%p Signal all threads.\n", cond));
+    FOG((THRD_SIGNAL));
     __cnd_signal(cond, true);
 
-    FOG(("%p Unlock mutex %p.\n", cond, cond->mutex));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) cond->mutex);
 
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

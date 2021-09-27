@@ -14,17 +14,17 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
-int thrd_detach(thrd_t thread)
+/*------------------------------------------------------------------------------
+ thrd_detach
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.5.3 (p. 383-384).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
+int thrd_detach(__attribute__((unused)) thrd_t thread)
 {
-    ENTER();
-    assert(thread);
-
-    (void) thread;
-
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

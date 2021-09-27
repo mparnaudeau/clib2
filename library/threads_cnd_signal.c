@@ -14,9 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
 /*------------------------------------------------------------------------------
  __cnd_signal
@@ -29,42 +27,45 @@
 */
 void __cnd_signal(cnd_t *cond, bool broadcast)
 {
-    ENTER();
     assert(cond && cond->mutex);
 
     for(__cnd_node *head = (__cnd_node *) GetHead(cond->tasks), *next;
         head; head = next)
     {
-        FOG(("%p Signal task.\n", cond));
+        FOG((THRD_SIGNAL));
         Signal(head->task, 1L << head->sigbit);
 
         next = broadcast ? (__cnd_node *)
             GetSucc((struct Node *) head) : NULL;
 
-        FOG(("%p Remove task from list of listeners.\n", cond));
+        FOG((THRD_TRACE));
         Remove((struct Node *) head);
 
-        FOG(("%p Free task node.\n", cond));
+        FOG((THRD_FREE));
         FreeSysObject(ASOT_NODE, head);
     }
-
-    LEAVE();
 }
 
+/*------------------------------------------------------------------------------
+ cnd_signal
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.3.4 (p. 379).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int cnd_signal(cnd_t *cond)
 {
-    ENTER();
     assert(cond && cond->mutex);
 
-    FOG(("%p Lock mutex %p.\n", cond, cond->mutex));
+    FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
-    FOG(("%p Single signal.\n", cond));
+    FOG((THRD_SIGNAL));
     __cnd_signal(cond, false);
 
-    FOG(("%p Unlock mutex %p.\n", cond, cond->mutex));
+    FOG((THRD_UNLOCK));
     MutexRelease((APTR) cond->mutex);
 
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

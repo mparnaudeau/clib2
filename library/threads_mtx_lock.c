@@ -14,18 +14,22 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ mtx_lock
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.4.3 (p. 381).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 int mtx_lock(mtx_t *mutex)
 {
-    ENTER();
     assert(mutex && mutex->mutex);
 
-    FOG(("Lock mutex.\n"));
-    MutexObtain((APTR) mutex->mutex);
+    FOG((THRD_LOCK));
+    MutexObtain(mutex->mutex);
 
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

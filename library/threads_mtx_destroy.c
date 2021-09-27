@@ -14,20 +14,19 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _THREADS_HEADERS_H
 #include "threads_headers.h"
-#endif
 
+/*------------------------------------------------------------------------------
+ mtx_destroy
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.4.1 (p. 380).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
 void mtx_destroy(mtx_t *mutex)
 {
-    ENTER();
     assert(mutex && mutex->mutex);
 
-    FOG(("Lock mutex.\n"));
-    MutexObtain((APTR) mutex->mutex);
-
-    FOG(("Free mutex.\n"));
-    __thrd_mutex_free(&mutex->mutex);
-
-    LEAVE();
+    FOG((THRD_FREE));
+    FreeSysObject(ASOT_MUTEX, mutex->mutex);
 }
