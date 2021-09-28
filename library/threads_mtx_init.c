@@ -25,12 +25,20 @@
 */
 int mtx_init(mtx_t *mutex, int type)
 {
-    assert(mutex);
-
+#ifdef THRD_MTX_WARY
+    if(unlikely(!mutex))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     /* Validate mutex type. See ref for valid combinations. */
     if(unlikely(!type || type >= (mtx_timed << 1) || ((type & mtx_timed) &&
       (type & mtx_plain))))
     {
+#ifdef THRD_MTX_WARY
+        mutex->mutex = NULL;
+#endif
         FOG((THRD_ERROR));
         return thrd_error;
     }

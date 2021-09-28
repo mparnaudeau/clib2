@@ -15,6 +15,8 @@
  */
 
 #include "threads_headers.h"
+#include <time.h>
+#include <sys/time.h>
 
 /*------------------------------------------------------------------------------
  __mtx_trylock_callback
@@ -33,6 +35,104 @@ static int __mtx_trylock_callback(void *data)
 }
 
 /*------------------------------------------------------------------------------
+ __eclock_poll
+
+ Description: Poll callback until timeout or until conditions are met.
+ Input:       int (*)(void *) - callback function.
+              void *data - callback function input data.
+              ULONG time - time scope in eclocks.
+              ULONG stride - polling interval in ticks.
+ Return:      int - 'thrd_success' if conditions are met in time,
+              'thrd_timedout' on timeout and 'thrd_error' on error.
+*/
+int __eclock_poll(int (*poll)(void *), void *data, ULONG time, ULONG stride)
+{
+    FOG((THRD_ALLOC));
+    struct Library *LowLevelBase = OpenLibrary("lowlevel.library", 0L);
+
+    if(unlikely(!LowLevelBase))
+    {
+        FOG((THRD_ERROR));
+        return thrd_error;
+    }
+
+    FOG((THRD_ALLOC));
+    struct LowLevelIFace *ILowLevel = (struct LowLevelIFace *)
+        GetInterface(LowLevelBase, "main", 1, NULL);
+
+    if(unlikely(!ILowLevel))
+    {
+        FOG((THRD_FREE));
+        CloseLibrary(LowLevelBase);
+
+        FOG((THRD_ERROR));
+        return thrd_error;
+    }
+
+    struct EClockVal ctx = { 0 };
+    (void) ElapsedTime(&ctx);
+
+    FOG((THRD_TRACE));
+    for(ULONG done = 0; done < time; done += ElapsedTime(&ctx))
+    {
+        int lock = poll(data);
+
+        if(lock != thrd_busy)
+        {
+            FOG((THRD_FREE));
+            DropInterface((struct Interface *) ILowLevel);
+
+            FOG((THRD_FREE));
+            CloseLibrary(LowLevelBase);
+
+            FOG((THRD_TRACE));
+            return lock;
+        }
+
+        FOG((THRD_WAIT));
+        Delay(stride);
+    }
+
+    FOG((THRD_FREE));
+    DropInterface((struct Interface *) ILowLevel);
+
+    FOG((THRD_FREE));
+    CloseLibrary(LowLevelBase);
+
+    FOG((THRD_TIMEDOUT));
+    return thrd_timedout;
+}
+
+/*------------------------------------------------------------------------------
+ __eclock_future
+
+ Description: Calculate how far into the future a timespec point is in eclocks.
+ Input:       const struct timespec *restrict time_point - time point.
+ Return:      ULONG: Number of eclocks until time_point is reached.
+*/
+
+ULONG __eclock_future(const struct timespec *restrict time_point)
+{
+    struct timeval now, then = { .tv_secs = time_point->tv_sec,
+           .tv_micro = time_point->tv_nsec / 1000 };
+
+    gettimeofday(&now, NULL);
+
+    if(unlikely((then.tv_secs == now.tv_secs && then.tv_micro < now.tv_micro) ||
+       then.tv_secs <  now.tv_secs))
+    {
+        return 0;
+    }
+
+    time_t secs = then.tv_secs - now.tv_secs -
+           ((then.tv_micro < now.tv_micro) ? 1 : 0),
+           usecs = (then.tv_micro < now.tv_micro) ? 1000000 -
+           (now.tv_micro - then.tv_micro) : then.tv_micro - now.tv_micro;
+
+    return ((ULONG) usecs >> 4) + ((ULONG) secs << 16);
+}
+
+/*------------------------------------------------------------------------------
  mtx_timedlock
 
  Description: Refer to ISO/IEC 9899:2011 section 7.26.4.4 (p. 381-382).
@@ -42,8 +142,13 @@ static int __mtx_trylock_callback(void *data)
 int mtx_timedlock(mtx_t *restrict mutex,
                   const struct timespec *restrict time_point)
 {
-    assert(mutex && mutex->mutex && time_point);
-
+#ifdef THRD_MTX_WARY
+    if(unlikely(!mutex || !mutex->mutex || !time_point))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     /* Not strictly necessary, but validate type anyway. */
     if(unlikely(!(mutex->type & mtx_timed)))
     {

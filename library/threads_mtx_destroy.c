@@ -25,8 +25,20 @@
 */
 void mtx_destroy(mtx_t *mutex)
 {
-    assert(mutex && mutex->mutex);
+#ifdef THRD_MTX_WARY
+    if(unlikely(!mutex || !mutex->mutex))
+    {
+        FOG((THRD_PANIC));
+        return;
+    }
+
+    APTR mtx = mutex->mutex;
+    mutex->mutex = NULL;
 
     FOG((THRD_FREE));
+    FreeSysObject(ASOT_MUTEX, mtx);
+#else
+    FOG((THRD_FREE));
     FreeSysObject(ASOT_MUTEX, mutex->mutex);
+#endif
 }
