@@ -9,6 +9,10 @@
 #include <proto/exec.h>
 #endif /* PROTO_EXEC_H */
 
+#ifndef	PROTO_LOWLEVEL_H
+#include <proto/lowlevel.h>
+#endif /* PROTO_LOWLEVEL_H */
+
 #ifndef	PROTO_UTILITY_H
 #include <proto/utility.h>
 #endif /* PROTO_UTILITY_H */
@@ -36,6 +40,8 @@
 #ifndef _STDLIB_UTILITYBASE_H
 #include "stdlib_utilitybase.h"
 #endif /* _STDLIB_UTILITYBASE_H */
+
+#define THRD_MTX_WARY
 
 /*------------------------------------------------------------------------------
  * thrd|tss|mtx|cnd
@@ -107,6 +113,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
 #define THRD_SUCCESS "thrd_success.\n"
 #define THRD_BUSY "thrd_busy.\n"
 #define THRD_NOMEM "thrd_nomem.\n"
+#define THRD_TIMEDOUT "thrd_timedout.\n"
 #define THRD_ALLOC "Allocate resource.\n"
 #define THRD_FREE "Free resource.\n"
 #define THRD_LOCK "Lock mutex.\n"
@@ -118,6 +125,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
 #define THRD_NOTFOUND "Not found.\n"
 #define THRD_SIGNAL "Signal.\n"
 #define THRD_WAIT "Wait.\n"
+#define THRD_PANIC "PANIC.\n"
 
 //#define FOG(...)
 

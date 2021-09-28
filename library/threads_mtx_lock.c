@@ -25,8 +25,13 @@
 */
 int mtx_lock(mtx_t *mutex)
 {
-    assert(mutex && mutex->mutex);
-
+#ifdef THRD_MTX_WARY
+    if(unlikely(!mutex || !mutex->mutex))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     FOG((THRD_LOCK));
     MutexObtain(mutex->mutex);
 
