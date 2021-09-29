@@ -19,6 +19,33 @@
 #endif
 
 /*------------------------------------------------------------------------------
+ cnd_wait
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.3.6 (p. 380).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
+int cnd_wait(cnd_t *cond, mtx_t *mutex)
+{
+#ifdef THRD_PARANOIA
+    if(unlikely(!cond || !cond->mutex || !cond->tasks || !mutex))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
+    FOG((THRD_TRACE));
+    if(unlikely(__cnd_wait(cond, mutex, NULL) == thrd_error))
+    {
+        FOG((THRD_ERROR));
+        return thrd_error;
+    }
+
+    FOG((THRD_SUCCESS));
+    return thrd_success;
+}
+
+/*------------------------------------------------------------------------------
  __cnd_sigwait_callback
 
  Description: Polling signal callback used in combination with __eclock_poll.
@@ -28,11 +55,9 @@
 */
 static int __cnd_sigwait_callback(void *data)
 {
-    assert(data);
-
+    FOG((THRD_TRACE));
     ULONG sigmask = 1 << *((BYTE *) data);
 
-    FOG((THRD_TRACE));
     if(SetSignal(0L, 0L) & sigmask)
     {
         FOG((THRD_TRACE));
@@ -59,8 +84,6 @@ static int __cnd_sigwait_callback(void *data)
 static int __cnd_wait_signal(BYTE sigbit,
     const struct timespec *restrict time_point)
 {
-    assert(sigbit != -1);
-
     if(!time_point)
     {
         FOG((THRD_WAIT));
@@ -92,10 +115,8 @@ static int __cnd_wait_signal(BYTE sigbit,
               otherwise 'thrd_error'.
 */
 int __cnd_wait(cnd_t *cond, mtx_t *mutex,
-               const struct timespec *restrict time_point)
+    const struct timespec *restrict time_point)
 {
-    assert(cond && cond->mutex && mutex && time_point);
-
     FOG((THRD_ALLOC));
     BYTE sigbit = AllocSignal(-1);
 
@@ -118,12 +139,15 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
 
     FOG((THRD_TRACE));
     node->node.ln_Type = NT_USER;
+
+    /* Not sure if ln_Name really needs to be a valid string. */
     node->node.ln_Name = (STRPTR) __func__;
+
     node->task = FindTask(NULL);
     node->sigbit = sigbit;
 
+    /* Priority ordered queue to avoid task priority inversion. */
     FOG((THRD_TRACE));
-    /* Ordered queue to avoid task priority inversion. */
     node->node.ln_Pri = SetTaskPri(node->task, 0);
     SetTaskPri(node->task, node->node.ln_Pri);
 
@@ -137,7 +161,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     MutexRelease((APTR) cond->mutex);
 
     /* Go to sleep or poll for signal if time_point exists. Encapsulate */
-    /* with mutex unlock and lock (refer to cnd_wait documentation). */
+    /* with mutex unlock and lock. Refer to cnd_wait() documentation. */
 
     FOG((THRD_UNLOCK));
     mtx_unlock(mutex);
@@ -167,26 +191,4 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     FreeSysObject(ASOT_NODE, node);
 
     return status;
-}
-
-/*------------------------------------------------------------------------------
- cnd_wait
-
- Description: Refer to ISO/IEC 9899:2011 section 7.26.3.6 (p. 380).
- Input:       Ibid.
- Return:      Ibid.
-*/
-int cnd_wait(cnd_t *cond, mtx_t *mutex)
-{
-    assert(cond && cond->mutex && mutex);
-
-    FOG((THRD_TRACE));
-    if(unlikely(__cnd_wait(cond, mutex, NULL) == thrd_error))
-    {
-        FOG((THRD_ERROR));
-        return thrd_error;
-    }
-
-    FOG((THRD_SUCCESS));
-    return thrd_success;
 }

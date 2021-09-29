@@ -27,8 +27,6 @@
 */
 void __cnd_signal(cnd_t *cond, bool broadcast)
 {
-    assert(cond && cond->mutex);
-
     for(__cnd_node *head = (__cnd_node *) GetHead(cond->tasks), *next;
         head; head = next)
     {
@@ -55,11 +53,17 @@ void __cnd_signal(cnd_t *cond, bool broadcast)
 */
 int cnd_signal(cnd_t *cond)
 {
-    assert(cond && cond->mutex);
-
+#ifdef THRD_PARANOIA
+    if(unlikely(!cond || !cond->mutex))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
+    /* __cnd_signal is a nop if !cond->tasks. */
     FOG((THRD_SIGNAL));
     __cnd_signal(cond, false);
 

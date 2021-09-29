@@ -25,7 +25,7 @@
 */
 int mtx_unlock(mtx_t *mutex)
 {
-#ifdef THRD_MTX_WARY
+#ifdef THRD_PARANOIA
     if(unlikely(!mutex || !mutex->mutex))
     {
         FOG((THRD_PANIC));

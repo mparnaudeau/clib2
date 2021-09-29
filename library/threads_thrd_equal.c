@@ -25,8 +25,6 @@
 */
 int thrd_equal(thrd_t lhs, thrd_t rhs)
 {
-    assert(lhs && rhs);
-
     FOG((THRD_TRACE));
     return lhs == rhs;
 }

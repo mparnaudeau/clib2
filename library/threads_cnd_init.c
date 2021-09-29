@@ -26,9 +26,13 @@
 */
 int cnd_init(cnd_t *cond)
 {
-    ENTER();
-    assert(cond);
-
+#ifdef THRD_PARANOIA
+    if(unlikely(!cond))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     FOG((THRD_ALLOC));
     if(unlikely(!__thrd_mutex_create(&cond->mutex, true)))
     {
