@@ -25,13 +25,14 @@
 */
 void mtx_destroy(mtx_t *mutex)
 {
-#ifdef THRD_MTX_WARY
+#ifdef THRD_PARANOIA
     if(unlikely(!mutex || !mutex->mutex))
     {
         FOG((THRD_PANIC));
         return;
     }
 
+    /* Not bullet proof, but better than nothing. */
     APTR mtx = mutex->mutex;
     mutex->mutex = NULL;
 

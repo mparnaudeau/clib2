@@ -41,7 +41,7 @@
 #include "stdlib_utilitybase.h"
 #endif /* _STDLIB_UTILITYBASE_H */
 
-#define THRD_MTX_WARY
+#define THRD_PARANOID
 
 /*------------------------------------------------------------------------------
  * thrd|tss|mtx|cnd

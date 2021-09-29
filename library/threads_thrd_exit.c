@@ -28,7 +28,7 @@ extern APTR __thrd_store_lock;
 */
 void thrd_exit(int retval)
 {
-    assert(__thrd_store_lock);
+    assert(__thrd_store && __thrd_store_lock);
 
     FOG((THRD_LOCK));
     MutexObtain((APTR) __thrd_store_lock);

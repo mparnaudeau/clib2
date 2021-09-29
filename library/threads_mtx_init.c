@@ -25,7 +25,7 @@
 */
 int mtx_init(mtx_t *mutex, int type)
 {
-#ifdef THRD_MTX_WARY
+#ifdef THRD_PARANOIA
     if(unlikely(!mutex))
     {
         FOG((THRD_PANIC));
@@ -36,7 +36,7 @@ int mtx_init(mtx_t *mutex, int type)
     if(unlikely(!type || type >= (mtx_timed << 1) || ((type & mtx_timed) &&
       (type & mtx_plain))))
     {
-#ifdef THRD_MTX_WARY
+#ifdef THRD_PARANOIA
         mutex->mutex = NULL;
 #endif
         FOG((THRD_ERROR));

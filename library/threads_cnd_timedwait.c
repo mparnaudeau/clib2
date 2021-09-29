@@ -26,8 +26,14 @@
 int cnd_timedwait(cnd_t *cond, mtx_t *mutex,
                   const struct timespec *restrict time_point)
 {
-    assert(cond && cond->mutex && mutex && time_point);
-
+#ifdef THRD_PARANOIA
+    /* __cnd_wait will behave like cnd_wait() if !time_point. */
+    if(unlikely(!cond || !cond->mutex || !mutex || !time_point))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     FOG((THRD_TRACE));
     return __cnd_wait(cond, mutex, time_point);
 }

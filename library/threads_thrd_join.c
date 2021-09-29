@@ -29,7 +29,7 @@ extern APTR __thrd_store_lock;
 int thrd_join(thrd_t thread, int *retval)
 {
     DECLARE_UTILITYBASE();
-    assert(__thrd_store && __thrd_store_lock && thread);
+    assert(__thrd_store && __thrd_store_lock);
 
     FOG((THRD_LOCK));
     MutexObtain(__thrd_store_lock);

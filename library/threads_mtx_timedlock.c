@@ -28,12 +28,77 @@
 */
 static int __mtx_trylock_callback(void *data)
 {
-    assert(data);
-
     FOG((THRD_TRACE));
     return mtx_trylock((mtx_t *) data);
 }
 
+/*------------------------------------------------------------------------------
+ mtx_timedlock
+
+ Description: Refer to ISO/IEC 9899:2011 section 7.26.4.4 (p. 381-382).
+ Input:       Ibid.
+ Return:      Ibid.
+*/
+int mtx_timedlock(mtx_t *restrict mutex,
+                  const struct timespec *restrict time_point)
+{
+#ifdef THRD_PARANOIA
+    if(unlikely(!mutex || !mutex->mutex || !time_point))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
+    /* Not strictly necessary, but validate type anyway. */
+    if(unlikely(!(mutex->type & mtx_timed)))
+    {
+        FOG((THRD_ERROR));
+        return thrd_error;
+    }
+
+    /* First locking attempt before polling. */
+    if(mtx_trylock(mutex) == thrd_success)
+    {
+        FOG((THRD_SUCCESS));
+        return thrd_success;
+    }
+
+    /* Lock is busy, resort to polling. */
+    FOG((THRD_TRACE));
+    return __eclock_poll(__mtx_trylock_callback, mutex,
+        __eclock_future(time_point), POLL_STRIDE);
+}
+
+/*------------------------------------------------------------------------------
+ __eclock_future
+
+ Description: Calculate how far into the future a timespec point is in eclocks.
+ Input:       const struct timespec *restrict time_point - time point.
+ Return:      ULONG: Number of eclocks until time_point is reached.
+*/
+
+ULONG __eclock_future(const struct timespec *restrict time_point)
+{
+    struct timeval now, then = { .tv_secs = time_point->tv_sec,
+           .tv_micro = time_point->tv_nsec / 1000 };
+
+    gettimeofday(&now, NULL);
+
+    /* Does time_point belong to the past or the future? */
+    if(unlikely((then.tv_secs == now.tv_secs && then.tv_micro < now.tv_micro) ||
+       then.tv_secs <  now.tv_secs))
+    {
+        return 0;
+    }
+
+    /* This is very rough but likely good enough for most use cases. */
+    time_t secs = then.tv_secs - now.tv_secs -
+           ((then.tv_micro < now.tv_micro) ? 1 : 0),
+           usecs = (then.tv_micro < now.tv_micro) ? 1000000 -
+           (now.tv_micro - then.tv_micro) : then.tv_micro - now.tv_micro;
+
+    return ((ULONG) usecs >> 4) + ((ULONG) secs << 16);
+}
 /*------------------------------------------------------------------------------
  __eclock_poll
 
@@ -101,70 +166,4 @@ int __eclock_poll(int (*poll)(void *), void *data, ULONG time, ULONG stride)
 
     FOG((THRD_TIMEDOUT));
     return thrd_timedout;
-}
-
-/*------------------------------------------------------------------------------
- __eclock_future
-
- Description: Calculate how far into the future a timespec point is in eclocks.
- Input:       const struct timespec *restrict time_point - time point.
- Return:      ULONG: Number of eclocks until time_point is reached.
-*/
-
-ULONG __eclock_future(const struct timespec *restrict time_point)
-{
-    struct timeval now, then = { .tv_secs = time_point->tv_sec,
-           .tv_micro = time_point->tv_nsec / 1000 };
-
-    gettimeofday(&now, NULL);
-
-    if(unlikely((then.tv_secs == now.tv_secs && then.tv_micro < now.tv_micro) ||
-       then.tv_secs <  now.tv_secs))
-    {
-        return 0;
-    }
-
-    time_t secs = then.tv_secs - now.tv_secs -
-           ((then.tv_micro < now.tv_micro) ? 1 : 0),
-           usecs = (then.tv_micro < now.tv_micro) ? 1000000 -
-           (now.tv_micro - then.tv_micro) : then.tv_micro - now.tv_micro;
-
-    return ((ULONG) usecs >> 4) + ((ULONG) secs << 16);
-}
-
-/*------------------------------------------------------------------------------
- mtx_timedlock
-
- Description: Refer to ISO/IEC 9899:2011 section 7.26.4.4 (p. 381-382).
- Input:       Ibid.
- Return:      Ibid.
-*/
-int mtx_timedlock(mtx_t *restrict mutex,
-                  const struct timespec *restrict time_point)
-{
-#ifdef THRD_MTX_WARY
-    if(unlikely(!mutex || !mutex->mutex || !time_point))
-    {
-        FOG((THRD_PANIC));
-        return thrd_error;
-    }
-#endif
-    /* Not strictly necessary, but validate type anyway. */
-    if(unlikely(!(mutex->type & mtx_timed)))
-    {
-        FOG((THRD_ERROR));
-        return thrd_error;
-    }
-
-    /* First locking attempt before polling. */
-    if(mtx_trylock(mutex) == thrd_success)
-    {
-        FOG((THRD_SUCCESS));
-        return thrd_success;
-    }
-
-    FOG((THRD_TRACE));
-    /* Lock is busy, resort to polling. */
-    return __eclock_poll(__mtx_trylock_callback, mutex,
-        __eclock_future(time_point), POLL_STRIDE);
 }

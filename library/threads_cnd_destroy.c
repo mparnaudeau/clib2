@@ -25,17 +25,32 @@
 */
 void cnd_destroy(cnd_t *cond)
 {
-    ENTER();
-    assert(cond && cond->mutex);
-
+#ifdef THRD_PARANOIA
+    /* __cnd_signal and FreeSysObject() are nops if !cond->tasks. */
+    if(unlikely(!cond || !cond->mutex))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
+#ifdef THRD_PARANOIA
+    /* Broadcast to avoid deadlocks. */
     FOG((THRD_SIGNAL));
     (void) __cnd_signal(cond, true);
 
+    /* Not bullet proof, but better than nothing. */
+    struct List *tasks = cond->tasks;
+    cond->tasks = NULL;
+
+    FOG((THRD_FREE));
+    FreeSysObject(ASOT_LIST, tasks);
+#else
     FOG((THRD_FREE));
     FreeSysObject(ASOT_LIST, cond->tasks);
+#endif
 
     FOG((THRD_FREE));
     __thrd_mutex_free(&cond->mutex);

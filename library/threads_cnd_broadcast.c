@@ -25,8 +25,14 @@
 */
 int cnd_broadcast(cnd_t *cond)
 {
-    assert(cond && cond->mutex);
-
+#ifdef THRD_PARANOIA
+    /* __cnd_signal is a nop if !cond->tasks. */
+    if(unlikely(!cond || !cond->mutex))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
