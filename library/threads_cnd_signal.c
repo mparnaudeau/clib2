@@ -36,11 +36,10 @@ void __cnd_signal(cnd_t *cond, bool broadcast)
         next = broadcast ? (__cnd_node *)
             GetSucc((struct Node *) head) : NULL;
 
-        FOG((THRD_TRACE));
+        /* Dequeue only, task nodes are freed by the allocating task; the task
+         * waiting for a signal. See __cnd_wait(). */
+        FOG((THRD_REMOVE));
         Remove((struct Node *) head);
-
-        FOG((THRD_FREE));
-        FreeSysObject(ASOT_NODE, head);
     }
 }
 

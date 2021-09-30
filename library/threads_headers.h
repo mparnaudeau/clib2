@@ -116,6 +116,8 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
 #define THRD_TIMEDOUT "thrd_timedout.\n"
 #define THRD_ALLOC "Allocate resource.\n"
 #define THRD_FREE "Free resource.\n"
+#define THRD_REMOVE "Remove resource.\n"
+#define THRD_INSERT "Insert resource.\n"
 #define THRD_LOCK "Lock mutex.\n"
 #define THRD_UNLOCK "Unlock mutex.\n"
 #define THRD_TRACE "Trace.\n"
