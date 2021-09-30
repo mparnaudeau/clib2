@@ -154,7 +154,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     FOG((THRD_LOCK));
     MutexObtain((APTR) cond->mutex);
 
-    FOG((THRD_TRACE));
+    FOG((THRD_INSERT));
     Enqueue(cond->tasks, (struct Node *) node);
 
     FOG((THRD_UNLOCK));
@@ -172,14 +172,19 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     FOG((THRD_LOCK));
     mtx_lock(mutex);
 
-    FOG((THRD_LOCK));
-    MutexObtain((APTR) cond->mutex);
+    /* Task nodes are dequeued by the signaling task. On timeouts and errors
+     * this must be done here. See __cnd_signal(). */
+    if(status != thrd_success)
+    {
+        FOG((THRD_LOCK));
+        MutexObtain((APTR) cond->mutex);
 
-    FOG((THRD_TRACE));
-    Remove((struct Node *) node);
+        FOG((THRD_REMOVE));
+        Remove((struct Node *) node);
 
-    FOG((THRD_UNLOCK));
-    MutexRelease((APTR) cond->mutex);
+        FOG((THRD_UNLOCK));
+        MutexRelease((APTR) cond->mutex);
+    }
 
     FOG((THRD_TRACE));
     SetSignal(0L, 1L << sigbit);
