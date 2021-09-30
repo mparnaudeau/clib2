@@ -30,7 +30,7 @@ void cnd_destroy(cnd_t *cond)
     if(unlikely(!cond || !cond->mutex))
     {
         FOG((THRD_PANIC));
-        return thrd_error;
+        return;
     }
 #endif
     FOG((THRD_LOCK));
