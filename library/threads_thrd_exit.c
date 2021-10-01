@@ -28,6 +28,7 @@ extern APTR __thrd_store_lock;
 */
 void thrd_exit(int retval)
 {
+    DECLARE_UTILITYBASE();
     assert(__thrd_store && __thrd_store_lock);
 
     FOG((THRD_LOCK));
