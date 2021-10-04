@@ -35,7 +35,11 @@ enum
 
 typedef struct
 {
-    APTR mutex;
+    union
+    {
+        APTR native;
+        atomic_uintptr_t atomic;
+    }   mtx;
     int type;
 } mtx_t;
 

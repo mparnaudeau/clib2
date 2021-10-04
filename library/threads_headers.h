@@ -21,6 +21,10 @@
 #include <stdbool.h>
 #endif /* _STDBOOL_H */
 
+#ifndef _ASSERTL_H
+#include <assert.h>
+#endif /* _ASSERT_H */
+
 #ifndef _SETJMP_H
 #include <setjmp.h>
 #endif /* _SETJMP_H */
@@ -42,6 +46,8 @@
 #endif /* _STDLIB_UTILITYBASE_H */
 
 #define THRD_PARANOIA
+
+_Static_assert(sizeof(APTR) == sizeof(atomic_uintptr_t));
 
 /*------------------------------------------------------------------------------
  * thrd|tss|mtx|cnd
