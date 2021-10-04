@@ -43,27 +43,28 @@ int mtx_timedlock(mtx_t *restrict mutex,
                   const struct timespec *restrict time_point)
 {
 #ifdef THRD_PARANOIA
-    if(unlikely(!mutex || !mutex->mutex || !time_point))
+    if(unlikely(!mutex || !time_point))
     {
         FOG((THRD_PANIC));
         return thrd_error;
     }
 #endif
-    /* Not strictly necessary, but validate type anyway. */
     if(unlikely(!(mutex->type & mtx_timed)))
     {
         FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    /* First locking attempt before polling. */
-    if(mtx_trylock(mutex) == thrd_success)
+    FOG((THRD_LOCK));
+    int status = mtx_trylock(mutex);
+
+    if(status != thrd_busy)
     {
-        FOG((THRD_SUCCESS));
-        return thrd_success;
+        FOG((status == thrd_success ? THRD_SUCCESS : THRD_ERROR));
+        return status;
     }
 
-    /* Lock is busy, resort to polling. */
+    /* Mutex is busy. resort to polling. */
     FOG((THRD_TRACE));
     return __eclock_poll(__mtx_trylock_callback, mutex,
         __eclock_future(time_point), POLL_STRIDE);

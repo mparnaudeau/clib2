@@ -26,20 +26,21 @@
 void mtx_destroy(mtx_t *mutex)
 {
 #ifdef THRD_PARANOIA
-    if(unlikely(!mutex || !mutex->mutex))
+    if(unlikely(!mutex || !mutex->mtx.native))
     {
         FOG((THRD_PANIC));
         return;
     }
 
-    /* Not bullet proof, but better than nothing. */
-    APTR mtx = mutex->mutex;
-    mutex->mutex = NULL;
-
+    FOG((THRD_LOCK));
+    MutexObtain(mutex->mtx.native);
+#endif
+    FOG((THRD_TRACE));
+    APTR mtx = (APTR) atomic_exchange(&mutex->mtx.atomic, NULL);
+#ifdef THRD_PARANOIA
+    FOG((THRD_UNLOCK));
+    MutexRelease(mtx);
+#endif
     FOG((THRD_FREE));
     FreeSysObject(ASOT_MUTEX, mtx);
-#else
-    FOG((THRD_FREE));
-    FreeSysObject(ASOT_MUTEX, mutex->mutex);
-#endif
 }

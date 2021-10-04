@@ -26,14 +26,14 @@
 int mtx_trylock(mtx_t *mutex)
 {
 #ifdef THRD_PARANOIA
-    if(unlikely(!mutex || !mutex->mutex))
+    if(unlikely(!mutex || !mutex->mtx.native))
     {
         FOG((THRD_PANIC));
         return thrd_error;
     }
 #endif
     FOG((THRD_LOCK));
-    if(!MutexAttempt(mutex->mutex))
+    if(!MutexAttempt(mutex->mtx.native))
     {
         FOG((THRD_BUSY));
         return thrd_busy;
