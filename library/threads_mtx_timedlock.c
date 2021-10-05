@@ -40,16 +40,16 @@ static int __mtx_trylock_callback(void *data)
  Return:      Ibid.
 */
 int mtx_timedlock(mtx_t *restrict mutex,
-                  const struct timespec *restrict time_point)
+    const struct timespec *restrict time_point)
 {
 #ifdef THRD_PARANOIA
-    if(unlikely(!mutex || !time_point))
+    if(unlikely(!mutex || !time_point || !atomic_load(&mutex->type)))
     {
         FOG((THRD_PANIC));
         return thrd_error;
     }
 #endif
-    if(unlikely(!(mutex->type & mtx_timed)))
+    if(unlikely((mutex->type & mtx_timed) == 0))
     {
         FOG((THRD_ERROR));
         return thrd_error;
@@ -64,7 +64,6 @@ int mtx_timedlock(mtx_t *restrict mutex,
         return status;
     }
 
-    /* Mutex is busy. resort to polling. */
     FOG((THRD_TRACE));
     return __eclock_poll(__mtx_trylock_callback, mutex,
         __eclock_future(time_point), POLL_STRIDE);
@@ -85,14 +84,14 @@ ULONG __eclock_future(const struct timespec *restrict time_point)
 
     gettimeofday(&now, NULL);
 
-    /* Does time_point belong to the past or the future? */
     if(unlikely((then.tv_secs == now.tv_secs && then.tv_micro < now.tv_micro) ||
        then.tv_secs <  now.tv_secs))
     {
+        /* time_point already past. */
         return 0;
     }
 
-    /* This is very rough but likely good enough for most use cases. */
+    /* Rough, but good enough for most use cases. */
     time_t secs = then.tv_secs - now.tv_secs -
            ((then.tv_micro < now.tv_micro) ? 1 : 0),
            usecs = (then.tv_micro < now.tv_micro) ? 1000000 -
