@@ -32,57 +32,33 @@ int mtx_init(mtx_t *mutex, int type)
         return thrd_error;
     }
 
-    FOG((THRD_TRACE));
-    atomic_store(&mutex->mtx.atomic, NULL);
+    /* Set invalid mutex type. */
+    atomic_store(&mutex->type, 0);
 #endif
-    /* Validate mutex type. See ref for valid combinations. */
-    if(unlikely(!type || type >= (mtx_timed << 1) || ((type & mtx_timed) &&
-      (type & mtx_plain))))
+    /* See reference for valid type combinations. */
+    if(unlikely(!type || type >= (mtx_timed << 1) ||
+      ((type & mtx_timed) && (type & mtx_plain))))
     {
         FOG((THRD_ERROR));
         return thrd_error;
     }
 
-#ifdef THRD_PARANOIA
+    int recur = (type & mtx_recursive) ? TRUE : FALSE;
+
     FOG((THRD_ALLOC));
-    APTR native = AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
-        (type & mtx_recursive) ? TRUE : FALSE, TAG_END);
+    mutex->mtx = AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
+        recur, TAG_END);
 
-    if(unlikely(!native))
+    if(unlikely(!mutex->mtx))
     {
         FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG((THRD_LOCK));
-    MutexObtain(native);
-
-    /* Not strictly necessary, but save type anyway. */
+    /* Set valid mutex type. */
     FOG((THRD_TRACE));
-    mutex->type = type;
+    atomic_store(&mutex->type, type);
 
-    FOG((THRD_TRACE));
-    atomic_store(&mutex->mtx.atomic, native);
-#else
-    FOG((THRD_ALLOC));
-    mutex->mtx.native = AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
-        (type & mtx_recursive) ? TRUE : FALSE, TAG_END);
-
-    if(unlikely(!mutex->mtx.native))
-    {
-        FOG((THRD_ERROR));
-        return thrd_error;
-    }
-
-    /* Not strictly necessary, but save type anyway. */
-    FOG((THRD_TRACE));
-    mutex->type = type;
-#endif
-
-#ifdef THRD_PARANOIA
-    FOG((THRD_UNLOCK));
-    MutexRelease(mutex->mtx.native);
-#endif
     FOG((THRD_SUCCESS));
     return thrd_success;
 }

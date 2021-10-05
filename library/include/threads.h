@@ -35,18 +35,22 @@ enum
 
 typedef struct
 {
-    union
-    {
-        APTR native;
-        atomic_uintptr_t atomic;
-    }   mtx;
-    int type;
+    APTR mtx;
+    atomic_int type;
 } mtx_t;
 
 typedef struct
 {
-    struct List *tasks;
-    atomic_uintptr_t mutex;
+    union
+    {
+        struct List *list;
+        atomic_uintptr_t atomic;
+    }   tasks;
+    union
+    {
+        APTR aptr;
+        atomic_uintptr_t atomic;
+    }   mtx;
 } cnd_t;
 
 typedef atomic_flag once_flag;

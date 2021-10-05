@@ -26,14 +26,14 @@
 int mtx_unlock(mtx_t *mutex)
 {
 #ifdef THRD_PARANOIA
-    if(unlikely(!mutex || !mutex->mtx.native))
+    if(unlikely(!mutex || !atomic_load(&mutex->type)))
     {
         FOG((THRD_PANIC));
         return thrd_error;
     }
 #endif
     FOG((THRD_UNLOCK));
-    MutexRelease(mutex->mtx.native);
+    MutexRelease(mutex->mtx);
 
     FOG((THRD_SUCCESS));
     return thrd_success;
