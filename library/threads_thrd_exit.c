@@ -28,11 +28,10 @@ extern APTR __thrd_store_lock;
 */
 void thrd_exit(int retval)
 {
-    DECLARE_UTILITYBASE();
-    assert(__thrd_store && __thrd_store_lock);
-
     FOG((THRD_LOCK));
     MutexObtain((APTR) __thrd_store_lock);
+
+    DECLARE_UTILITYBASE();
 
     /* This can fail if invoked by process not created by thrd_create(). */
     FOG((THRD_FIND));
@@ -47,6 +46,7 @@ void thrd_exit(int retval)
         return;
     }
 
+    /* Exit point set in __thrd_wrap(). */
     FOG((THRD_TRACE));
     longjmp(thread->stop, retval);
 }

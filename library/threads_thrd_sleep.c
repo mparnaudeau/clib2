@@ -25,9 +25,7 @@ int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
         return -2;
     }
 #endif
-    assert(duration);
-
-    /* This is very rough but likely good enough for most use cases. */
+    /* This is rough but likely good enough for most use cases. */
     uint32_t nsecs_per_tick = 1000000000 / TICKS_PER_SECOND,
              nsecs_remain = duration->tv_nsec % nsecs_per_tick,
              nticks = duration->tv_nsec / nsecs_per_tick +

@@ -28,17 +28,19 @@ extern APTR __thrd_store_lock;
 */
 int thrd_join(thrd_t thread, int *retval)
 {
-    DECLARE_UTILITYBASE();
-    assert(__thrd_store && __thrd_store_lock);
-
+    /* Prevent threads from exiting. */
     FOG((THRD_LOCK));
     MutexObtain(__thrd_store_lock);
 
+    DECLARE_UTILITYBASE();
+
+    /* Find thread. This will fail if threads has exited already. */
     FOG((THRD_FIND));
     __thrd_s *node = (__thrd_s *) FindSkipNode(__thrd_store, thread);
 
     if(unlikely(!node) || atomic_flag_test_and_set(&(node->gc)))
     {
+        /* Thread is no longer running. */
         FOG((THRD_UNLOCK));
         MutexRelease(__thrd_store_lock);
 
@@ -46,11 +48,13 @@ int thrd_join(thrd_t thread, int *retval)
         return thrd_error;
     }
 
+    /* Allocate signal to be sent by the joined thread upon exit. */
     FOG((THRD_ALLOC));
     BYTE sigdeath = AllocSignal(-1);
 
     if(unlikely(sigdeath == -1))
     {
+        /* Out of signals. */
         FOG((THRD_UNLOCK));
         MutexRelease(__thrd_store_lock);
 
@@ -58,6 +62,7 @@ int thrd_join(thrd_t thread, int *retval)
         return thrd_error;
     }
 
+    /* Set signal to be sent to us by the joined thread upon exit. */
     struct Process *proc = (struct Process *) thread;
 
     FOG((THRD_TRACE));
@@ -66,9 +71,11 @@ int thrd_join(thrd_t thread, int *retval)
     FOG((THRD_TRACE));
     proc->pr_DeathSigTask = (APTR) FindTask(NULL);
 
+    /* Allow threads to exit. */
     FOG((THRD_UNLOCK));
     MutexRelease(__thrd_store_lock);
 
+    /* Wait for signal of death. */
     FOG((THRD_WAIT));
     Wait(1L << sigdeath);
 
@@ -80,10 +87,12 @@ int thrd_join(thrd_t thread, int *retval)
 
     if(retval)
     {
+        /* Save thread return value. */
         FOG((THRD_TRACE));
         *retval = node->retval;
     }
 
+    /* Remove thread from thread store. */
     FOG((THRD_LOCK));
     MutexObtain(__thrd_store_lock);
 
@@ -93,5 +102,6 @@ int thrd_join(thrd_t thread, int *retval)
     FOG((THRD_UNLOCK));
     MutexRelease(__thrd_store_lock);
 
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }
