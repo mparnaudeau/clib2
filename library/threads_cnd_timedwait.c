@@ -24,11 +24,11 @@
  Return:      Ibid.
 */
 int cnd_timedwait(cnd_t *cond, mtx_t *mutex,
-                  const struct timespec *restrict time_point)
+    const struct timespec *restrict time_point)
 {
 #ifdef THRD_PARANOIA
-    /* __cnd_wait will behave like cnd_wait() if !time_point. */
-    if(unlikely(!cond || !cond->mutex || !mutex || !time_point))
+    /* __cnd_wait() will behave like cnd_wait() if time_point == NULL. */
+    if(unlikely(!mutex || !time_point || !cond || atomic_load(&cond->dead)))
     {
         FOG((THRD_PANIC));
         return thrd_error;

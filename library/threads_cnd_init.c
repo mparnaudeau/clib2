@@ -32,29 +32,34 @@ int cnd_init(cnd_t *cond)
         FOG((THRD_PANIC));
         return thrd_error;
     }
+
+    /* We're not alive yet. */
+    atomic_store(&cond->dead, true);
 #endif
     FOG((THRD_ALLOC));
-    if(unlikely(!__thrd_mutex_create(&cond->mutex, true)))
-    {
-        FOG((THRD_ERROR));
-        return thrd_error;
-    }
+    cond->mtx = AllocSysObjectTags(ASOT_MUTEX, TAG_END);
 
+    /* List of listening tasks. */
     FOG((THRD_ALLOC));
     cond->tasks = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
 
-    if(unlikely(!cond->tasks))
+    if(unlikely(!cond->mtx || !cond->tasks))
     {
+        /* Out of memory. */
         FOG((THRD_FREE));
-        __thrd_mutex_free(&cond->mutex);
+        FreeSysObject(ASOT_MUTEX, cond->mtx);
+
+        FOG((THRD_FREE));
+        FreeSysObject(ASOT_LIST, cond->tasks);
 
         FOG((THRD_NOMEM));
         return thrd_nomem;
     }
 
-    FOG((THRD_UNLOCK));
-    MutexRelease((APTR) cond->mutex);
-
+#ifdef THRD_PARANOIA
+    /* Now we're alive. */
+    atomic_store(&cond->dead, false);
+#endif
     FOG((THRD_SUCCESS));
     return thrd_success;
 }

@@ -28,7 +28,7 @@
 int cnd_wait(cnd_t *cond, mtx_t *mutex)
 {
 #ifdef THRD_PARANOIA
-    if(unlikely(!cond || !cond->mutex || !cond->tasks || !mutex))
+    if(unlikely(!mutex || !cond || atomic_load(&cond->dead)))
     {
         FOG((THRD_PANIC));
         return thrd_error;
@@ -55,9 +55,9 @@ int cnd_wait(cnd_t *cond, mtx_t *mutex)
 */
 static int __cnd_sigwait_callback(void *data)
 {
-    FOG((THRD_TRACE));
     ULONG sigmask = 1 << *((BYTE *) data);
 
+    /* Poll task signal mask. */
     if(SetSignal(0L, 0L) & sigmask)
     {
         FOG((THRD_TRACE));
@@ -84,8 +84,9 @@ static int __cnd_sigwait_callback(void *data)
 static int __cnd_wait_signal(BYTE sigbit,
     const struct timespec *restrict time_point)
 {
-    if(!time_point)
+    if(likely(!time_point))
     {
+        /* Refer to cnd_wait(). */
         FOG((THRD_WAIT));
         Wait(1L << sigbit);
 
@@ -96,9 +97,62 @@ static int __cnd_wait_signal(BYTE sigbit,
         return thrd_success;
     }
 
+    /* Refer to cnd_timedwait(). */
     FOG((THRD_TRACE));
     return __eclock_poll(__cnd_sigwait_callback, &sigbit,
         __eclock_future(time_point), POLL_STRIDE);
+}
+
+/*------------------------------------------------------------------------------
+ __cnd_new_node
+
+ Description: Create and initialize new task node.
+ Input:       -
+ Return:      Task node on success, NULL on failure.
+*/
+static __cnd_node *__cnd_new_node(void)
+{
+    FOG((THRD_ALLOC));
+    BYTE sigbit = AllocSignal(-1);
+
+    if(unlikely(sigbit == -1))
+    {
+        /* Out of signals. */
+        FOG((THRD_ERROR));
+        return NULL;
+    }
+
+    FOG((THRD_ALLOC));
+    __cnd_node *node = (__cnd_node *) AllocSysObjectTags(ASOT_NODE,
+        ASONODE_Size, sizeof(__cnd_node), ASONODE_Type, NT_USER, TAG_END);
+
+    if(unlikely(!node))
+    {
+        /* Out of memory. */
+        FOG((THRD_FREE));
+        FreeSignal(sigbit);
+
+        FOG((THRD_ERROR));
+        return NULL;
+    }
+
+    FOG((THRD_TRACE));
+    node->node.ln_Type = NT_USER;
+
+    /* Not sure if ln_Name really needs to be a valid string. */
+    node->node.ln_Name = (STRPTR) __func__;
+
+    node->task = FindTask(NULL);
+    node->sigbit = sigbit;
+
+    /* Priority ordered queue to avoid task priority inversion. Fiddling with
+     * the priority will cause uneccesary rescheduling but it won't hurt much
+     * and there doesn't seem to be a better way of doing it. */
+    FOG((THRD_TRACE));
+    node->node.ln_Pri = SetTaskPri(node->task, 0);
+    SetTaskPri(node->task, node->node.ln_Pri);
+
+    return node;
 }
 
 /*------------------------------------------------------------------------------
@@ -117,57 +171,31 @@ static int __cnd_wait_signal(BYTE sigbit,
 int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     const struct timespec *restrict time_point)
 {
-    FOG((THRD_ALLOC));
-    BYTE sigbit = AllocSignal(-1);
-
-    if(unlikely(sigbit == -1))
-    {
-        FOG((THRD_ERROR));
-        return thrd_error;
-    }
-
-    FOG((THRD_ALLOC));
-    __cnd_node *node = (__cnd_node *)
-        AllocSysObjectTags(ASOT_NODE, ASONODE_Size, sizeof(__cnd_node),
-        ASONODE_Type, NT_USER, TAG_END);
-
+    __cnd_node *node = __cnd_new_node();
     if(unlikely(!node))
     {
+        /* Out of memory. */
         FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG((THRD_TRACE));
-    node->node.ln_Type = NT_USER;
-
-    /* Not sure if ln_Name really needs to be a valid string. */
-    node->node.ln_Name = (STRPTR) __func__;
-
-    node->task = FindTask(NULL);
-    node->sigbit = sigbit;
-
-    /* Priority ordered queue to avoid task priority inversion. */
-    FOG((THRD_TRACE));
-    node->node.ln_Pri = SetTaskPri(node->task, 0);
-    SetTaskPri(node->task, node->node.ln_Pri);
-
     FOG((THRD_LOCK));
-    MutexObtain((APTR) cond->mutex);
+    MutexObtain(cond->mtx);
 
+    /* Add task to list of listeners taking task priority into account. */
     FOG((THRD_INSERT));
     Enqueue(cond->tasks, (struct Node *) node);
 
     FOG((THRD_UNLOCK));
-    MutexRelease((APTR) cond->mutex);
+    MutexRelease(cond->mtx);
 
     /* Go to sleep or poll for signal if time_point exists. Encapsulate */
-    /* with mutex unlock and lock. Refer to cnd_wait() documentation. */
-
+    /* with user mutex unlock and lock. Refer to cnd_wait() documentation. */
     FOG((THRD_UNLOCK));
     mtx_unlock(mutex);
 
     FOG((THRD_WAIT));
-    int status = __cnd_wait_signal(sigbit, time_point);
+    int status = __cnd_wait_signal(node->sigbit, time_point);
 
     FOG((THRD_LOCK));
     mtx_lock(mutex);
@@ -177,20 +205,21 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     if(status != thrd_success)
     {
         FOG((THRD_LOCK));
-        MutexObtain((APTR) cond->mutex);
+        MutexObtain(cond->mtx);
 
         FOG((THRD_REMOVE));
         Remove((struct Node *) node);
 
         FOG((THRD_UNLOCK));
-        MutexRelease((APTR) cond->mutex);
+        MutexRelease(cond->mtx);
     }
 
+    /* Clear user signal. */
     FOG((THRD_TRACE));
-    SetSignal(0L, 1L << sigbit);
+    SetSignal(0L, 1L << node->sigbit);
 
     FOG((THRD_FREE));
-    FreeSignal(sigbit);
+    FreeSignal(node->sigbit);
 
     FOG((THRD_FREE));
     FreeSysObject(ASOT_NODE, node);
