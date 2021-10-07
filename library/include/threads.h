@@ -41,16 +41,9 @@ typedef struct
 
 typedef struct
 {
-    union
-    {
-        struct List *list;
-        atomic_uintptr_t atomic;
-    }   tasks;
-    union
-    {
-        APTR aptr;
-        atomic_uintptr_t atomic;
-    }   mtx;
+    struct List *tasks;
+    APTR mtx;
+    atomic_bool dead;
 } cnd_t;
 
 typedef atomic_flag once_flag;

@@ -51,19 +51,23 @@ int mtx_timedlock(mtx_t *restrict mutex,
 #endif
     if(unlikely((mutex->type & mtx_timed) == 0))
     {
+        /* Invalid type. */
         FOG((THRD_ERROR));
         return thrd_error;
     }
 
+    /* Do a first attempt before resorting to polling. */
     FOG((THRD_LOCK));
     int status = mtx_trylock(mutex);
 
     if(status != thrd_busy)
     {
+        /* Obtained lock or failed misserably. */
         FOG((status == thrd_success ? THRD_SUCCESS : THRD_ERROR));
         return status;
     }
 
+    /* Lock is busy. Start polling. */
     FOG((THRD_TRACE));
     return __eclock_poll(__mtx_trylock_callback, mutex,
         __eclock_future(time_point), POLL_STRIDE);
@@ -91,7 +95,7 @@ ULONG __eclock_future(const struct timespec *restrict time_point)
         return 0;
     }
 
-    /* Rough, but good enough for most use cases. */
+    /* This is rough, but good enough for most use cases. */
     time_t secs = then.tv_secs - now.tv_secs -
            ((then.tv_micro < now.tv_micro) ? 1 : 0),
            usecs = (then.tv_micro < now.tv_micro) ? 1000000 -

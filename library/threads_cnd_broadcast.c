@@ -26,21 +26,22 @@
 int cnd_broadcast(cnd_t *cond)
 {
 #ifdef THRD_PARANOIA
-    /* __cnd_signal is a nop if !cond->tasks. */
-    if(unlikely(!cond || !cond->mutex))
+    if(unlikely(!cond || atomic_load(&cond->dead)))
     {
         FOG((THRD_PANIC));
         return thrd_error;
     }
 #endif
     FOG((THRD_LOCK));
-    MutexObtain((APTR) cond->mutex);
+    MutexObtain(cond->mtx);
 
+    /* Both singles and broadcasts are supported by __cnd_signal(). See
+     * cnd_signal(). */
     FOG((THRD_SIGNAL));
     __cnd_signal(cond, true);
 
     FOG((THRD_UNLOCK));
-    MutexRelease((APTR) cond->mutex);
+    MutexRelease(cond->mtx);
 
     FOG((THRD_SUCCESS));
     return thrd_success;

@@ -32,7 +32,7 @@ int mtx_init(mtx_t *mutex, int type)
         return thrd_error;
     }
 
-    /* Set invalid mutex type. */
+    /* Set invalid type. */
     atomic_store(&mutex->type, 0);
 #endif
     /* See reference for valid type combinations. */
@@ -43,19 +43,18 @@ int mtx_init(mtx_t *mutex, int type)
         return thrd_error;
     }
 
-    int recur = (type & mtx_recursive) ? TRUE : FALSE;
-
     FOG((THRD_ALLOC));
     mutex->mtx = AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
-        recur, TAG_END);
+        (type & mtx_recursive) ? TRUE : FALSE, TAG_END);
 
     if(unlikely(!mutex->mtx))
     {
+        /* Out of memory. */
         FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    /* Set valid mutex type. */
+    /* Set valid type. */
     FOG((THRD_TRACE));
     atomic_store(&mutex->type, type);
 

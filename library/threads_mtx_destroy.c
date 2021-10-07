@@ -32,6 +32,7 @@ void mtx_destroy(mtx_t *mutex)
         return;
     }
 
+    /* Wait for ongoing operations to finish. */
     FOG((THRD_LOCK));
     MutexObtain(mutex->mtx);
 
