@@ -25,26 +25,35 @@
 */
 int tss_set(tss_t tss_key, void *val)
 {
-    assert(tss_key.mutex);
+#ifdef THRD_PARANOIA
+    if(unlikely(!tss_key.mutex || !tss_key.values))
+    {
+        FOG((THRD_PANIC));
+        return thrd_error;
+    }
+#endif
     struct Task *key = FindTask(NULL);
 
     FOG((THRD_LOCK));
-    MutexObtain((APTR) tss_key.mutex);
+    MutexObtain(tss_key.mutex);
+
+    DECLARE_UTILITYBASE();
 
     FOG((THRD_FIND));
     __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, key);
 
     if(!tss)
     {
-        FOG((THRD_NOTFOUND));
+        FOG((THRD_ALLOC));
         tss = (__tss_v *) InsertSkipNode(tss_key.values, key,
             sizeof(__tss_v));
     }
 
     if(unlikely(!tss))
     {
+        /* Out of memory. */
         FOG((THRD_UNLOCK));
-        MutexRelease((APTR) tss_key.mutex);
+        MutexRelease(tss_key.mutex);
 
         FOG((THRD_ERROR));
         return thrd_error;
@@ -54,8 +63,8 @@ int tss_set(tss_t tss_key, void *val)
     tss->value = val;
 
     FOG((THRD_UNLOCK));
-    MutexRelease((APTR) tss_key.mutex);
+    MutexRelease(tss_key.mutex);
 
-    LEAVE();
+    FOG((THRD_SUCCESS));
     return thrd_success;
 }

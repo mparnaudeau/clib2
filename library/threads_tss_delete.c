@@ -19,7 +19,7 @@
 #endif
 
 extern struct List *__tss_store;
-extern atomic_uintptr_t __tss_store_lock;
+extern APTR __tss_store_lock;
 
 /*------------------------------------------------------------------------------
  tss_delete
@@ -30,10 +30,15 @@ extern atomic_uintptr_t __tss_store_lock;
 */
 void tss_delete(tss_t tss_key)
 {
-    assert(__tss_store_lock && tss_key.mutex);
-
+#ifdef THRD_PARANOIA
+    if(unlikely(!tss_key.mutex || !tss_key.values))
+    {
+        FOG((THRD_PANIC));
+        return;
+    }
+#endif
     FOG((THRD_LOCK));
-    MutexObtain((APTR) __tss_store_lock);
+    MutexObtain(__tss_store_lock);
 
     for(struct Node *head = GetHead(__tss_store); head;)
     {
@@ -55,15 +60,17 @@ DEN HÄR MÅSTE DU VERKLIGEN KOLLA
 */
 
     FOG((THRD_UNLOCK));
-    MutexRelease((APTR) __tss_store_lock);
+    MutexRelease(__tss_store_lock);
+
+    DECLARE_UTILITYBASE();
 
     FOG((THRD_LOCK));
-    MutexObtain((APTR) tss_key.mutex);
+    MutexObtain(tss_key.mutex);
 
     FOG((THRD_FREE));
     DeleteSkipList(tss_key.values);
     tss_key.values = NULL;
 
     FOG((THRD_UNLOCK));
-    MutexRelease((APTR) tss_key.mutex);
+    MutexRelease(tss_key.mutex);
 }

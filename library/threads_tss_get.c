@@ -25,29 +25,25 @@
 */
 void *tss_get(tss_t tss_key)
 {
-    assert(tss_key.mutex);
-
+#ifdef THRD_PARANOIA
+    if(unlikely(!tss_key.mutex || !tss_key.values))
+    {
+        FOG((THRD_PANIC));
+        return NULL;
+    }
+#endif
     FOG((THRD_LOCK));
-    MutexObtain((APTR) tss_key.mutex);
+    MutexObtain(tss_key.mutex);
+
+    DECLARE_UTILITYBASE();
 
     FOG((THRD_FIND));
     __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, FindTask(NULL));
-    void *value;
-
-    if(tss)
-    {
-        FOG((THRD_TRACE));
-        value = tss->value;
-    }
-    else
-    {
-        FOG((THRD_NOTFOUND));
-        value = NULL;
-    }
+    void *value = tss ? tss->value : NULL;
 
     FOG((THRD_UNLOCK));
-    MutexRelease((APTR) tss_key.mutex);
+    MutexRelease(tss_key.mutex);
 
-    FOG((THRD_TRACE));
+    FOG((tss ? THRD_FOUND : THRD_NOTFOUND));
     return value;
 }
