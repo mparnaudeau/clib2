@@ -241,8 +241,8 @@ setup(VOID)
 		if(__IUtility == NULL)
 			goto out;
 
-        /* Initialize thread store. */
-        if(!__thrd_store_setup())
+        /* Initialize thread and TSS store. */
+        if(!__thrd_store_setup() || !__tss_store_setup())
         {
             goto out;
         }
@@ -265,8 +265,9 @@ teardown(VOID)
 	{
 		if(__IUtility != NULL)
 		{
-            /* Tear down thread store. */
+            /* Tear down thread and TSS store. */
             __thrd_store_teardown();
+            __tss_store_teardown();
 
 			DropInterface((struct Interface *)__IUtility);
 			__IUtility = NULL;

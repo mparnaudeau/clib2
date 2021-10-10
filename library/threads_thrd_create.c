@@ -158,12 +158,6 @@ bool __thrd_store_setup(void)
     FOG((THRD_ALLOC));
     __thrd_store_lock = AllocSysObjectTags(ASOT_MUTEX, TAG_END);
 
-    if(unlikely(!__thrd_store_lock))
-    {
-        FOG((THRD_FALSE));
-        return false;
-    }
-
     DECLARE_UTILITYBASE();
 
     /* The key used by the thread store skip list is a thrd_t which is the same
@@ -171,29 +165,31 @@ bool __thrd_store_setup(void)
     FOG((THRD_ALLOC));
     __thrd_store = CreateSkipList(&__thrd_ptr_cmp_hook, 16);
 
-    if(unlikely(!__thrd_store))
+    if(unlikely(!__thrd_store || !__thrd_store_lock))
     {
+        /* Out of memory. */
         FOG((THRD_FREE));
         FreeSysObject(ASOT_MUTEX, __thrd_store_lock);
 
-        FOG((THRD_FALSE));
-        return false;
+        FOG((THRD_FREE));
+        DeleteSkipList(__thrd_store);
     }
 
-    FOG((THRD_TRUE));
-    return true;
+    FOG((__thrd_store && __thrd_store_lock ? THRD_TRUE : THRD_FALSE));
+    return __thrd_store && __thrd_store_lock;
 }
 
 /*------------------------------------------------------------------------------
  __thrd_store_teardown
 
  Description: Join all active threads and tear down thread store. Invoked from
-              teardown() in stdlib_main.c.
+              teardown() or setup() in stdlib_main.c.
  Input:       -
  Return:      -
 */
 void __thrd_store_teardown(void)
 {
+#ifdef THRD_PARANOIA
     static atomic_flag done = ATOMIC_FLAG_INIT;
 
     /* We shouldn't end up here more than once. */
@@ -207,25 +203,23 @@ void __thrd_store_teardown(void)
      * this function is invoked is in teardown() in stdlib_main.c. */
     DECLARE_UTILITYBASE();
 
-#ifdef THRD_PARANOIA
     /* Join all threads that are still alive. This shouldn't happen unless
      * there's a user programming error somewhere. */
     for(struct SkipNode *head = GetFirstSkipNode(__thrd_store); head;)
     {
-        /* The skip node key is a thrd_t which is a struct Task pointer. */
-        thrd_t thread = (thrd_t) ((__thrd_s *) head)->node.sn_Key;
         struct SkipNode *next = GetNextSkipNode(__thrd_store, head);
 
-        /* Join thread. The return value is of no use. */
+        /* The skip node key is a thrd_t. */
         FOG((THRD_TRACE));
-        thrd_join(thread, NULL);
+        thrd_join((thrd_t) head->sn_Key, NULL);
 
         /* Garbage collect thread. */
         FOG((THRD_FREE));
-        RemoveSkipNode(__thrd_store, thread);
-
+        RemoveSkipNode(__thrd_store, head->sn_Key);
         head = next;
     }
+#else
+    DECLARE_UTILITYBASE();
 #endif
     /* Free empty thread store skip list. */
     FOG((THRD_FREE));
@@ -287,61 +281,6 @@ static void __thrd_final(int32_t retval, __attribute__((unused)) int32_t data,
 
 extern struct List *__tss_store;
 extern atomic_uintptr_t __tss_store_lock;
-
-/*------------------------------------------------------------------------------
- __tss_store_purge
-
- Description: Remove and execute destructors for all TSS values of a task.
- Input:       struct Task *task - the task to purge.
- Return:      -
-*/
-void __tss_store_purge(__attribute__((unused)) struct Task *task)
-{
-    assert(task);
-
-    FOG((THRD_TRACE));
-    /*
-    ENTER();
-    DECLARE_UTILITYBASE();
-    assert(task);
-
-    if(!atomic_load(&__tss_store))
-    {
-        LEAVE();
-        return;
-    }
-
-    FOG(("Lock store mutex.\n"));
-    MutexObtain((APTR) __tss_store_lock);
-
-    for(struct Node *head = GetHead(__tss_store); head;)
-    {
-        tss_t *tss = &((__tss_n *) head)->tss;
-
-        FOG(("Find task value.\n"));
-        struct SkipNode *node = FindSkipNode(tss->values, task);
-        head = GetSucc(head);
-
-        if(!node)
-        {
-            FOG(("No value.\n"));
-            continue;
-        }
-
-        if(tss->destructor && ((__tss_v *) node)->value)
-        {
-            FOG(("Invoke destructor.\n"));
-            tss->destructor(((__tss_v *) node)->value);
-        }
-
-        FOG(("Remove value.\n"));
-        RemoveSkipNode(tss->values, task);
-    }
-
-    FOG(("Unlock store mutex.\n"));
-    MutexRelease((APTR) __tss_store_lock);
-*/
-}
 
 /*------------------------------------------------------------------------------
  __thrd_wrap

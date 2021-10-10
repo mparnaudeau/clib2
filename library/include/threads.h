@@ -60,7 +60,7 @@ typedef struct
 {
     struct SkipList *values;
     tss_dtor_t destructor;
-    atomic_uintptr_t mutex;
+    APTR mutex;
 } tss_t;
 
 #ifdef __cplusplus

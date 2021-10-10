@@ -47,17 +47,19 @@
 
 #define THRD_PARANOIA
 
-_Static_assert(sizeof(APTR) == sizeof(atomic_uintptr_t));
-
 /*------------------------------------------------------------------------------
  * thrd|tss|mtx|cnd
 */
 LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs);
+
 bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec);
 void __thrd_mutex_free(atomic_uintptr_t *target);
 int __thrd_mutex_replace(atomic_uintptr_t *target);
+
 bool __thrd_store_setup(void);
 void __thrd_store_teardown(void);
+bool __tss_store_setup(void);
+void __tss_store_teardown(void);
 
 /*------------------------------------------------------------------------------
  * cnd|mtx
@@ -131,6 +133,7 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
 #define THRD_TRUE "True.\n"
 #define THRD_FIND "Find.\n"
 #define THRD_NOTFOUND "Not found.\n"
+#define THRD_FOUND "Found.\n"
 #define THRD_SIGNAL "Signal.\n"
 #define THRD_WAIT "Wait.\n"
 #define THRD_PANIC "PANIC.\n"
