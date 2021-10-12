@@ -43,9 +43,9 @@ int mtx_init(mtx_t *mutex, int type)
         return thrd_error;
     }
 
-    FOG((THRD_ALLOC));
     mutex->mtx = AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
         (type & mtx_recursive) ? TRUE : FALSE, TAG_END);
+    FOG((THRD_ALLOC(mutex->mtx)));
 
     if(unlikely(!mutex->mtx))
     {
@@ -55,7 +55,6 @@ int mtx_init(mtx_t *mutex, int type)
     }
 
     /* Set valid type. */
-    FOG((THRD_TRACE));
     atomic_store(&mutex->type, type);
 
     FOG((THRD_SUCCESS));

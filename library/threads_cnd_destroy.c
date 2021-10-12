@@ -33,19 +33,18 @@ void cnd_destroy(cnd_t *cond)
     }
 
     /* Wait for ongoing operations to finish. */
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(cond->mtx)));
     MutexObtain(cond->mtx);
 
     /* Broadcast to avoid deadlocks. */
-    FOG((THRD_SIGNAL));
     (void) __cnd_signal(cond, true);
 #endif
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(cond->tasks)));
     FreeSysObject(ASOT_LIST, cond->tasks);
 #ifdef THRD_PARANOIA
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(cond->mtx)));
     MutexRelease(cond->mtx);
 #endif
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(cond->mtx)));
     FreeSysObject(ASOT_MUTEX, cond->mtx);
 }

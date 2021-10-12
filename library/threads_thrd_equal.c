@@ -25,6 +25,6 @@
 */
 int thrd_equal(thrd_t lhs, thrd_t rhs)
 {
-    FOG((THRD_TRACE));
+    FOG((lhs == rhs ? THRD_TRUE : THRD_FALSE));
     return lhs == rhs;
 }

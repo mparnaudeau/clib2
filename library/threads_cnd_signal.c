@@ -27,12 +27,14 @@
 */
 void __cnd_signal(cnd_t *cond, bool broadcast)
 {
+    FOG((THRD_TRACE));
+
     /* List is sorted by process priority. Descending order, the process with
      * the highest priority will be signaled first. */
     for(__cnd_node *head = (__cnd_node *) GetHead(cond->tasks), *next;
         head; head = next)
     {
-        FOG((THRD_SIGNAL));
+        FOG((THRD_SIGNAL(head->task, head->sigbit)));
         Signal(head->task, 1L << head->sigbit);
 
         /* Break unless we're broadcasting. */
@@ -41,7 +43,7 @@ void __cnd_signal(cnd_t *cond, bool broadcast)
 
         /* Dequeue only. Task nodes are freed by the allocating task; the task
          * waiting for a signal. See cnd_wait() and __cnd_wait(). */
-        FOG((THRD_REMOVE));
+        FOG((THRD_REMOVE(head)));
         Remove((struct Node *) head);
     }
 }
@@ -62,15 +64,14 @@ int cnd_signal(cnd_t *cond)
         return thrd_error;
     }
 #endif
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(cond->mtx)));
     MutexObtain(cond->mtx);
 
     /* Both singles and broadcasts are supported by __cnd_signal(). See
      * cnd_broadcast(). */
-    FOG((THRD_SIGNAL));
     __cnd_signal(cond, false);
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(cond->mtx)));
     MutexRelease(cond->mtx);
 
     FOG((THRD_SUCCESS));

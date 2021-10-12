@@ -32,7 +32,7 @@ int mtx_unlock(mtx_t *mutex)
         return thrd_error;
     }
 #endif
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(mutex->mtx)));
     MutexRelease(mutex->mtx);
 
     FOG((THRD_SUCCESS));

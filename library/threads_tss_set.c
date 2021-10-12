@@ -34,35 +34,34 @@ int tss_set(tss_t tss_key, void *val)
 #endif
     struct Task *key = FindTask(NULL);
 
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(tss_key.mutex)));
     MutexObtain(tss_key.mutex);
 
     DECLARE_UTILITYBASE();
 
-    FOG((THRD_FIND));
     __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, key);
+    FOG((THRD_FOUND(tss)));
 
     if(!tss)
     {
-        FOG((THRD_ALLOC));
         tss = (__tss_v *) InsertSkipNode(tss_key.values, key,
             sizeof(__tss_v));
+        FOG((THRD_ALLOC(tss)));
     }
 
     if(unlikely(!tss))
     {
         /* Out of memory. */
-        FOG((THRD_UNLOCK));
+        FOG((THRD_UNLOCK(tss_key.mutex)));
         MutexRelease(tss_key.mutex);
 
         FOG((THRD_ERROR));
         return thrd_error;
     }
 
-    FOG((THRD_TRACE));
     tss->value = val;
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(tss_key.mutex)));
     MutexRelease(tss_key.mutex);
 
     FOG((THRD_SUCCESS));

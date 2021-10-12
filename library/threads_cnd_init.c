@@ -36,20 +36,20 @@ int cnd_init(cnd_t *cond)
     /* We're not alive yet. */
     atomic_store(&cond->dead, true);
 #endif
-    FOG((THRD_ALLOC));
     cond->mtx = AllocSysObjectTags(ASOT_MUTEX, TAG_END);
+    FOG((THRD_ALLOC(cond->mtx)));
 
     /* List of listening tasks. */
-    FOG((THRD_ALLOC));
     cond->tasks = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
+    FOG((THRD_ALLOC(cond->tasks)));
 
     if(unlikely(!cond->mtx || !cond->tasks))
     {
         /* Out of memory. */
-        FOG((THRD_FREE));
+        FOG((THRD_FREE(cond->mtx)));
         FreeSysObject(ASOT_MUTEX, cond->mtx);
 
-        FOG((THRD_FREE));
+        FOG((THRD_FREE(cond->tasks)));
         FreeSysObject(ASOT_LIST, cond->tasks);
 
         FOG((THRD_NOMEM));

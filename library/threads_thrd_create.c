@@ -34,10 +34,10 @@ void __thrd_mutex_free(atomic_uintptr_t *target)
         return;
     }
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(mutex)));
     MutexRelease((APTR) mutex);
 
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(mutex)));
     FreeSysObject(ASOT_MUTEX, (APTR) mutex);
 }
 
@@ -51,10 +51,10 @@ void __thrd_mutex_free(atomic_uintptr_t *target)
 */
 bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec)
 {
-    FOG((THRD_ALLOC));
     atomic_uintptr_t mutex = (atomic_uintptr_t)
         AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
         rec ? TRUE : FALSE, TAG_END);
+    FOG((THRD_ALLOC(mutex)));
 
     FOG((THRD_TRACE));
     atomic_store(target, mutex);
@@ -65,7 +65,7 @@ bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec)
         return false;
     }
 
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(mutex)));
     MutexObtain((APTR) mutex);
 
     LEAVE();
@@ -99,13 +99,13 @@ int __thrd_mutex_replace(atomic_uintptr_t *target)
         return thrd_success;
     }
 
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(old)));
     MutexObtain((APTR) old);
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(old)));
     MutexRelease((APTR) old);
 
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(old)));
     FreeSysObject(ASOT_MUTEX, (APTR) old);
 
     LEAVE();
@@ -155,23 +155,23 @@ bool __thrd_store_setup(void)
 
     /* Allocate thread store mutex. Used not just for arbitration of the thread
      * store, but also for halting processes on startup. */
-    FOG((THRD_ALLOC));
     __thrd_store_lock = AllocSysObjectTags(ASOT_MUTEX, TAG_END);
+    FOG((THRD_ALLOC(__thrd_store_lock)));
 
     DECLARE_UTILITYBASE();
 
     /* The key used by the thread store skip list is a thrd_t which is the same
      * as the struct Task pointer of the thread. */
-    FOG((THRD_ALLOC));
     __thrd_store = CreateSkipList(&__thrd_ptr_cmp_hook, 16);
+    FOG((THRD_ALLOC(__thrd_store)));
 
     if(unlikely(!__thrd_store || !__thrd_store_lock))
     {
         /* Out of memory. */
-        FOG((THRD_FREE));
+        FOG((THRD_FREE(__thrd_store_lock)));
         FreeSysObject(ASOT_MUTEX, __thrd_store_lock);
 
-        FOG((THRD_FREE));
+        FOG((THRD_FREE(__thrd_store)));
         DeleteSkipList(__thrd_store);
     }
 
@@ -214,7 +214,7 @@ void __thrd_store_teardown(void)
         thrd_join((thrd_t) head->sn_Key, NULL);
 
         /* Garbage collect thread. */
-        FOG((THRD_FREE));
+        FOG((THRD_FREE(head)));
         RemoveSkipNode(__thrd_store, head->sn_Key);
         head = next;
     }
@@ -222,11 +222,11 @@ void __thrd_store_teardown(void)
     DECLARE_UTILITYBASE();
 #endif
     /* Free empty thread store skip list. */
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(__thrd_store)));
     DeleteSkipList(__thrd_store);
 
     /* Free thread store mutex. */
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(__thrd_store_lock)));
     FreeSysObject(ASOT_MUTEX, __thrd_store_lock);
 }
 
@@ -241,7 +241,7 @@ static void __thrd_final(int32_t retval, __attribute__((unused)) int32_t data,
     __attribute__((unused)) struct ExecBase *sysbase)
 {
     /* Block other processes from joining. */
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__thrd_store_lock)));
     MutexObtain(__thrd_store_lock);
 
     DECLARE_UTILITYBASE();
@@ -249,22 +249,20 @@ static void __thrd_final(int32_t retval, __attribute__((unused)) int32_t data,
 
     /* This can fail on out of memory in thrd_create(). If so, this thread is
      * stillborn, the user function hasn't been invoked. */
-    FOG((THRD_FIND));
     __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, task);
+    FOG((THRD_FOUND(thread)));
 
     if(unlikely(!thread))
     {
-        FOG((THRD_UNLOCK));
+        FOG((THRD_UNLOCK(__thrd_store_lock)));
         MutexRelease(__thrd_store_lock);
-
-        FOG((THRD_NOTFOUND));
         return;
     }
 
     if(!atomic_flag_test_and_set(&(thread->gc)))
     {
         /* Thread is not being joined. Thread will garbage collect itself. */
-        FOG((THRD_FREE));
+        FOG((THRD_FREE(thread)));
         RemoveSkipNode(__thrd_store, task);
     }
     else
@@ -275,7 +273,7 @@ static void __thrd_final(int32_t retval, __attribute__((unused)) int32_t data,
         thread->retval = retval;
     }
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__thrd_store_lock)));
     MutexRelease(__thrd_store_lock);
 }
 
@@ -292,22 +290,21 @@ extern atomic_uintptr_t __tss_store_lock;
 static int32_t __thrd_wrap(void)
 {
     /* Block until thrd_create() is done. Refer to thrd_create(). */
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__thrd_store_lock)));
     MutexObtain(__thrd_store_lock);
 
     DECLARE_UTILITYBASE();
     struct Task *task = FindTask(NULL);
 
     /* This can fail on out of memory in thrd_create(). */
-    FOG((THRD_FIND));
     __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, task);
+    FOG((THRD_FOUND(thread)));
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__thrd_store_lock)));
     MutexRelease(__thrd_store_lock);
 
     if(unlikely(!thread))
     {
-        FOG((THRD_NOTFOUND));
         return -1;
     }
 
@@ -350,7 +347,7 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
 #endif
     /* Halt new process until we've initialized thread store and thread store
      * entry. Refer to __thrd_wrap(). */
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__thrd_store_lock)));
     MutexObtain(__thrd_store_lock);
 
     FOG((THRD_TRACE));
@@ -360,7 +357,7 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
     if(unlikely(!*thread))
     {
         /* Out of memory. */
-        FOG((THRD_UNLOCK));
+        FOG((THRD_UNLOCK(__thrd_store_lock)));
         MutexRelease(__thrd_store_lock);
 
         FOG((THRD_NOMEM));
@@ -370,14 +367,14 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
     DECLARE_UTILITYBASE();
 
     /* Create and insert thread store entry in thread store. */
-    FOG((THRD_ALLOC));
     __thrd_s *node = (__thrd_s *)
         InsertSkipNode(__thrd_store, *thread, sizeof(__thrd_s));
+    FOG((THRD_ALLOC(node)));
 
     if(unlikely(!node))
     {
         /* Out of memory. */
-        FOG((THRD_UNLOCK));
+        FOG((THRD_UNLOCK(__thrd_store_lock)));
         MutexRelease(__thrd_store_lock);
 
         FOG((THRD_NOMEM));
@@ -391,7 +388,7 @@ int thrd_create(thrd_t *thread, thrd_start_t start, void *arg)
     node->retval = 0;
 
     /* Unblock __thrd_wrap(). */
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__thrd_store_lock)));
     MutexRelease(__thrd_store_lock);
 
     FOG((THRD_SUCCESS));

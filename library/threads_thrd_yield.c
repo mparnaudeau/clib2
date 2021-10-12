@@ -25,7 +25,5 @@
 */
 void thrd_yield(void)
 {
-    FOG((THRD_TRACE));
     Reschedule();
-    FOG((THRD_TRACE));
 }

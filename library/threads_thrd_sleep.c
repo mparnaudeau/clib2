@@ -33,13 +33,9 @@ int thrd_sleep(const struct timespec *duration, struct timespec *remaining)
 
     if(remaining)
     {
-        FOG((THRD_TRACE));
         remaining->tv_sec = remaining->tv_nsec = 0;
     }
 
-    FOG((THRD_TRACE));
     Delay(nticks);
-
-    FOG((THRD_TRACE));
     return 0;
 }

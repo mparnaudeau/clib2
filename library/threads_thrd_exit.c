@@ -28,25 +28,24 @@ extern APTR __thrd_store_lock;
 */
 void thrd_exit(int retval)
 {
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__thrd_store_lock)));
     MutexObtain((APTR) __thrd_store_lock);
 
     DECLARE_UTILITYBASE();
+    struct Task *task = FindTask(NULL);
 
     /* This can fail if invoked by process not created by thrd_create(). */
-    FOG((THRD_FIND));
-    __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, FindTask(NULL));
+    __thrd_s *thread = (__thrd_s *) FindSkipNode(__thrd_store, task);
+    FOG((THRD_FOUND(thread)));
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__thrd_store_lock)));
     MutexRelease((APTR) __thrd_store_lock);
 
     if(unlikely(!thread))
     {
-        FOG((THRD_NOTFOUND));
         return;
     }
 
     /* Exit point set in __thrd_wrap(). */
-    FOG((THRD_TRACE));
     longjmp(thread->stop, retval);
 }

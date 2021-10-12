@@ -25,6 +25,5 @@
 */
 thrd_t thrd_current(void)
 {
-    FOG((THRD_TRACE));
     return FindTask(NULL);
 }

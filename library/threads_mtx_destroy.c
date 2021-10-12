@@ -33,12 +33,12 @@ void mtx_destroy(mtx_t *mutex)
     }
 
     /* Wait for ongoing operations to finish. */
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(mutex->mtx)));
     MutexObtain(mutex->mtx);
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(mutex->mtx)));
     MutexRelease(mutex->mtx);
 #endif
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(mutex->mtx)));
     FreeSysObject(ASOT_MUTEX, mutex->mtx);
 }
