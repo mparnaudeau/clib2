@@ -35,7 +35,7 @@ bool __tss_store_setup(void)
     if(unlikely(atomic_flag_test_and_set(&done)))
     {
         FOG((THRD_PANIC));
-        return __tss_store && __tss_store_lock;
+        return false;
     }
 #endif
     /* Allocate TSS store. */
