@@ -29,19 +29,19 @@ extern APTR __thrd_store_lock;
 int thrd_join(thrd_t thread, int *retval)
 {
     /* Prevent threads from exiting. */
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__thrd_store_lock)));
     MutexObtain(__thrd_store_lock);
 
     DECLARE_UTILITYBASE();
 
     /* Find thread. This will fail if threads has exited already. */
-    FOG((THRD_FIND));
     __thrd_s *node = (__thrd_s *) FindSkipNode(__thrd_store, thread);
+    FOG((THRD_FOUND(node)));
 
     if(unlikely(!node) || atomic_flag_test_and_set(&(node->gc)))
     {
         /* Thread is no longer running. */
-        FOG((THRD_UNLOCK));
+        FOG((THRD_UNLOCK(__thrd_store_lock)));
         MutexRelease(__thrd_store_lock);
 
         FOG((THRD_ERROR));
@@ -49,13 +49,13 @@ int thrd_join(thrd_t thread, int *retval)
     }
 
     /* Allocate signal to be sent by the joined thread upon exit. */
-    FOG((THRD_ALLOC));
     BYTE sigdeath = AllocSignal(-1);
+    FOG((THRD_ALLOC(sigdeath)));
 
     if(unlikely(sigdeath == -1))
     {
         /* Out of signals. */
-        FOG((THRD_UNLOCK));
+        FOG((THRD_UNLOCK(__thrd_store_lock)));
         MutexRelease(__thrd_store_lock);
 
         FOG((THRD_ERROR));
@@ -65,24 +65,20 @@ int thrd_join(thrd_t thread, int *retval)
     /* Set signal to be sent to us by the joined thread upon exit. */
     struct Process *proc = (struct Process *) thread;
 
-    FOG((THRD_TRACE));
     proc->pr_DeathSigBit = sigdeath;
-
-    FOG((THRD_TRACE));
     proc->pr_DeathSigTask = (APTR) FindTask(NULL);
 
     /* Allow threads to exit. */
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__thrd_store_lock)));
     MutexRelease(__thrd_store_lock);
 
     /* Wait for signal of death. */
-    FOG((THRD_WAIT));
+    FOG((THRD_WAIT(sigdeath)));
     Wait(1L << sigdeath);
 
-    FOG((THRD_TRACE));
     SetSignal(0L, 1L << sigdeath);
 
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(sigdeath)));
     FreeSignal(sigdeath);
 
     if(retval)
@@ -93,13 +89,13 @@ int thrd_join(thrd_t thread, int *retval)
     }
 
     /* Remove thread from thread store. */
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__thrd_store_lock)));
     MutexObtain(__thrd_store_lock);
 
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(node)));
     RemoveSkipNode(__thrd_store, thread);
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__thrd_store_lock)));
     MutexRelease(__thrd_store_lock);
 
     FOG((THRD_SUCCESS));

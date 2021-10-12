@@ -37,19 +37,16 @@ void tss_delete(tss_t tss_key)
         return;
     }
 #endif
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__tss_store_lock)));
     MutexObtain(__tss_store_lock);
 
     for(struct Node *head = GetHead(__tss_store); head;)
     {
         tss_t *tss = &((__tss_n *) head)->tss;
-
-        FOG((THRD_TRACE));
         head = GetSucc(head);
 
         if(tss->values == tss_key.values)
         {
-            FOG((THRD_TRACE));
             tss->values = NULL;
             break;
         }
@@ -59,18 +56,18 @@ void tss_delete(tss_t tss_key)
 DEN HÄR MÅSTE DU VERKLIGEN KOLLA
 */
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__tss_store_lock)));
     MutexRelease(__tss_store_lock);
 
     DECLARE_UTILITYBASE();
 
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(tss_key.mutex)));
     MutexObtain(tss_key.mutex);
 
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(tss_key.values)));
     DeleteSkipList(tss_key.values);
     tss_key.values = NULL;
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(tss_key.mutex)));
     MutexRelease(tss_key.mutex);
 }

@@ -122,22 +122,18 @@ int __cnd_wait(cnd_t *cond, mtx_t *mutex,
 #define THRD_BUSY "thrd_busy.\n"
 #define THRD_NOMEM "thrd_nomem.\n"
 #define THRD_TIMEDOUT "thrd_timedout.\n"
-#define THRD_ALLOC "Allocate resource.\n"
-#define THRD_FREE "Free resource.\n"
-#define THRD_REMOVE "Remove resource.\n"
-#define THRD_INSERT "Insert resource.\n"
-#define THRD_LOCK "Lock mutex.\n"
-#define THRD_UNLOCK "Unlock mutex.\n"
+#define THRD_ALLOC(P) "Alloc %p.\n", P
+#define THRD_FREE(P) "Free %p.\n", P
+#define THRD_REMOVE(P) "Remove %p.\n", P
+#define THRD_INSERT(P) "Insert %p.\n", P
+#define THRD_LOCK(L) "Lock %p.\n", L
+#define THRD_UNLOCK(L) "Unlock %p.\n", L
 #define THRD_TRACE "Trace.\n"
 #define THRD_FALSE "False.\n"
 #define THRD_TRUE "True.\n"
-#define THRD_FIND "Find.\n"
-#define THRD_NOTFOUND "Not found.\n"
-#define THRD_FOUND "Found.\n"
-#define THRD_SIGNAL "Signal.\n"
-#define THRD_WAIT "Wait.\n"
-#define THRD_PANIC "PANIC.\n"
-
-//#define FOG(...)
+#define THRD_FOUND(P) "Found %p.\n", P
+#define THRD_SIGNAL(P, S) "Signal %p with %d.\n", P, S
+#define THRD_WAIT(S) "Wait for %d.\n", S
+#define THRD_PANIC "Panic.\n"
 
 #endif /* _THREADS_HEADERS_H */

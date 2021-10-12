@@ -32,18 +32,18 @@ void *tss_get(tss_t tss_key)
         return NULL;
     }
 #endif
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(tss_key.mutex)));
     MutexObtain(tss_key.mutex);
 
     DECLARE_UTILITYBASE();
+    struct Task *task = FindTask(NULL);
 
-    FOG((THRD_FIND));
-    __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, FindTask(NULL));
+    __tss_v *tss = (__tss_v *) FindSkipNode(tss_key.values, task);
+
+    FOG((THRD_FOUND(tss)));
     void *value = tss ? tss->value : NULL;
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(tss_key.mutex)));
     MutexRelease(tss_key.mutex);
-
-    FOG((tss ? THRD_FOUND : THRD_NOTFOUND));
     return value;
 }

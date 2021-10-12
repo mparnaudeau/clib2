@@ -57,7 +57,7 @@ int mtx_timedlock(mtx_t *restrict mutex,
     }
 
     /* Do a first attempt before resorting to polling. */
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(mutex)));
     int status = mtx_trylock(mutex);
 
     if(status != thrd_busy)
@@ -68,7 +68,6 @@ int mtx_timedlock(mtx_t *restrict mutex,
     }
 
     /* Lock is busy. Start polling. */
-    FOG((THRD_TRACE));
     return __eclock_poll(__mtx_trylock_callback, mutex,
         __eclock_future(time_point), POLL_STRIDE);
 }
@@ -116,8 +115,8 @@ ULONG __eclock_future(const struct timespec *restrict time_point)
 */
 int __eclock_poll(int (*poll)(void *), void *data, ULONG time, ULONG stride)
 {
-    FOG((THRD_ALLOC));
     struct Library *LowLevelBase = OpenLibrary("lowlevel.library", 0L);
+    FOG((THRD_ALLOC(LowLevelBase)));
 
     if(unlikely(!LowLevelBase))
     {
@@ -125,13 +124,13 @@ int __eclock_poll(int (*poll)(void *), void *data, ULONG time, ULONG stride)
         return thrd_error;
     }
 
-    FOG((THRD_ALLOC));
     struct LowLevelIFace *ILowLevel = (struct LowLevelIFace *)
         GetInterface(LowLevelBase, "main", 1, NULL);
+    FOG((THRD_ALLOC(ILowLevel)));
 
     if(unlikely(!ILowLevel))
     {
-        FOG((THRD_FREE));
+        FOG((THRD_FREE(LowLevelBase)));
         CloseLibrary(LowLevelBase);
 
         FOG((THRD_ERROR));
@@ -141,31 +140,29 @@ int __eclock_poll(int (*poll)(void *), void *data, ULONG time, ULONG stride)
     struct EClockVal ctx = { 0 };
     (void) ElapsedTime(&ctx);
 
-    FOG((THRD_TRACE));
     for(ULONG done = 0; done < time; done += ElapsedTime(&ctx))
     {
         int lock = poll(data);
 
         if(lock != thrd_busy)
         {
-            FOG((THRD_FREE));
+            FOG((THRD_FREE(ILowLevel)));
             DropInterface((struct Interface *) ILowLevel);
 
-            FOG((THRD_FREE));
+            FOG((THRD_FREE(LowLevelBase)));
             CloseLibrary(LowLevelBase);
 
-            FOG((THRD_TRACE));
+            FOG((lock == thrd_success ? THRD_SUCCESS : THRD_ERROR));
             return lock;
         }
 
-        FOG((THRD_WAIT));
         Delay(stride);
     }
 
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(ILowLevel)));
     DropInterface((struct Interface *) ILowLevel);
 
-    FOG((THRD_FREE));
+    FOG((THRD_FREE(LowLevelBase)));
     CloseLibrary(LowLevelBase);
 
     FOG((THRD_TIMEDOUT));

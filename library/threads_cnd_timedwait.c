@@ -34,6 +34,5 @@ int cnd_timedwait(cnd_t *cond, mtx_t *mutex,
         return thrd_error;
     }
 #endif
-    FOG((THRD_TRACE));
     return __cnd_wait(cond, mutex, time_point);
 }

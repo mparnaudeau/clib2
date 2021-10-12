@@ -32,7 +32,7 @@ int mtx_trylock(mtx_t *mutex)
         return thrd_error;
     }
 #endif
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(mutex->mtx)));
     if(!MutexAttempt(mutex->mtx))
     {
         FOG((THRD_BUSY));

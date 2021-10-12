@@ -32,15 +32,14 @@ int cnd_broadcast(cnd_t *cond)
         return thrd_error;
     }
 #endif
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(cond->mtx)));
     MutexObtain(cond->mtx);
 
     /* Both singles and broadcasts are supported by __cnd_signal(). See
      * cnd_signal(). */
-    FOG((THRD_SIGNAL));
     __cnd_signal(cond, true);
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(cond->mtx)));
     MutexRelease(cond->mtx);
 
     FOG((THRD_SUCCESS));

@@ -25,11 +25,15 @@
 */
 void call_once(once_flag *flag, void (*func)(void))
 {
-    assert(flag && func);
-
+#ifdef THRD_PARANOIA
+    if(unlikely(!flag || !func))
+    {
+        FOG((THRD_PANIC));
+        return;
+    }
+#endif
     if(!atomic_flag_test_and_set(flag))
     {
-        FOG((THRD_TRACE));
         func();
     }
 }

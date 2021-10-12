@@ -39,21 +39,21 @@ bool __tss_store_setup(void)
     }
 #endif
     /* Allocate TSS store. */
-    FOG((THRD_ALLOC));
     __tss_store = (struct List *) AllocSysObjectTags(ASOT_LIST, TAG_END);
+    FOG((THRD_ALLOC(__tss_store)));
 
     /* Allocate TSS store mutex. */
-    FOG((THRD_ALLOC));
     __tss_store_lock = AllocSysObjectTags(ASOT_MUTEX, TAG_END);
+    FOG((THRD_ALLOC(__tss_store_lock)));
 
     if(unlikely(!__tss_store || !__tss_store_lock))
     {
         /* Out of memory. */
-        FOG((THRD_FREE));
         FreeSysObject(ASOT_LIST, __tss_store);
+        FOG((THRD_FREE(__tss_store)));
 
-        FOG((THRD_FREE));
         FreeSysObject(ASOT_MUTEX, __tss_store_lock);
+        FOG((THRD_FREE(__tss_store_lock)));
     }
 
     FOG((__tss_store && __tss_store_lock ? THRD_TRUE : THRD_FALSE));
@@ -76,13 +76,14 @@ static void __tss_store_free_values(struct Node *node)
     {
         struct SkipNode *next = GetNextSkipNode(tss->values, head);
 
-        FOG((THRD_FREE));
         RemoveSkipNode(tss->values, head->sn_Key);
+        FOG((THRD_FREE(head)));
+
         head = next;
     }
 
-    FOG((THRD_FREE));
     DeleteSkipList(tss->values);
+    FOG((THRD_FREE(tss->values)));
 }
 
 /*------------------------------------------------------------------------------
@@ -114,7 +115,7 @@ void __tss_store_teardown(void)
      * have failed. */
     if(likely(__tss_store_lock != NULL))
     {
-        FOG((THRD_LOCK));
+        FOG((THRD_LOCK(__tss_store_lock)));
         MutexObtain(__tss_store_lock);
     }
 #endif
@@ -124,27 +125,28 @@ void __tss_store_teardown(void)
         struct Node *next = GetSucc(head);
         __tss_store_free_values(head);
 
-        FOG((THRD_REMOVE));
+        FOG((THRD_REMOVE(head)));
         Remove(head);
 
-        FOG((THRD_FREE));
         FreeSysObject(ASOT_NODE, head);
+        FOG((THRD_FREE(head)));
+
         head = next;
     }
 
     /* Free empty TSS store list. */
-    FOG((THRD_FREE));
     FreeSysObject(ASOT_LIST, __tss_store);
+    FOG((THRD_FREE(__tss_store)));
 #ifdef THRD_PARANOIA
     if(likely(__tss_store_lock != NULL))
     {
-        FOG((THRD_UNLOCK));
+        FOG((THRD_UNLOCK(__tss_store_lock)));
         MutexRelease(__tss_store_lock);
     }
 #endif
     /* Free TSS store mutex. */
-    FOG((THRD_FREE));
     FreeSysObject(ASOT_MUTEX, __tss_store_lock);
+    FOG((THRD_FREE(__tss_store_lock)));
 }
 
 /*------------------------------------------------------------------------------
@@ -156,7 +158,7 @@ void __tss_store_teardown(void)
 */
 void __tss_store_purge(__attribute__((unused)) struct Task *task)
 {
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__tss_store_lock)));
     MutexObtain(__tss_store_lock);
 
     DECLARE_UTILITYBASE();
@@ -164,15 +166,13 @@ void __tss_store_purge(__attribute__((unused)) struct Task *task)
     for(struct Node *head = GetHead(__tss_store); head;)
     {
         tss_t *tss = &((__tss_n *) head)->tss;
-
-        FOG((THRD_FIND));
         struct SkipNode *node = FindSkipNode(tss->values, task);
+        FOG((THRD_FOUND(node)));
 
         head = GetSucc(head);
 
         if(!node)
         {
-            FOG((THRD_NOTFOUND));
             continue;
         }
 
@@ -182,11 +182,11 @@ void __tss_store_purge(__attribute__((unused)) struct Task *task)
             tss->destructor(((__tss_v *) node)->value);
         }
 
-        FOG((THRD_FREE));
         RemoveSkipNode(tss->values, task);
+        FOG((THRD_FREE(head)));
     }
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__tss_store_lock)));
     MutexRelease(__tss_store_lock);
 }
 
@@ -199,9 +199,9 @@ void __tss_store_purge(__attribute__((unused)) struct Task *task)
 */
 static bool __tss_store_insert(tss_t *tss_key)
 {
-    FOG((THRD_ALLOC));
     __tss_n *node = (__tss_n *) AllocSysObjectTags(ASOT_NODE, ASONODE_Size,
         sizeof(__tss_n), ASONODE_Type, NT_USER, TAG_END);
+    FOG((THRD_ALLOC(node)));
 
     if(unlikely(!node))
     {
@@ -209,16 +209,15 @@ static bool __tss_store_insert(tss_t *tss_key)
         return false;
     }
 
-    FOG((THRD_TRACE));
     node->tss = *tss_key;
 
-    FOG((THRD_LOCK));
+    FOG((THRD_LOCK(__tss_store_lock)));
     MutexObtain(__tss_store_lock);
 
-    FOG((THRD_INSERT));
+    FOG((THRD_INSERT(node)));
     AddHead(__tss_store, (struct Node *) node);
 
-    FOG((THRD_UNLOCK));
+    FOG((THRD_UNLOCK(__tss_store_lock)));
     MutexRelease(__tss_store_lock);
 
     FOG((THRD_TRUE));
@@ -241,8 +240,8 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
         return thrd_error;
     }
 #endif
-    FOG((THRD_ALLOC));
     tss_key->mutex = AllocSysObjectTags(ASOT_MUTEX, TAG_END);
+    FOG((THRD_ALLOC(tss_key->mutex)));
 
     static struct Hook tss_t_cmp_hook =
     {
@@ -251,17 +250,17 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
 
     DECLARE_UTILITYBASE();
 
-    FOG((THRD_ALLOC));
     tss_key->values = CreateSkipList(&tss_t_cmp_hook, 16);
+    FOG((THRD_ALLOC(tss_key->values)));
 
     if(unlikely(!tss_key->mutex || !tss_key->values))
     {
         /* Out of memory. */
-        FOG((THRD_FREE));
         FreeSysObject(ASOT_MUTEX, tss_key->mutex);
+        FOG((THRD_FREE(tss_key->mutex)));
 
-        FOG((THRD_FREE));
         DeleteSkipList(tss_key->values);
+        FOG((THRD_FREE(tss_key->values)));
 #ifdef THRD_PARANOIA
         tss_key->mutex = tss_key->values = NULL;
 #endif
@@ -269,18 +268,16 @@ int tss_create(tss_t *tss_key, tss_dtor_t destructor)
         return thrd_error;
     }
 
-    FOG((THRD_TRACE));
     tss_key->destructor = destructor;
 
-    FOG((THRD_TRACE));
     if(unlikely(!__tss_store_insert(tss_key)))
     {
         /* Out of memory. */
-        FOG((THRD_FREE));
         DeleteSkipList(tss_key->values);
+        FOG((THRD_FREE(tss_key->values)));
 
-        FOG((THRD_FREE));
         FreeSysObject(ASOT_MUTEX, tss_key->mutex);
+        FOG((THRD_FREE(tss_key->mutex)));
 
         FOG((THRD_ERROR));
         return thrd_error;
