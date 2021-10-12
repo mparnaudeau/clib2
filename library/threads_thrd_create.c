@@ -17,102 +17,6 @@
 #include "threads_headers.h"
 
 /*------------------------------------------------------------------------------
- __thrd_mutex_free
-
- Description: Free locked mutex in a safe manner.
- Input:       atomic_uintptr_t *target - pointer to native mutex.
- Return:      -
-*/
-void __thrd_mutex_free(atomic_uintptr_t *target)
-{
-    FOG((THRD_TRACE));
-    atomic_uintptr_t mutex = atomic_exchange(target, 0);
-
-    if(unlikely(!mutex))
-    {
-        LEAVE();
-        return;
-    }
-
-    FOG((THRD_UNLOCK(mutex)));
-    MutexRelease((APTR) mutex);
-
-    FOG((THRD_FREE(mutex)));
-    FreeSysObject(ASOT_MUTEX, (APTR) mutex);
-}
-
-/*------------------------------------------------------------------------------
- __thrd_mutex_create
-
- Description: Create locked mutex.
- Input:       atomic_uintptr_t *target - pointer to native mutex target.
-              bool rec - on 'true', a recursive mutex, non-recursive otherwise.
- Return:      bool - On success 'true', 'false' otherwise.
-*/
-bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec)
-{
-    atomic_uintptr_t mutex = (atomic_uintptr_t)
-        AllocSysObjectTags(ASOT_MUTEX, ASOMUTEX_Recursive,
-        rec ? TRUE : FALSE, TAG_END);
-    FOG((THRD_ALLOC(mutex)));
-
-    FOG((THRD_TRACE));
-    atomic_store(target, mutex);
-
-    if(unlikely(!mutex))
-    {
-        LEAVE();
-        return false;
-    }
-
-    FOG((THRD_LOCK(mutex)));
-    MutexObtain((APTR) mutex);
-
-    LEAVE();
-    return true;
-}
-
-/*------------------------------------------------------------------------------
- __thrd_mutex_replace
-
- Description: Create locked recursive mutex and replace existing mutex, if any.
- Input:       atomic_uintptr_t *target - pointer to native mutex target.
- Return:      int - On out of memory, 'thrd_error', on success 'thrd_success',
-              on success with replacement 'thrd_busy'.
-*/
-int __thrd_mutex_replace(atomic_uintptr_t *target)
-{
-    atomic_uintptr_t mutex;
-
-    if(unlikely(!__thrd_mutex_create(&mutex, true)))
-    {
-        FOG((THRD_ERROR));
-        return thrd_error;
-    }
-
-    FOG((THRD_TRACE));
-    atomic_uintptr_t old = atomic_exchange(target, mutex);
-
-    if(likely(!old))
-    {
-        LEAVE();
-        return thrd_success;
-    }
-
-    FOG((THRD_LOCK(old)));
-    MutexObtain((APTR) old);
-
-    FOG((THRD_UNLOCK(old)));
-    MutexRelease((APTR) old);
-
-    FOG((THRD_FREE(old)));
-    FreeSysObject(ASOT_MUTEX, (APTR) old);
-
-    LEAVE();
-    return thrd_busy;
-}
-
-/*------------------------------------------------------------------------------
  __thrd_ptr_cmp_callback
 
  Description: Used by SkipList hook.
@@ -144,8 +48,8 @@ bool __thrd_store_setup(void)
     /* We shouldn't end up here more than once. */
     if(unlikely(atomic_flag_test_and_set(&done)))
     {
-        FOG((THRD_TRUE));
-        return true;
+        FOG((THRD_PANIC));
+        return false;
     }
 
     static struct Hook __thrd_ptr_cmp_hook =
@@ -195,7 +99,7 @@ void __thrd_store_teardown(void)
     /* We shouldn't end up here more than once. */
     if(unlikely(atomic_flag_test_and_set(&done)))
     {
-        FOG((THRD_TRUE));
+        FOG((THRD_PANIC));
         return;
     }
 

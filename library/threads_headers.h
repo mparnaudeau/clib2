@@ -46,26 +46,20 @@
 #endif /* _STDLIB_UTILITYBASE_H */
 
 #define THRD_PARANOIA
+#define POLL_STRIDE 5
 
 /*------------------------------------------------------------------------------
- * thrd|tss|mtx|cnd
+ * thrd|tss|cnd|mtx
 */
 LONG __thrd_ptr_cmp_callback(struct Hook *hook, APTR lhs, APTR rhs);
-
-bool __thrd_mutex_create(atomic_uintptr_t *target, bool rec);
-void __thrd_mutex_free(atomic_uintptr_t *target);
-int __thrd_mutex_replace(atomic_uintptr_t *target);
-
 bool __thrd_store_setup(void);
 void __thrd_store_teardown(void);
 bool __tss_store_setup(void);
 void __tss_store_teardown(void);
-
-/*------------------------------------------------------------------------------
- * cnd|mtx
-*/
-#define POLL_STRIDE 5
-
+void __tss_store_purge(struct Task *task);
+void __cnd_signal(cnd_t *cond, bool broadcast);
+int __cnd_wait(cnd_t *cond, mtx_t *mutex,
+    const struct timespec *restrict time_point);
 ULONG __eclock_future(const struct timespec *restrict time_point);
 int __eclock_poll(int (*poll)(void *), void *data, ULONG time, ULONG stride);
 
@@ -97,12 +91,9 @@ typedef struct
     tss_t tss;
 } __tss_n;
 
-void __tss_store_purge(struct Task *task);
-
 /*------------------------------------------------------------------------------
  * cnd
 */
-
 typedef struct
 {
     struct Node node;
@@ -110,13 +101,11 @@ typedef struct
     BYTE sigbit;
 } __cnd_node;
 
-void __cnd_signal(cnd_t *cond, bool broadcast);
-int __cnd_wait(cnd_t *cond, mtx_t *mutex,
-               const struct timespec *restrict time_point);
-
+/*------------------------------------------------------------------------------
+ * debug
+*/
 #define FOG(...) DebugPrintF("%s:%d - ", __func__, __LINE__);\
     DebugPrintF __VA_ARGS__
-
 #define THRD_ERROR "thrd_error.\n"
 #define THRD_SUCCESS "thrd_success.\n"
 #define THRD_BUSY "thrd_busy.\n"
