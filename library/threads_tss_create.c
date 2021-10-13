@@ -61,29 +61,43 @@ bool __tss_store_setup(void)
 }
 
 /*------------------------------------------------------------------------------
- __tss_store_free_values
+ __tss_store_free_entry
 
- Description: Free TSS values in store entry.
+ Description: Free TSS store entry.
  Input:       struct Node * - store entry.
  Return:      -
 */
-static void __tss_store_free_values(struct Node *node)
+static void __tss_store_free_entry(struct Node *node)
 {
     DECLARE_UTILITYBASE();
     tss_t *tss = &((__tss_n *) node)->tss;
-
+#ifdef THRD_PARANOIA
+    FOG((THRD_LOCK(tss->mutex)));
+    MutexObtain(tss->mutex);
+#endif
     for(struct SkipNode *head = GetFirstSkipNode(tss->values); head;)
     {
         struct SkipNode *next = GetNextSkipNode(tss->values, head);
 
-        RemoveSkipNode(tss->values, head->sn_Key);
         FOG((THRD_FREE(head)));
-
+        RemoveSkipNode(tss->values, head->sn_Key);
         head = next;
     }
 
-    DeleteSkipList(tss->values);
     FOG((THRD_FREE(tss->values)));
+    DeleteSkipList(tss->values);
+
+    FOG((THRD_REMOVE(node)));
+    Remove(node);
+#ifdef THRD_PARANOIA
+    FOG((THRD_UNLOCK(tss->mutex)));
+    MutexRelease(tss->mutex);
+#endif
+    FOG((THRD_FREE(tss->mutex)));
+    FreeSysObject(ASOT_MUTEX, tss->mutex);
+
+    FOG((THRD_FREE(node)));
+    FreeSysObject(ASOT_NODE, node);
 }
 
 /*------------------------------------------------------------------------------
@@ -123,13 +137,7 @@ void __tss_store_teardown(void)
     for(struct Node *head = GetHead(__tss_store); head;)
     {
         struct Node *next = GetSucc(head);
-        __tss_store_free_values(head);
-
-        FOG((THRD_REMOVE(head)));
-        Remove(head);
-
-        FreeSysObject(ASOT_NODE, head);
-        FOG((THRD_FREE(head)));
+        __tss_store_free_entry(head);
 
         head = next;
     }
@@ -182,8 +190,8 @@ void __tss_store_purge(__attribute__((unused)) struct Task *task)
             tss->destructor(((__tss_v *) node)->value);
         }
 
+        FOG((THRD_FREE(node)));
         RemoveSkipNode(tss->values, task);
-        FOG((THRD_FREE(head)));
     }
 
     FOG((THRD_UNLOCK(__tss_store_lock)));
