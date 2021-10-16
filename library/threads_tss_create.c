@@ -67,14 +67,15 @@ bool __tss_store_setup(void)
  Input:       struct Node * - store entry.
  Return:      -
 */
-static void __tss_store_free_entry(struct Node *node)
+void __tss_store_free_entry(struct Node *node)
 {
-    DECLARE_UTILITYBASE();
     tss_t *tss = &((__tss_n *) node)->tss;
 #ifdef THRD_PARANOIA
     FOG((THRD_LOCK(tss->mutex)));
     MutexObtain(tss->mutex);
 #endif
+    DECLARE_UTILITYBASE();
+
     for(struct SkipNode *head = GetFirstSkipNode(tss->values); head;)
     {
         struct SkipNode *next = GetNextSkipNode(tss->values, head);

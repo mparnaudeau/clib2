@@ -57,6 +57,7 @@ void __thrd_store_teardown(void);
 bool __tss_store_setup(void);
 void __tss_store_teardown(void);
 void __tss_store_purge(struct Task *task);
+void __tss_store_free_entry(struct Node *node);
 void __cnd_signal(cnd_t *cond, bool broadcast);
 int __cnd_wait(cnd_t *cond, mtx_t *mutex,
     const struct timespec *restrict time_point);
