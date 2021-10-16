@@ -114,6 +114,7 @@ extern char * rindex(const char *s, int c);
 /****************************************************************************/
 
 extern char * strdup(const char *s);
+extern char * strndup(const char *s, size_t size);
 
 #ifdef __MEM_DEBUG
 extern char * __strdup(const char *s,const char *file,int line);
