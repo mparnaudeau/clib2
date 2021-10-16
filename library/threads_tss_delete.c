@@ -43,31 +43,17 @@ void tss_delete(tss_t tss_key)
     for(struct Node *head = GetHead(__tss_store); head;)
     {
         tss_t *tss = &((__tss_n *) head)->tss;
-        head = GetSucc(head);
+        struct Node *next = GetSucc(head);
 
         if(tss->values == tss_key.values)
         {
-            tss->values = NULL;
+            __tss_store_free_entry(head);
             break;
         }
-    }
 
-/*
-DEN HÄR MÅSTE DU VERKLIGEN KOLLA
-*/
+        head = next;
+    }
 
     FOG((THRD_UNLOCK(__tss_store_lock)));
     MutexRelease(__tss_store_lock);
-
-    DECLARE_UTILITYBASE();
-
-    FOG((THRD_LOCK(tss_key.mutex)));
-    MutexObtain(tss_key.mutex);
-
-    FOG((THRD_FREE(tss_key.values)));
-    DeleteSkipList(tss_key.values);
-    tss_key.values = NULL;
-
-    FOG((THRD_UNLOCK(tss_key.mutex)));
-    MutexRelease(tss_key.mutex);
 }

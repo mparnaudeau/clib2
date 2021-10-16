@@ -57,7 +57,6 @@ int mtx_timedlock(mtx_t *restrict mutex,
     }
 
     /* Do a first attempt before resorting to polling. */
-    FOG((THRD_LOCK(mutex)));
     int status = mtx_trylock(mutex);
 
     if(status != thrd_busy)
