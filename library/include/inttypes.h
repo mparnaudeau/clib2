@@ -41,6 +41,12 @@
 #ifndef	_INTTYPES_H
 #define	_INTTYPES_H
 
+#if __STDC_VERSION__ >= 199901L
+#define __restrict restrict
+#elif !defined(__GNUC__)
+#define __restrict
+#endif
+
 /****************************************************************************/
 
 /* The following is not part of the ISO 'C' (1994) standard, but it should
@@ -319,13 +325,17 @@ extern imaxdiv_t imaxdiv(intmax_t n,intmax_t d);
 
 /****************************************************************************/
 
-extern intmax_t strtoimax(const char *str, char **ptr, int base);
-extern uintmax_t strtoumax(const char *str, char **ptr, int base);
+extern intmax_t strtoimax(const char * __restrict str, char ** __restrict ptr,
+    int base);
+extern uintmax_t strtoumax(const char * __restrict str, char ** __restrict ptr,
+    int base);
 
 /****************************************************************************/
 
-extern intmax_t wcstoimax(const wchar_t *str, char **ptr, int base);
-extern uintmax_t wcstoumax(const wchar_t *str, char **ptr, int base);
+extern intmax_t wcstoimax(const wchar_t * __restrict str,
+    char ** __restrict ptr, int base);
+extern uintmax_t wcstoumax(const wchar_t * __restrict str,
+    char ** __restrict ptr, int base);
 
 /****************************************************************************/
 

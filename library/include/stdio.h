@@ -41,6 +41,12 @@
 #ifndef _STDIO_H
 #define _STDIO_H
 
+#if __STDC_VERSION__ >= 199901L
+#define __restrict restrict
+#elif !defined(__GNUC__)
+#define __restrict
+#endif
+
 /****************************************************************************/
 
 #ifndef _STDDEF_H
@@ -185,19 +191,22 @@ extern void perror(const char * s);
 
 /****************************************************************************/
 
-extern FILE *fopen(const char *filename, const char *mode);
+extern FILE *fopen(const char * __restrict filename,
+    const char * __restrict mode);
 extern int fclose(FILE *stream);
 extern int fflush(FILE *stream);
-extern FILE *freopen(const char *filename, const char *mode, FILE *stream);
-extern int setvbuf(FILE *stream,char *buf,int bufmode,size_t size);
-extern void setbuf(FILE *stream, char *buf);
+extern FILE *freopen(const char * __restrict filename,
+    const char * __restrict mode, FILE * __restrict stream);
+extern int setvbuf(FILE * __restrict stream, char * __restrict buf,
+    int bufmode, size_t size);
+extern void setbuf(FILE * __restrict stream, char * __restrict buf);
 
 /****************************************************************************/
 
 extern int fseek(FILE *stream, long int offset, int wherefrom);
 extern long int ftell(FILE *stream);
 extern void rewind(FILE *stream);
-extern int fgetpos(FILE *stream, fpos_t *pos);
+extern int fgetpos(FILE * __restrict stream, fpos_t * __restrict pos);
 extern int fsetpos(FILE *stream, fpos_t *pos);
 
 /****************************************************************************/
@@ -215,36 +224,44 @@ extern int putchar(int c);
 
 /****************************************************************************/
 
-extern char *fgets(char *s,int n,FILE *stream);
+extern char *fgets(char * __restrict s,int n,FILE * __restrict stream);
 extern char *gets(char *s);
 
 /****************************************************************************/
 
-extern int fscanf(FILE *stream, const char *format, ...);
-extern int scanf(const char *format, ...);
-extern int sscanf(const char *s,const char *format, ...);
+extern int fscanf(FILE * __restrict stream,
+    const char * __restrict format, ...);
+extern int scanf(const char * __restrict format, ...);
+extern int sscanf(const char * __restrict s,
+    const char * __restrict format, ...);
 
 /****************************************************************************/
 
-extern int fputs(const char *s, FILE *stream);
+extern int fputs(const char * __restrict s, FILE * __restrict stream);
 extern int puts(const char *s);
 
 /****************************************************************************/
 
-extern int fprintf(FILE *stream,const char *format,...);
-extern int printf(const char *format, ...);
-extern int sprintf(char *s, const char *format, ...);
+extern int fprintf(FILE * __restrict stream,
+    const char * __restrict format,...);
+extern int printf(const char * __restrict format, ...);
+extern int sprintf(char * __restrict s,
+    const char * __restrict format, ...);
 
 /****************************************************************************/
 
-extern int vfprintf(FILE *stream,const char *format,va_list arg);
-extern int vprintf(const char *format,va_list arg);
-extern int vsprintf(char *s, const char *format,va_list arg);
+extern int vfprintf(FILE * __restrict stream,
+    const char * __restrict format, va_list arg);
+extern int vprintf(const char * __restrict format, va_list arg);
+extern int vsprintf(char * __restrict s, const char * __restrict format,
+    va_list arg);
 
 /****************************************************************************/
 
-extern size_t fread(void *ptr,size_t element_size,size_t count,FILE *stream);
-extern size_t fwrite(const void *ptr,size_t element_size,size_t count,FILE *stream);
+extern size_t fread(void * __restrict ptr, size_t element_size, size_t count,
+    FILE * __restrict stream);
+extern size_t fwrite(const void * __restrict ptr, size_t element_size,
+    size_t count, FILE * __restrict stream);
 
 /****************************************************************************/
 
@@ -400,7 +417,8 @@ extern int putchar_unlocked(int c);
 extern FILE * fdopen(int file_descriptor, const char * type);
 extern int fileno(FILE * file);
 extern int asprintf(char **ret, const char *format, ...);
-extern int vsnprintf(char *s,size_t size,const char *format,va_list arg);
+extern int vsnprintf(char * __restrict s, size_t size,
+    const char * __restrict format, va_list arg);
 extern int pclose(FILE *stream);
 extern FILE * popen(const char *command, const char *type);
 extern int fseeko(FILE *stream, off_t offset, int wherefrom);
@@ -447,10 +465,13 @@ extern int __vasprintf(const char *file,int line,char **ret,const char *format,v
 
 /****************************************************************************/
 
-extern int vfscanf(FILE *stream, const char *format, va_list arg);
-extern int vsscanf(const char *s, const char *format, va_list arg);
-extern int vscanf(const char *format,va_list arg);
-extern int snprintf(char *s,size_t size,const char *format,...);
+extern int vfscanf(FILE * __restrict stream,
+    const char * __restrict format, va_list arg);
+extern int vsscanf(const char * __restrict s,
+    const char * __restrict format, va_list arg);
+extern int vscanf(const char * __restrict format,va_list arg);
+extern int snprintf(char * __restrict s, size_t size,
+    const char * __restrict format, ...);
 
 /****************************************************************************/
 

@@ -41,6 +41,12 @@
 #ifndef _TIME_H
 #define _TIME_H
 
+#if __STDC_VERSION__ >= 199901L
+#define __restrict restrict
+#elif !defined(__GNUC__)
+#define __restrict
+#endif
+
 /****************************************************************************/
 
 #ifndef _STDDEF_H
@@ -97,8 +103,8 @@ extern double difftime(time_t t1,time_t t0);
 
 /****************************************************************************/
 
-extern size_t strftime(char *s, size_t maxsize, const char *format,
-	const struct tm *tm);
+extern size_t strftime(char * __restrict s, size_t maxsize,
+    const char * __restrict format, const struct tm * __restrict tm);
 
 /****************************************************************************/
 
